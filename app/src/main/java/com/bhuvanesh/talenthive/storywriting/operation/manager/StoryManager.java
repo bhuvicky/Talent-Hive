@@ -1,5 +1,5 @@
 package com.bhuvanesh.talenthive.storywriting.operation.manager;
 
 
-public class StoMang {
+public class StoryManager {
 }

@@ -1,5 +1,11 @@
 package com.bhuvanesh.talenthive.storywriting.fragment;
 
 
-public class MyStoriesFragment {
+import com.bhuvanesh.talenthive.BaseFragment;
+
+public class MyStoriesFragment extends BaseFragment{
+
+    public static MyStoriesFragment newInstance() {
+        return new MyStoriesFragment();
+    }
 }

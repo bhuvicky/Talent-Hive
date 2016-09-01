@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Talent Hive</string>
+
+    <!--General Strings-->
+
+
+    <!--Story Writing Strings-->
+    <string name="title_story_writing">Story Writing</string>
+    <string name="hint_story_title">Title</string>
+    <string name="hint_story_description">Story Description</string>
+    <string name="hint_chapter_title">Chapter Title</string>
+    <string name="hint_start_write">Start Write Your Chapter here</string>
+
+    <!--Accessibility Strings-->
+    <string name="desc_cover_image">Story Cover Image</string>
 </resources>
