@@ -2,12 +2,14 @@ package com.bhuvanesh.talenthive.manager.operation;
 
 
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.bhuvanesh.talenthive.BaseResponse;
+import com.bhuvanesh.talenthive.Config;
 import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
@@ -25,27 +27,15 @@ import java.util.Map;
 
 public abstract class WebServiceOperation implements Response.Listener, Response.ErrorListener {
 
-    public abstract void onSuccess(Object response);
+    public static final String TAG = WebServiceOperation.class.getSimpleName();
 
-    public abstract void onError(THException exception);
+    protected final int TIME_OUT_CONNECTION = 10000;//
 
-    protected Class mClazz;
-    protected Type mClassType;
     protected String mTag;
+    protected Class mClazz;
+    protected Type mClazzType;
     protected WebServiceRequest mWebServiceRequest;
 
-    protected final int TIME_OUT_CONNECTION = 5000;
-
-    //Constructors for POST
-    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, String tag) {
-        this(uri, method, header, body, clazz, null, tag);
-    }
-
-    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Type type, String tag) {
-        this(uri, method, header, body, null, type, tag);
-    }
-
-    //Constructors for GET
     protected WebServiceOperation(String uri, int method, Map<String, String> header, Class clazz, String tag) {
         this(uri, method, header, null, clazz, null, tag);
     }
@@ -54,72 +44,48 @@ public abstract class WebServiceOperation implements Response.Listener, Response
         this(uri, method, header, null, null, type, tag);
     }
 
-    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, Type type, String tag) {
-        mClazz = clazz;
-        mClassType = type;
-        mTag = tag;
-        createRequest(uri, method, header, body);
+    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, String tag) {
+        this(uri, method, header, body, clazz, null, tag);
     }
 
-    private void createRequest(String uri, int method, Map<String, String> headers, String body) {
-        mWebServiceRequest = new WebServiceRequest(URLConstant.BASE_SERVER_URL + uri, method, headers, body, this, this);
+    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Type type, String tag) {
+        this(uri, method, header, body, null, type, tag);
+    }
+
+    protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, Type type, String tag) {
+        mTag = tag;
+        mClazz = clazz;
+        mClazzType = type;
+
+        setRequest(uri, method, header, body);
+    }
+
+    protected void setRequest(String uri, int method, Map<String, String> header, String body) {
+        mWebServiceRequest =
+                new WebServiceRequest(Config.LOCAL ? URLConstant.BASE_LOCAL_URL + uri
+                        : URLConstant.BASE_SERVER_URL + uri, method, header, body, this, this);
         RetryPolicy policy = new DefaultRetryPolicy(TIME_OUT_CONNECTION, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         mWebServiceRequest.setRetryPolicy(policy);
     }
 
-    public void addToRequestQueue() {
-        if (ConnectionUtil.isOnline(THApplication.getInstance())) {
-            THLoggerUtil.debug(this, "Network Online");
-            mWebServiceRequest.setTag(mTag);
+    /**
+     * This method will check network connection before adding the request to queue for
+     * network operation.
+     */
+    protected void addToRequestQueue() {
+        if (ConnectionUtil.isOnline(THApplication.getInstance().getApplicationContext())){
+            new THLoggerUtil().debug(this, "Network Online");
+            mWebServiceRequest.setTag(TextUtils.isEmpty(mTag) ? WebServiceOperation.TAG : mTag);
             THApplication.getInstance().getRequestQueue().add(mWebServiceRequest);
         } else {
-            onError(new THException("Network is not Available"));
-            THLoggerUtil.debug(this, "Network Offline");
+            onError(new THException("Network is not available"));
+            new THLoggerUtil().debug(this, "Network offline");
         }
     }
 
-    @Override
-    public void onErrorResponse(VolleyError error) {
-        onError(new THException(error.networkResponse != null ? error.networkResponse.statusCode : 401));
-    }
-
-    @Override
-    public void onResponse(Object response) {
-        Object object;
-
-        try {
-            if (mClassType != null) {
-                object = new Gson().fromJson((String) response, mClassType);
-            } else {
-                object = new Gson().fromJson((String) response, mClazz);
-            }
-
-            if (object != null) {
-                int statusCode = HttpURLConnection.HTTP_OK;
-                String statusMessage = "";
-                if (object instanceof BaseResponse) {
-                    BaseResponse baseResponse = (BaseResponse) object;
-                    statusCode = baseResponse.statusCode;
-                    statusMessage = baseResponse.message;
-                }
-
-                if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
-                    onSuccess(object);
-                } else {
-                    onError(new THException(statusCode, statusMessage));
-                }
-            } else {
-                onError(new THException(401));
-            }
-        } catch (JsonSyntaxException e) {
-            THLoggerUtil.error(this, "Json syntax error: " + e.getMessage());
-        }
-
-    }
-
-    protected <T> T getFromAssetsFolder(String fileName, Type type) {
-        return getFromAssetsFolder(fileName, null, type);
+    protected <T> T getFromAssetsFolder(String filename, Type type) {
+        return getFromAssetsFolder(filename, null, type);
     }
 
     protected <T> T getFromAssetsFolder(String filename, Class<T> clazz) {
@@ -131,29 +97,96 @@ public abstract class WebServiceOperation implements Response.Listener, Response
         BufferedReader reader = null;
         StringBuilder response = new StringBuilder();
         T object = null;
-
         try {
-            reader = new BufferedReader(new InputStreamReader(manager.open(filename)));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
+            reader = new BufferedReader(
+                    new InputStreamReader(manager.open(filename)));
+
+            // do reading, usually loop until end of file reading
+            String mLine;
+            while ((mLine = reader.readLine()) != null) {
+                //process line
+                response.append(mLine);
             }
             if (type != null) {
                 object = new Gson().fromJson(response.toString(), type);
             } else {
                 object = new Gson().fromJson(response.toString(), clazz);
             }
-        } catch (IOException | JsonSyntaxException e) {
-            THLoggerUtil.error(this, e.getMessage());
+        } catch (IOException e) {
+            //log the exception
+            new THLoggerUtil().debug(this, e.getMessage());
+        } catch (JsonSyntaxException e) {
+            //log the exception
+            new THLoggerUtil().debug(this, e.getMessage());
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    //log the exception
                 }
             }
         }
         return object;
     }
+
+    /**
+     * This method will clear the request from queue based on tag.
+     */
+    public void removeFromRequestQueue() {
+        THApplication.getInstance().getRequestQueue().cancelAll(TextUtils.isEmpty(mTag) ? WebServiceOperation.TAG : mTag);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        new THLoggerUtil().debug(this, "Network error:=" + error != null ? "error" : error.getMessage());
+        onError(new THException(error.networkResponse != null ? error.networkResponse.statusCode : 401));
+    }
+
+    /**
+     * Abstract method for handling network or parsing error
+     */
+    public abstract void onError(THException exception);
+
+    /**
+     * This method will parse the json data based on class
+     */
+    @Override
+    public void onResponse(Object response) {
+        Object object = null;
+
+        try {
+            if (mClazzType != null) {
+                object = new Gson().fromJson(((String) response), mClazzType);
+            } else {
+                object = new Gson().fromJson((String) response, mClazz);
+            }
+            if (object != null) {
+                int statusCode = HttpURLConnection.HTTP_OK;
+                String statusMessage = "";
+                if (object instanceof BaseResponse) {
+                    BaseResponse baseResponse = (BaseResponse) object;
+                    statusCode = baseResponse.statusCode;
+                    statusMessage = baseResponse.message;
+                }
+                if (statusCode == HttpURLConnection.HTTP_OK || statusCode == HttpURLConnection.HTTP_CREATED) {
+                    onSuccess(object);
+                } else {
+                    onError(new THException(statusCode, statusMessage));
+                    new THLoggerUtil().error("ss","ee1");
+                }
+            } else {
+                onError(new THException(401));
+            }
+        } catch (JsonSyntaxException e) {
+            new THLoggerUtil().debug(this, "Network error:=" + e.getMessage());
+            new THLoggerUtil().error("ss","eew");
+            onError(new THException(401));
+        }
+    }
+
+    /**
+     * Abstract method for handling success response
+     */
+    public abstract void onSuccess(Object response);
 }

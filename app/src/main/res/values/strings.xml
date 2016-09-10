@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Talent Hive</string>
-
+    <string name="lbl_alert_ok">Ok</string>
+    <string name="lbl_alert_done">DONE</string>
+    <string name="lbl_alert_cancel">Cancel</string>
+    <string name="lbl_alert_not_now">Not now</string>
+    <string name="lbl_alert_continue">Continue</string>
     <!--General Strings-->
     <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
 
@@ -13,4 +17,52 @@
 
     <!--Accessibility Strings-->
     <string name="desc_cover_image">Story Cover Image</string>
+
+    <!--Menu Advise-->
+
+    <string name="msg_string_progressdialog_loading">Loading</string>
+    <string name="msg_string_signing_in_server">Signing in</string>
+    <string name="msg_string_registering_in_server">Registering</string>
+    <string name="msg_string_request_otp">Sending OTP Request</string>
+    <string name="msg_string_registering_email">Registering Email Id</string>
+    <string name="msg_string_ok">Ok</string>
+    <string name="msg_string_dismiss">Dismiss</string>
+    <string name="msg_string_cancel">Cancel</string>
+    <string name="msg_error_email">Invalid Email</string>
+    <string name="msg_error_mobileNumber">Invalid Mobile Number</string>
+    <string name="msg_error_required">Required</string>
+    <string name="msg_error_age">Should be 18 Years</string>
+    <string name="msg_error_should_match">Confirm password should match</string>
+    <string name="lbl_string_yes">YES</string>
+    <string name="lbl_string_no">NO</string>
+    <string name="lbl_contact_current_location">Current Location</string>
+
+    <!-- Login Screen String -->
+    <string name="msg_hint_username">Username</string>
+    <string name="msg_error_username">Enter Email Id</string>
+    <string name="msg_error_password">Password Should be minimum 6 Characters.</string>
+    <string name="msg_hint_forgotpassword_email">Email id</string>
+    <string name="msg_send_opt">Send OTP</string>
+    <string name="lbl_string_login">Login</string>
+    <string name="progress_dialog_login">Logging In</string>
+    <string name="lbl_create_new_account">create new Account</string>
+
+    <!-- Forgot Password String -->
+    <string name="title_forgot_password">Forgot Password</string>
+    <string name="msg_hint_otp">One Time Password<b>*</b></string>
+    <string name="msg_hint_password">Password<b>*</b></string>
+    <string name="msg_hint_confirm_password">Confirm Password<b>*</b></string>
+    <string name="msg_hint_forgotpassword">forget password?</string>
+    <string name="msg_change_password">Save Password</string>
+    <string name="msg_error_otp">Invalid OTP Entry</string>
+    <string name="msg_error_password_empty">Enter Password</string>
+    <string name="msg_error_confirm_password_empty">Enter Confirm Password</string>
+    <string name="msg_error_enter_mobileno">Enter Mobile No</string>
+    <string name="msg_error_paswword_mismatch">Password and Confirm Password Mis-matches</string>
+    <string name="msg_string__title_email">Please enter your Email Address.</string>
+    <string name="msg_string_title_send_otp">Send OTP</string>
+    <!--Registration String-->
+    <string name="msg_hint_mobile_number">Mobile Number</string>
+
+
 </resources>
