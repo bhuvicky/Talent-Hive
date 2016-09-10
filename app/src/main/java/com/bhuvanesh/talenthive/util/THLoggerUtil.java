@@ -15,10 +15,6 @@ public class THLoggerUtil {
             Log.d(tag.toString(), msg);
         }
     }
-    public void debug(Object tag, Object log) {
-        if (mLogEnabled)
-            Log.d(tag.toString(), log.toString());
-    }
 
     public static void error(Object tag, String msg) {
         if (mLogEnabled) {

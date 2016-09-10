@@ -12,20 +12,22 @@ import java.util.Map;
 
 public class UserLoginOperation extends WebServiceOperation {
 
+    public interface IUserLoginOperation {
+        void onUserLoginSuccess(LoginResponse response);
+        void onUserLoginError(THException exception);
+    }
 
-    private String TAG = UserLoginOperation.class.getSimpleName();
     private IUserLoginOperation iUserLoginOperation;
 
-    public UserLoginOperation(Map<String, String> header, String body, IUserLoginOperation listener) {
+    public UserLoginOperation(String body, Map<String, String> header, IUserLoginOperation listener) {
         super(URLConstant.USER_LOGIN_URI, Request.Method.POST, header, body, LoginResponse.class, UserLoginOperation.class.getSimpleName());
-        this.iUserLoginOperation = listener;
+        iUserLoginOperation = listener;
     }
 
     @Override
     public void addToRequestQueue() {
         if (Config.HARDCODED_ENABLE) {
-            onSuccess(getFromAssetsFolder
-                    ("loginresponse.json", LoginResponse.class));
+            onSuccess(getFromAssetsFolder("loginresponse.json", LoginResponse.class));
         } else {
             super.addToRequestQueue();
         }
@@ -34,20 +36,10 @@ public class UserLoginOperation extends WebServiceOperation {
     @Override
     public void onError(THException exception) {
         iUserLoginOperation.onUserLoginError(exception);
-        new THLoggerUtil().error("ss","ee");
     }
-
 
     @Override
     public void onSuccess(Object response) {
-        LoginResponse loginResponse = (LoginResponse) response;
-        iUserLoginOperation.onUserLoginSuccess(loginResponse);
-        new THLoggerUtil().error("ss","ss");
-    }
-
-    public interface IUserLoginOperation {
-        void onUserLoginSuccess(LoginResponse response);
-
-        void onUserLoginError(THException exception);
+        iUserLoginOperation.onUserLoginSuccess((LoginResponse) response);
     }
 }

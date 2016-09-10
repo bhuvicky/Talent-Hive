@@ -1,0 +1,212 @@
+[
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 1234567,
+    "story" : {
+      "id" : "1a",
+      "language" : "Tamil",
+      "coverImageUrl" : null,
+      "title" : "title1",
+      "category" : "Action",
+      "Description" : "Description1",
+      "author" : "Kumar",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  },
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 1234568,
+    "story" : {
+      "id" : "1b",
+      "language" : "Hindi",
+      "coverImageUrl" : null,
+      "title" : "title2",
+      "category" : "Adventure",
+      "Description" : "Description2",
+      "author" : "Thangavel",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  },
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 1234569,
+    "story" : {
+      "id" : "1c",
+      "language" : "English",
+      "coverImageUrl" : null,
+      "title" : "title3",
+      "category" : "Lovve",
+      "Description" : "Description3",
+      "author" : "Kim Joseph",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  },
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 9234567,
+    "story" : {
+      "id" : "1d",
+      "language" : "French",
+      "coverImageUrl" : null,
+      "title" : "title4",
+      "category" : "Thriller",
+      "Description" : "Description4",
+      "author" : "Raj Kanna",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  },
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 8234567,
+    "story" : {
+      "id" : "1f",
+      "language" : "Japnese",
+      "coverImageUrl" : null,
+      "title" : "title6",
+      "category" : "Fiction",
+      "Description" : "Description6",
+      "author" : "Tommy Hiller",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  },
+  {
+    "profileImageUrl" : null,
+    "timeStamp" : 7234567,
+    "story" : {
+      "id" : "1b",
+      "language" : "Kannada",
+      "coverImageUrl" : null,
+      "title" : "title7",
+      "category" : "Business",
+      "Description" : "Description7",
+      "author" : "Rajesh Kanna",
+      "chapterList" :[
+        {
+          "chapterTitle" : "chapter1",
+          "chapterDescription" : "chapDesc1"
+        },
+        {
+          "chapterTitle" : "chapter2",
+          "chapterDescription" : "chapDesc2"
+        },
+        {
+          "chapterTitle" : "chapter3",
+          "chapterDescription" : "chapDesc3"
+        },
+        {
+          "chapterTitle" : "chapter4",
+          "chapterDescription" : "chapDesc4"
+        },
+        {
+          "chapterTitle" : "chapter5",
+          "chapterDescription" : "chapDesc5"
+        }
+      ]
+    }
+  }
+]

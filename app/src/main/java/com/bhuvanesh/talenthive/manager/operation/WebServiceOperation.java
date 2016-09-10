@@ -36,20 +36,22 @@ public abstract class WebServiceOperation implements Response.Listener, Response
     protected Type mClazzType;
     protected WebServiceRequest mWebServiceRequest;
 
-    protected WebServiceOperation(String uri, int method, Map<String, String> header, Class clazz, String tag) {
-        this(uri, method, header, null, clazz, null, tag);
-    }
-
-    protected WebServiceOperation(String uri, int method, Map<String, String> header, Type type, String tag) {
-        this(uri, method, header, null, null, type, tag);
-    }
-
+    //Constructors for POST
     protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, String tag) {
         this(uri, method, header, body, clazz, null, tag);
     }
 
     protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Type type, String tag) {
         this(uri, method, header, body, null, type, tag);
+    }
+
+    //Constructors for GET
+    protected WebServiceOperation(String uri, int method, Map<String, String> header, Class clazz, String tag) {
+        this(uri, method, header, null, clazz, null, tag);
+    }
+
+    protected WebServiceOperation(String uri, int method, Map<String, String> header, Type type, String tag) {
+        this(uri, method, header, null, null, type, tag);
     }
 
     protected WebServiceOperation(String uri, int method, Map<String, String> header, String body, Class clazz, Type type, String tag) {
@@ -75,12 +77,12 @@ public abstract class WebServiceOperation implements Response.Listener, Response
      */
     protected void addToRequestQueue() {
         if (ConnectionUtil.isOnline(THApplication.getInstance().getApplicationContext())){
-            new THLoggerUtil().debug(this, "Network Online");
+            THLoggerUtil.debug(this, "Network Online");
             mWebServiceRequest.setTag(TextUtils.isEmpty(mTag) ? WebServiceOperation.TAG : mTag);
             THApplication.getInstance().getRequestQueue().add(mWebServiceRequest);
         } else {
             onError(new THException("Network is not available"));
-            new THLoggerUtil().debug(this, "Network offline");
+            THLoggerUtil.debug(this, "Network offline");
         }
     }
 
@@ -112,12 +114,9 @@ public abstract class WebServiceOperation implements Response.Listener, Response
             } else {
                 object = new Gson().fromJson(response.toString(), clazz);
             }
-        } catch (IOException e) {
+        } catch (IOException | JsonSyntaxException e) {
             //log the exception
-            new THLoggerUtil().debug(this, e.getMessage());
-        } catch (JsonSyntaxException e) {
-            //log the exception
-            new THLoggerUtil().debug(this, e.getMessage());
+            THLoggerUtil.debug(this, e.getMessage());
         } finally {
             if (reader != null) {
                 try {
@@ -139,7 +138,7 @@ public abstract class WebServiceOperation implements Response.Listener, Response
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        new THLoggerUtil().debug(this, "Network error:=" + error != null ? "error" : error.getMessage());
+        THLoggerUtil.debug(this, "Network error:=" + error != null ? "error" : error.getMessage());
         onError(new THException(error.networkResponse != null ? error.networkResponse.statusCode : 401));
     }
 
@@ -179,8 +178,8 @@ public abstract class WebServiceOperation implements Response.Listener, Response
                 onError(new THException(401));
             }
         } catch (JsonSyntaxException e) {
-            new THLoggerUtil().debug(this, "Network error:=" + e.getMessage());
-            new THLoggerUtil().error("ss","eew");
+            THLoggerUtil.debug(this, "Network error:=" + e.getMessage());
+            THLoggerUtil.error("ss","eew");
             onError(new THException(401));
         }
     }

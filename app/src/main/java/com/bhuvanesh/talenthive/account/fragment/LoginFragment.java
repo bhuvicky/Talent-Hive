@@ -3,9 +3,7 @@ package com.bhuvanesh.talenthive.account.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +14,20 @@ import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
-import com.bhuvanesh.talenthive.account.manager.AccManager;
+import com.bhuvanesh.talenthive.account.manager.AccountManager;
+import com.bhuvanesh.talenthive.account.model.LoginRequest;
 import com.bhuvanesh.talenthive.account.model.LoginResponse;
 import com.bhuvanesh.talenthive.constant.IntentConstant;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
-public class LoginFragment extends BaseFragment implements AccManager.IUserLoginManager {
+public class LoginFragment extends BaseFragment {
+
     private String TAG = LoginFragment.class.getSimpleName();
-    private TextInputLayout mUsernameTIL, mPasswordTIL, mOTPTIL;
-    private EditText mUsernameEdtText, mPwdEdtText, mOTPEdtText;
-    private String mUsername, mPwd;
+
+    private TextInputLayout mTextInputUsername, mTextInputPassword, mTextInputOTP;
+    private EditText mEditTextUsername, mEditTextPswd, mEditTextOTP;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -42,72 +42,47 @@ public class LoginFragment extends BaseFragment implements AccManager.IUserLogin
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
-
-        mUsernameEdtText = (EditText) view.findViewById(R.id.useraccountUserNameEditText);
-        mPwdEdtText = (EditText) view.findViewById(R.id.useraccountPasswordEditText);
-        mOTPEdtText = (EditText) view.findViewById(R.id.useraccountOTPEditText);
-        mUsernameTIL = (TextInputLayout) view.findViewById(R.id.useraccountUserNameTextInputLayout);
-        mPasswordTIL = (TextInputLayout) view.findViewById(R.id.useraccountPasswordTextInputLayout);
-        mOTPTIL = (TextInputLayout) view.findViewById(R.id.useraccountOTPTextInputLayout);
+        mEditTextUsername = (EditText) view.findViewById(R.id.useraccountUserNameEditText);
+        mEditTextPswd = (EditText) view.findViewById(R.id.useraccountPasswordEditText);
+        mEditTextOTP = (EditText) view.findViewById(R.id.useraccountOTPEditText);
+        mTextInputUsername = (TextInputLayout) view.findViewById(R.id.useraccountUserNameTextInputLayout);
+        mTextInputPassword = (TextInputLayout) view.findViewById(R.id.useraccountPasswordTextInputLayout);
+        mTextInputOTP = (TextInputLayout) view.findViewById(R.id.useraccountOTPTextInputLayout);
         Button loginButton = (Button) view.findViewById(R.id.useraccountLoginButton);
         TextView forgotTxtView = (TextView) view.findViewById(R.id.useraccountForgotTextView);
-        mUsernameEdtText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mUsernameTIL.setErrorEnabled(false);
-            }
-        });
-        mPwdEdtText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mPasswordTIL.setErrorEnabled(false);
-            }
-        });
-        mOTPEdtText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mOTPTIL.setErrorEnabled(false);
-            }
-        });
-
-        //Click Action on Login Button
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isValid()) {
                     showProgressDialog(R.string.progress_dialog_login);
-                    AccManager accManager = new AccManager();
-                    accManager.doAuthenticate(mUsername, mPwd, LoginFragment.this);
+
+                    LoginRequest request = new LoginRequest();
+                    request.username = mEditTextUsername.getText().toString();
+                    request.password = mEditTextPswd.getText().toString();
+
+                    AccountManager manager = new AccountManager();
+                    manager.doAuthenticate(request, new AccountManager.IUserLoginManager() {
+                        @Override
+                        public void OnUserLoginSuccess(LoginResponse response) {
+                            if (isAdded()) {
+                                dismissProgressDialog();
+                                THLoggerUtil.debug("resp",response.roles);
+                                Intent intent=new Intent(getActivity(), DashboardActivity.class);
+                                intent.putExtra(IntentConstant.USERNAME,response.roles);
+                                startActivity(intent);
+                                getActivity().finish();
+                            }
+                        }
+
+                        @Override
+                        public void OnUserLoginError(THException exception) {
+                            if (isAdded()) {
+                                dismissProgressDialog();
+                                Toast.makeText(getContext(), "aa"+exception.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -119,47 +94,24 @@ public class LoginFragment extends BaseFragment implements AccManager.IUserLogin
             }
         });
         //TODO: Tobe removed
-        mUsernameEdtText.setText("karthikeyana97@gmail.com");
-        mPwdEdtText.setText("2345");
+        mEditTextUsername.setText("karthikeyana97@gmail.com");
+        mEditTextPswd.setText("2345");
 
         setHasOptionsMenu(true);
 
     }
 
     private boolean isValid() {
-        mUsername = mUsernameEdtText.getText().toString();
-        mPwd = mPwdEdtText.getText().toString();
-        if (TextUtils.isEmpty(mUsername)) {
-            mUsernameTIL.setErrorEnabled(true);
-            mUsernameTIL.setError(getResources().getString(R.string.msg_error_username));
-            return false;
-        } else if (TextUtils.isEmpty(mPwd)) {
-            mPasswordTIL.setErrorEnabled(true);
-            mPasswordTIL.setError(getResources().getString(R.string.msg_error_password));
-            return false;
+        boolean isValid = true;
+        if (TextUtils.isEmpty(mEditTextUsername.getText().toString())) {
+            mTextInputUsername.setErrorEnabled(true);
+            mTextInputUsername.setError(getResources().getString(R.string.msg_error_username));
+            isValid = false;
+        } else if (TextUtils.isEmpty(mEditTextPswd.getText().toString())) {
+            mTextInputPassword.setErrorEnabled(true);
+            mTextInputPassword.setError(getResources().getString(R.string.msg_error_password));
+            isValid = false;
         }
-        return true;
-    }
-
-    @Override
-    public void OnUserLoginSuccess(LoginResponse response) {
-        if (isAdded()) {
-            dismissProgressDialog();
-            new THLoggerUtil().debug("resp",response.roles);
-         //   getActivity().finish();
-            Intent intent=new Intent(getActivity(), DashboardActivity.class);
-           if(null!=response)
-            intent.putExtra(IntentConstant.USERNAME,response.roles);
-            startActivity(intent);
-            getActivity().finish();
-        }
-    }
-
-    @Override
-    public void OnUserLoginError(THException exception) {
-        if (isAdded()) {
-            dismissProgressDialog();
-            Toast.makeText(getContext(), "aa"+exception.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        return isValid;
     }
 }
