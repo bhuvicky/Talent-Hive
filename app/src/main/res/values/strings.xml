@@ -2,7 +2,7 @@
     <string name="app_name">Talent Hive</string>
 
     <!--General Strings-->
-
+    <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
