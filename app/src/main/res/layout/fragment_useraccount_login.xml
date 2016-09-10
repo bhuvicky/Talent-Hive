@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+
+    android:orientation="vertical">
+
+
+
+    <android.support.design.widget.TextInputLayout
+
+        android:id="@+id/useraccountUserNameTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/useraccountUserNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/msg_hint_username"
+            android:inputType="text"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/useraccountPasswordTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true">
+
+        <EditText
+            android:id="@+id/useraccountPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/msg_hint_password"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/useraccountOTPTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/useraccountOTPEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/msg_hint_otp"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/useraccountLoginButton"
+            style="@style/AppTheme.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/drawable_button"
+            android:text="@string/lbl_string_login" />
+
+        <TextView
+            android:id="@+id/useraccountForgotTextView"
+            style="@style/AppTheme.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/useraccountLoginButton"
+            android:layout_alignParentRight="true"
+            android:text="@string/msg_hint_forgotpassword"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/signupButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/AppTheme.Button"
+        android:background="@drawable/drawable_button"
+        android:layout_gravity="bottom"
+        android:text="@string/lbl_create_new_account"
+
+        />
+
+</LinearLayout>
