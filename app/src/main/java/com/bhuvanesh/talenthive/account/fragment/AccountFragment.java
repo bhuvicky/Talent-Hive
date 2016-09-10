@@ -1,6 +1,8 @@
 package com.bhuvanesh.talenthive.account.fragment;
 
-public class AccountFragment  {
+import com.bhuvanesh.talenthive.BaseFragment;
+
+public class AccountFragment extends BaseFragment {
 
     public static AccountFragment newInstance() {
         AccountFragment fragment = new AccountFragment();
