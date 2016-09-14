@@ -5,4 +5,9 @@
 
     <!--Appbar Dimens-->
     <dimen name="tabindicator_height">4dp</dimen>
+    <dimen name="dp_dimension">48dp</dimen>
+    <dimen name="margin_post">10dp</dimen>
+    <dimen name="padding_16dp">16dp</dimen>
+    <dimen name="title_dimension_value">24sp</dimen>
+    <dimen name="subhead_dimension_value">14sp</dimen>
 </resources>

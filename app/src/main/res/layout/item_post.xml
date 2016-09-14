@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/padding_16dp"
+        android:paddingRight="@dimen/padding_16dp"
+        android:paddingTop="@dimen/padding_16dp"
+        android:paddingBottom="@dimen/padding_16dp"
+        >
+
+        <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
+            android:id="@+id/cniv_dp"
+            android:layout_width="@dimen/dp_dimension"
+            android:layout_height="@dimen/dp_dimension"
+            android:paddingLeft="@dimen/padding_16dp"
+            android:paddingRight="@dimen/padding_16dp"
+            android:paddingTop="@dimen/padding_16dp"
+            android:paddingBottom="@dimen/padding_16dp"/>
+        <TextView
+            android:id="@+id/textview_dp_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            tools:text="Karthik"
+            android:textSize="@dimen/title_dimension_value"
+            android:layout_toRightOf="@+id/cniv_dp"
+            android:layout_toEndOf="@+id/cniv_dp" />
+        <TextView
+            android:id="@+id/textview_post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="jun 10 2016 10:36"
+            android:layout_toRightOf="@id/cniv_dp"
+            android:textSize="@dimen/subhead_dimension_value"
+            android:layout_toEndOf="@id/cniv_dp"
+            android:layout_below="@id/textview_dp_name"/>
+        <View
+            android:id="@+id/view_sperator"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="@dimen/margin_post"
+            android:layout_below="@id/textview_post_time"
+            android:background="@color/colorPrimary"/>
+        <com.android.volley.toolbox.NetworkImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>
+</android.support.v7.widget.CardView>
