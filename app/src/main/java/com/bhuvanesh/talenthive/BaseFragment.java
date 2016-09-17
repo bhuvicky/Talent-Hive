@@ -103,14 +103,14 @@ public class BaseFragment extends DialogFragment {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).replace(containerId, fragment);
         } else {
-            new THLoggerUtil().debug(fragment.getTag(), "Activity is null!!!!!");
+            THLoggerUtil.debug(fragment.getTag(), "Activity is null!!!!!");
         }
     }
     public void replace(int containerId, BaseFragment fragment,String dir) {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).replace(containerId, fragment);
         } else {
-            new THLoggerUtil().debug(fragment.getTag(), "Activity is null!!!!!");
+            THLoggerUtil.debug(fragment.getTag(), "Activity is null!!!!!");
         }
     }
 
@@ -118,7 +118,8 @@ public class BaseFragment extends DialogFragment {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).replace(containerId, fragment);
         } else {
-            new THLoggerUtil().debug(fragment.getTag(), "Activity is null!!!!!");
+            THLoggerUtil.debug(fragment.getTag(), "Activity is null!!!!!");
+
         }
     }
 
@@ -144,7 +145,7 @@ public class BaseFragment extends DialogFragment {
             transaction.replace(containerId, fragment);
             transaction.commit();
         } else {
-            new THLoggerUtil().debug(fragment.getTag(), "Activity is null!!!!!");
+            THLoggerUtil.debug(fragment.getTag(), "Activity is null!!!!!");
         }
     }
 

@@ -11,6 +11,7 @@ public class THApplication extends Application{
     private static THApplication mInstance;
     private RequestQueue mRequestQueue;
 
+
     //onCreate will call only one time
     @Override
     public void onCreate() {

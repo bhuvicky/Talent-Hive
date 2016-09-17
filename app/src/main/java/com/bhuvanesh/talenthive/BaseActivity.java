@@ -113,14 +113,14 @@ public class BaseActivity extends AppCompatActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
-            new THLoggerUtil().debug("ee","ee");
+            THLoggerUtil.debug("ee","ee");
             finish();
         }else if(count==2){
             Fragment fragment = getSupportFragmentManager().findFragmentByTag((count - 1) + "");
             ((BaseFragment)fragment).onBackPress();
         }
         else {
-            new THLoggerUtil().debug("ee",count);
+
             Fragment fragment = getSupportFragmentManager().findFragmentByTag((count - 1) + "");
             if (fragment != null) {
                 ((BaseFragment)fragment).onBackPress();
@@ -137,13 +137,13 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        new THLoggerUtil().debug("LeaveLetter", "Destroy");
+        THLoggerUtil.debug("LeaveLetter", "Destroy");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        new THLoggerUtil().debug("LeaveLetter", "Pause");
+         THLoggerUtil.debug("LeaveLetter", "Pause");
     }
 
     public List<String> getFromStringArray(int resId) {

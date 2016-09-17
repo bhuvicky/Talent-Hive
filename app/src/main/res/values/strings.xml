@@ -63,6 +63,10 @@
     <string name="msg_string_title_send_otp">Send OTP</string>
     <!--Registration String-->
     <string name="msg_hint_mobile_number">Mobile Number</string>
+    <!--Photography String-->
+    <string name="msg_like">Like</string>
+    <string name="msg_comment">Comment</string>
+    <string name="msg_share">Share</string>
 
 
 </resources>
