@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <ScrollView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+
+           android:id="@+id/scrollview_edit_photo"
+
+           >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/relativeLayout">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_name_of_profile"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:text="@string/karthikeyan"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/at"
+                android:id="@+id/textview_at"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_toRightOf="@id/textview_name_of_profile"
+                android:textSize="20sp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_location"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_toRightOf="@id/textview_at"
+                android:textSize="20sp"
+                android:text="@string/sivakasi"
+                />
+
+              <View
+                  android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:layout_below="@id/textview_name_of_profile"
+                  android:layout_margin="10dp"
+
+                  android:background="@color/color_light_gray" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:hint="@string/msg_write_a_caption"
+                android:layout_margin="10dp"
+                android:id="@+id/edittext_edit_post"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/view_underline_edit_post"
+                android:layout_below="@id/edittext_edit_post"
+                android:layout_margin="10dp"
+                android:background="@color/color_light_gray" />
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/view_underline_edit_post"
+                >
+
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/fab_location"
+                    android:src="@drawable/account_location"
+                    android:layout_gravity="bottom|right"
+                    android:layout_margin="10dp"
+                     />
+                <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/trail"
+                android:id="@+id/imageview_post_preview"
+                android:contentDescription="@string/_10"
+                tools:ignore="RtlHardcoded"
+                />
+            </android.support.design.widget.CoordinatorLayout>
+
+        </RelativeLayout>
+       </ScrollView>
+
+</RelativeLayout>

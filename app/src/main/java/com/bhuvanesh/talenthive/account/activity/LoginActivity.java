@@ -15,7 +15,6 @@ public class LoginActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-
         replace(R.id.layout_container, LoginFragment.newInstance());
 
     }
