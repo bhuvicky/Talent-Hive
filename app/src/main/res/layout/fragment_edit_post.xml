@@ -42,6 +42,7 @@
                 android:id="@+id/textview_location"
                 android:textColor="#000000"
                 android:textStyle="bold"
+                android:visibility="gone"
                 android:layout_toRightOf="@id/textview_at"
                 android:textSize="20sp"
                 android:text="@string/sivakasi"

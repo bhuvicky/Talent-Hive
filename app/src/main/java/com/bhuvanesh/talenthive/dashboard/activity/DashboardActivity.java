@@ -3,10 +3,11 @@ package com.bhuvanesh.talenthive.dashboard.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.R;
-import com.bhuvanesh.talenthive.photography.fragment.EditPostFragment;
+import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 
 public class DashboardActivity extends BaseActivity {
     private FloatingActionButton floatingActionButton;
@@ -18,13 +19,15 @@ public class DashboardActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-        replace(R.id.dashboard_container2, EditPostFragment.newInstance());
-//        floatingActionButton= (FloatingActionButton) findViewById(R.id.floatingActionButton);
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        replace(R.id.dashboard_container2, SelectPhotoFragment.newInstance());
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        if(menuItem.getItemId()==android.R.id.home)
+        pop();
+        return true;
+
     }
 }
