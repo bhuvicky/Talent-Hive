@@ -56,7 +56,6 @@ public class EditPostFragment extends BaseFragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.msg_post_to);
-
         profileNameTextView= (TextView) view.findViewById(R.id.textview_name_of_profile);
         atTextView= (TextView) view.findViewById(R.id.textview_at);
         locationTextView= (TextView) view.findViewById(R.id.textview_location);

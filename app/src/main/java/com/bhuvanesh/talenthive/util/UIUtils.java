@@ -9,21 +9,23 @@ import com.bhuvanesh.talenthive.R;
 
 public class UIUtils {
 
-    public static int getNmOfColumns(Activity context,float percentage){
+    public static int getNumOfColumns(Activity context,float percentage){
         return getNumOfColumns(context,percentage,context.getResources().getDimension(R.dimen.dimen_width_of_gallery_item));
     }
     public static int getNumOfColumns(Activity context, float percentage, float widthOfItem)
     {
         DisplayMetrics metrics=new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        float gapBetweenItem =UIUtils.convertDpToPixel(context,5);
-        float containerWidth=(metrics.widthPixels*percentage)/100-(2*UIUtils.convertDpToPixel(context,context.getResources().getDimension(R.dimen.dimen_marginLeft)));
+        float gapBetweenItem =UIUtils.convertDpToPixel(context,context.getResources().getDimension(R.dimen.dimen_gap_between_item));
+        float containerWidth=(metrics.widthPixels*percentage)/100;
+        THLoggerUtil.debug("hh",containerWidth+""+(UIUtils.convertDpToPixel(context,widthOfItem)+gapBetweenItem)+""+gapBetweenItem);
+        THLoggerUtil.debug("hh",(containerWidth*gapBetweenItem)/(UIUtils.convertDpToPixel(context,widthOfItem)+gapBetweenItem)+"");
         return (int)((containerWidth*gapBetweenItem)/(UIUtils.convertDpToPixel(context,widthOfItem)+gapBetweenItem));
     }
-    public static float convertDpToPixel(Context context,float dp)
+    public static int convertDpToPixel(Context context,float dp)
     {
         DisplayMetrics metrics=context.getResources().getDisplayMetrics();
-        float px=dp * (metrics.densityDpi/160f);
+        int px=(int)(dp * (metrics.densityDpi/160));
         return px;
     }
 }

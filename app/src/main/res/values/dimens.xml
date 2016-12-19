@@ -14,6 +14,8 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="dimen_marginLeft">23dp</dimen>
     <dimen name="dimen_width_of_gallery_item">150dp</dimen>
+    <dimen name="dimen_height_of_gallery_item">100dp</dimen>
+    <dimen name="dimen_gap_between_item">1dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 </resources>

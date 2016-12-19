@@ -18,6 +18,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private Cursor cursor;
     private Context context;
     private ItemClickListener listener;
+    private int previousSelectedPosition=0;
     public PhotoAdapter(Context context, Cursor cursor,ItemClickListener listener)
     {
         this.cursor=cursor;
@@ -35,16 +36,24 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         cursor.moveToPosition(position);
         int imageId=cursor.getInt(columnIndex);
-        holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        holder.imageView.setImageBitmap(MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(),imageId, MediaStore.Images.Thumbnails.MINI_KIND,null));
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
+        holder.galleryImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if(position==previousSelectedPosition)
+        {
+            holder.frameImageView.setVisibility(View.VISIBLE);
+        }
+        holder.frameImageView.setVisibility(View.GONE);
+        holder.galleryImageView.setImageBitmap(MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(),imageId, MediaStore.Images.Thumbnails.MINI_KIND,null));
+        holder.galleryImageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-                 cursor.moveToPosition(position);
-                 String imaged=cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
-                 THLoggerUtil.debug("hh",imaged+"");
-                 listener.onItemClickListener(imaged);
-                // holder.imageView.setBackground(context.getResources().getDrawable(R.drawable.ic_backgd_red));
+               cursor.moveToPosition(position);
+               String imaged=cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+               THLoggerUtil.debug("hh",imaged+"");
+               listener.onItemClickListener(v,imaged,position,previousSelectedPosition);
+               notifyItemChanged(previousSelectedPosition);
+               previousSelectedPosition=position;
+               holder.frameImageView.setVisibility(View.VISIBLE);
+
            }
        });
     }
@@ -54,15 +63,15 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         return cursor.getCount();
     }
 
-
     public class ViewHolder extends RecyclerView.ViewHolder {
-    private ImageView imageView;
+    private ImageView galleryImageView,frameImageView;
     public ViewHolder(View itemView) {
         super(itemView);
-        imageView= (ImageView) itemView.findViewById(R.id.imageview_gallery);}
+        galleryImageView= (ImageView) itemView.findViewById(R.id.imageview_gallery);
+        frameImageView= (ImageView) itemView.findViewById(R.id.imageview_frame);
+    }
     }
     public interface ItemClickListener{
-       void onItemClickListener(String imageId);
-
+       void onItemClickListener(View view,String imageId,int position,int previousPostion);
     }
 }
