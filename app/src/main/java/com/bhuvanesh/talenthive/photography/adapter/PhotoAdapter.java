@@ -69,7 +69,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         super(itemView);
         galleryImageView= (ImageView) itemView.findViewById(R.id.imageview_gallery);
         frameImageView= (ImageView) itemView.findViewById(R.id.imageview_frame);
-    }
+       }
     }
     public interface ItemClickListener{
        void onItemClickListener(View view,String imageId,int position,int previousPostion);

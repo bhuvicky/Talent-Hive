@@ -43,6 +43,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.BaseFragment;
@@ -125,7 +126,7 @@ public class CameraFragment extends BaseFragment
 
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
-            openCamera(width, height);
+            openCamera(width, height,true);
         }
 
         @Override
@@ -165,7 +166,7 @@ public class CameraFragment extends BaseFragment
      * The {@link android.util.Size} of camera preview.
      */
     private Size mPreviewSize;
-
+    private  CaptureRequest.Builder captureBuilder;
     /**
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
      */
@@ -398,6 +399,7 @@ public class CameraFragment extends BaseFragment
             return choices[0];
         }
     }
+    private Button cameraClickButton,cameraOrientationButton,cameraFlashButton;
 
     public static CameraFragment newInstance() {
         return new CameraFragment();
@@ -414,12 +416,37 @@ public class CameraFragment extends BaseFragment
 //        view.findViewById(R.id.picture).setOnClickListener(this);
 //        view.findViewById(R.id.info).setOnClickListener(this);
         mTextureView = (TextureView) view.findViewById(R.id.texture_view);
+        cameraClickButton= (Button) view.findViewById(R.id.button_camera_click);
+        cameraFlashButton= (Button) view.findViewById(R.id.button_camera_flash);
+        cameraOrientationButton= (Button) view.findViewById(R.id.button_camera_orientation);
+        cameraFlashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mFlashSupported)
+                {
+                    mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE,CaptureRequest.FLASH_MODE_TORCH);
+                    try {
+                        mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
+                                mBackgroundHandler);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        cameraOrientationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
+
     }
 
     @Override
@@ -432,7 +459,7 @@ public class CameraFragment extends BaseFragment
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
         if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight(),true);
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
@@ -473,7 +500,7 @@ public class CameraFragment extends BaseFragment
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
      */
-    private void setUpCameraOutputs(int width, int height) {
+    private void setUpCameraOutputs(int width, int height,boolean lensOrientation) {
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -482,11 +509,14 @@ public class CameraFragment extends BaseFragment
                         = manager.getCameraCharacteristics(cameraId);
 
                 // We don't use a front facing camera in this sample.
-                Integer facing = characteristics.get(CameraCharacteristics.LENS_FACING);
-                if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
-                    continue;
+                Integer facing=0;
+                if(lensOrientation) {
+                     facing = characteristics.get(CameraCharacteristics.LENS_FACING);
+                    if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
+                        mCameraId="1";
+                        continue;
+                    }
                 }
-
                 StreamConfigurationMap map = characteristics.get(
                         CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 if (map == null) {
@@ -566,8 +596,9 @@ public class CameraFragment extends BaseFragment
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
                 mFlashSupported = available == null ? false : available;
-
+                if(!lensOrientation)
                 mCameraId = cameraId;
+                else mCameraId="1";
                 return;
             }
         } catch (CameraAccessException e) {
@@ -581,13 +612,13 @@ public class CameraFragment extends BaseFragment
     }
 
 
-    private void openCamera(int width, int height) {
+    private void openCamera(int width, int height,boolean lensFacing) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission();
             return;
         }
-        setUpCameraOutputs(width, height);
+        setUpCameraOutputs(width, height,lensFacing);
         configureTransform(width, height);
         Activity activity = getActivity();
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
