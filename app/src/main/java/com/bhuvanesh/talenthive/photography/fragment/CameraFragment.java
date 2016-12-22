@@ -126,7 +126,7 @@ public class CameraFragment extends BaseFragment
 
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture texture, int width, int height) {
-            openCamera(width, height,true);
+            openCamera(width, height,cameraOrientation);
         }
 
         @Override
@@ -400,6 +400,7 @@ public class CameraFragment extends BaseFragment
         }
     }
     private Button cameraClickButton,cameraOrientationButton,cameraFlashButton;
+    private boolean cameraOrientation=false;
 
     public static CameraFragment newInstance() {
         return new CameraFragment();
@@ -437,7 +438,16 @@ public class CameraFragment extends BaseFragment
         cameraOrientationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cameraOrientation= !cameraOrientation;
+                closeCamera();
+                openCamera(mTextureView.getWidth(),mTextureView.getHeight(),cameraOrientation);
 
+            }
+        });
+        cameraClickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePicture();
             }
         });
     }
@@ -459,7 +469,7 @@ public class CameraFragment extends BaseFragment
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
         if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight(),true);
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight(),cameraOrientation);
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
