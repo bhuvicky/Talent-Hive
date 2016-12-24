@@ -401,7 +401,8 @@ public class CameraFragment extends BaseFragment
     }
     private Button cameraClickButton,cameraOrientationButton,cameraFlashButton;
     private boolean cameraOrientation=false;
-
+    private CameraManager manager;
+    private boolean cameraFlashFlag=false;
     public static CameraFragment newInstance() {
         return new CameraFragment();
     }
@@ -414,8 +415,6 @@ public class CameraFragment extends BaseFragment
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-//        view.findViewById(R.id.picture).setOnClickListener(this);
-//        view.findViewById(R.id.info).setOnClickListener(this);
         mTextureView = (TextureView) view.findViewById(R.id.texture_view);
         cameraClickButton= (Button) view.findViewById(R.id.button_camera_click);
         cameraFlashButton= (Button) view.findViewById(R.id.button_camera_flash);
@@ -423,16 +422,13 @@ public class CameraFragment extends BaseFragment
         cameraFlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mFlashSupported)
-                {
-                    mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE,CaptureRequest.FLASH_MODE_TORCH);
-                    try {
-                        mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
-                                mBackgroundHandler);
-                    } catch (CameraAccessException e) {
-                        e.printStackTrace();
-                    }
-                }
+               if(!cameraFlashFlag)
+               {
+                   turnONFlash();
+               }else
+               {
+                   turnOFFFlash();
+               }
             }
         });
         cameraOrientationButton.setOnClickListener(new View.OnClickListener() {
@@ -440,6 +436,16 @@ public class CameraFragment extends BaseFragment
             public void onClick(View view) {
                 cameraOrientation= !cameraOrientation;
                 closeCamera();
+                if(cameraOrientation)
+                {
+                    cameraOrientationButton.setBackgroundResource(R.drawable.ic_action_ic_icon8_copy);
+                    cameraFlashButton.setEnabled(false);
+                }
+                else
+                {
+                    cameraOrientationButton.setBackgroundResource(R.drawable.ic_action_ic_icon10_copy);
+                    cameraFlashButton.setEnabled(true);
+                }
                 openCamera(mTextureView.getWidth(),mTextureView.getHeight(),cameraOrientation);
 
             }
@@ -510,9 +516,10 @@ public class CameraFragment extends BaseFragment
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
      */
+
     private void setUpCameraOutputs(int width, int height,boolean lensOrientation) {
         Activity activity = getActivity();
-        CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
+         manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
         try {
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
@@ -729,7 +736,7 @@ public class CameraFragment extends BaseFragment
                                 mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 // Flash is automatically enabled when necessary.
-                                setAutoFlash(mPreviewRequestBuilder);
+                               // setAutoFlash(mPreviewRequestBuilder);
 
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
@@ -845,7 +852,7 @@ public class CameraFragment extends BaseFragment
             // Use the same AE and AF modes as the preview.
             captureBuilder.set(CaptureRequest.CONTROL_AF_MODE,
                     CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
-            setAutoFlash(captureBuilder);
+            //setAutoFlash(captureBuilder);
 
             // Orientation
             int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
@@ -894,7 +901,7 @@ public class CameraFragment extends BaseFragment
             // Reset the auto-focus trigger
             mPreviewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
                     CameraMetadata.CONTROL_AF_TRIGGER_CANCEL);
-            setAutoFlash(mPreviewRequestBuilder);
+            //setAutoFlash(mPreviewRequestBuilder);
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
                     mBackgroundHandler);
             // After this, the camera will go back to the normal state of preview.
@@ -1058,7 +1065,36 @@ public class CameraFragment extends BaseFragment
                     .create();
         }
     }
+    public void turnONFlash()
+    {
+        if(mFlashSupported)
+        {
+            try
+            {
 
+                mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_TORCH);
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
+                cameraFlashFlag=!cameraFlashFlag;
+            }catch (CameraAccessException e)
+            {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void turnOFFFlash()
+    {
+        if(mFlashSupported)
+        {
+            mPreviewRequestBuilder.set(CaptureRequest.FLASH_MODE, CameraMetadata.FLASH_MODE_OFF);
+            try {
+                mCaptureSession.setRepeatingRequest(mPreviewRequestBuilder.build(), null, null);
+                cameraFlashFlag=!cameraFlashFlag;
+            } catch (CameraAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
 
 

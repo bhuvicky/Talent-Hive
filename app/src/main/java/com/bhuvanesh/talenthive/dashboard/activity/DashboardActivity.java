@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.R;
-import com.bhuvanesh.talenthive.photography.fragment.CameraFragment;
+import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 
 public class DashboardActivity extends BaseActivity {
     private FloatingActionButton floatingActionButton;
@@ -19,7 +19,7 @@ public class DashboardActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-        replace(R.id.dashboard_container2, CameraFragment.newInstance());
+        replace(R.id.dashboard_container2, SelectPhotoFragment.newInstance());
 
     }
 

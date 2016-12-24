@@ -169,4 +169,7 @@
     <string name="msg_camera_not_support">Camera Not Supported</string>
     <string name="request_permission">This sample needs camera permission.</string>
 
+    <string name="lbl_string_gallery">Gallery</string>
+    <string name="lbl_string_camera">Camera</string>
+
 </resources>
