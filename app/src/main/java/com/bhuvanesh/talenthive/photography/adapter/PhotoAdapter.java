@@ -18,6 +18,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private Cursor cursor;
     private Context context;
     private ItemClickListener listener;
+    private String imageID;
     private int previousSelectedPosition=0;
     public PhotoAdapter(Context context, Cursor cursor,ItemClickListener listener)
     {
@@ -46,10 +47,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
         holder.galleryImageView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               cursor.moveToPosition(position);
-               String imaged=cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
-               THLoggerUtil.debug("hh",imaged+"");
-               listener.onItemClickListener(v,imaged,position,previousSelectedPosition);
+              imageID=getItemAtPosition(position);
+               THLoggerUtil.debug("hh","");
+               listener.onItemClickListener(v,imageID,position,previousSelectedPosition);
                notifyItemChanged(previousSelectedPosition);
                previousSelectedPosition=position;
                holder.frameImageView.setVisibility(View.VISIBLE);
@@ -57,7 +57,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
            }
        });
     }
-
+    public String getItemAtPosition(int pos)
+    {
+        cursor.moveToPosition(pos);
+        imageID=cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media._ID));
+return imageID;
+    }
     @Override
     public int getItemCount() {
         return cursor.getCount();

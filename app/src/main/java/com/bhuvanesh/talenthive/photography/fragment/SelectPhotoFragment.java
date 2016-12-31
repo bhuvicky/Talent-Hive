@@ -8,7 +8,9 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
+import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.adapter.SelectPhotoPagerAdapter;
@@ -29,6 +31,7 @@ public class SelectPhotoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((BaseActivity)getActivity()).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         tabLayout= (TabLayout) view.findViewById(R.id.tab_layout_select_photo);
         viewPager= (ViewPager) view.findViewById(R.id.view_pager_select_photo);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -51,4 +54,5 @@ public class SelectPhotoFragment extends BaseFragment {
         });
 
     }
+
 }

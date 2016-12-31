@@ -30,6 +30,7 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -63,8 +64,7 @@ import java.util.concurrent.TimeUnit;
 
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-public class CameraFragment extends BaseFragment
-        implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
+public class CameraFragment extends BaseFragment implements FragmentCompat.OnRequestPermissionsResultCallback {
 
     /**
      * Conversion from screen rotation to JPEG orientation.
@@ -220,6 +220,7 @@ public class CameraFragment extends BaseFragment
      */
     private File mFile;
 
+
     /**
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
@@ -229,6 +230,8 @@ public class CameraFragment extends BaseFragment
 
         @Override
         public void onImageAvailable(ImageReader reader) {
+
+            mFile=new File(folder,PIC+System.currentTimeMillis()+FORMAT);
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -339,17 +342,6 @@ public class CameraFragment extends BaseFragment
      *
      * @param text The message to show
      */
-    private void showToast(final String text) {
-        final Activity activity = getActivity();
-        if (activity != null) {
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
 
     /**
      * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
@@ -403,6 +395,9 @@ public class CameraFragment extends BaseFragment
     private boolean cameraOrientation=false;
     private CameraManager manager;
     private boolean cameraFlashFlag=false;
+    private static final String PIC="pic";
+    private static final String FORMAT=".jpg";
+    private File folder;
     public static CameraFragment newInstance() {
         return new CameraFragment();
     }
@@ -461,8 +456,11 @@ public class CameraFragment extends BaseFragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
-
+         folder = new File(Environment.getExternalStorageDirectory() +
+                File.separator + getResources().getString(R.string.app_name)+File.separator+"media"+File.separator+"picture");
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
     }
 
     @Override
@@ -750,7 +748,7 @@ public class CameraFragment extends BaseFragment
                         @Override
                         public void onConfigureFailed(
                                 @NonNull CameraCaptureSession cameraCaptureSession) {
-                            showToast("Failed");
+                            //showToast("Failed");
                         }
                     }, null
             );
@@ -865,8 +863,9 @@ public class CameraFragment extends BaseFragment
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session,
                                                @NonNull CaptureRequest request,
                                                @NonNull TotalCaptureResult result) {
-                    showToast("Saved: " + mFile);
-                    Log.d(TAG, mFile.toString());
+
+                    //showToast("Saved: " + mFile);
+                    //Log.d(TAG, mFile.toString());
                     unlockFocus();
                 }
             };
@@ -913,38 +912,6 @@ public class CameraFragment extends BaseFragment
         }
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.picture: {
-//                takePicture();
-//                break;
-//            }
-//            case R.id.info: {
-//                Activity activity = getActivity();
-//                if (null != activity) {
-//                    new AlertDialog.Builder(activity)
-//                            .setMessage(R.string.intro_message)
-//                            .setPositiveButton(android.R.string.ok, null)
-//                            .show();
-//                }
-//                break;
-//            }
-//        }
-//    }
-//
-     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
-        if (mFlashSupported) {
-            requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
-                    CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
     /**
      * Saves a JPEG {@link Image} into the specified {@link File}.
      */
@@ -957,7 +924,7 @@ public class CameraFragment extends BaseFragment
         /**
          * The file we save the image into.
          */
-        private final File mFile;
+        private File mFile;
 
         public ImageSaver(Image image, File file) {
             mImage = image;
@@ -969,6 +936,7 @@ public class CameraFragment extends BaseFragment
             ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
             byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);
+
             FileOutputStream output = null;
             try {
                 output = new FileOutputStream(mFile);
@@ -979,7 +947,9 @@ public class CameraFragment extends BaseFragment
                 mImage.close();
                 if (null != output) {
                     try {
+                        output.flush();
                         output.close();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

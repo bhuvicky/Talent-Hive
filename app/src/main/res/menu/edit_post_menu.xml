@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 <item android:id="@+id/menu_post"
-    android:title="post"
+    android:title="@string/msg_post"
     app:showAsAction="always"
-    ></item>
+    />
 
 </menu>
