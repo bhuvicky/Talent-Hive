@@ -1,210 +1,294 @@
 [
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 1234567,
-    "story" : {
-      "id" : "1a",
-      "language" : "Tamil",
-      "coverImageUrl" : null,
-      "title" : "title1",
-      "category" : "Action",
-      "Description" : "Description1",
-      "author" : "Kumar",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 1234567,
+    "story": {
+      "storyId": "1a",
+      "storyAuthorId": "",
+      "language": {
+        "id": 1,
+        "name": "Tamil"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title1",
+      "category": {
+        "id": 1,
+        "name": "Action"
+      },
+      "Description": "Description1",
+      "author": "Kumar",
+      "lastModifiedDate": 123098456,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1",
+          "lastModifiedDate": 123098456
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 123098456,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 123098456,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 123098456,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 123098456,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }
   },
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 1234568,
-    "story" : {
-      "id" : "1b",
-      "language" : "Hindi",
-      "coverImageUrl" : null,
-      "title" : "title2",
-      "category" : "Adventure",
-      "Description" : "Description2",
-      "author" : "Thangavel",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 1234568,
+    "story": {
+      "storyId": "1b",
+      "storyAuthorId": "",
+      "language": {
+        "id": 2,
+        "name": "Hindi"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title2",
+      "category": {
+        "id": 2,
+        "name": "Adventure"
+      },
+      "Description": "Description2",
+      "author": "Thangavel",
+      "lastModifiedDate": 123098498,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "lastModifiedDate": 123098498,
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1"
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 123098498,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 123098498,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 123098498,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 123098498,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }
   },
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 1234569,
-    "story" : {
-      "id" : "1c",
-      "language" : "English",
-      "coverImageUrl" : null,
-      "title" : "title3",
-      "category" : "Lovve",
-      "Description" : "Description3",
-      "author" : "Kim Joseph",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 1234569,
+    "story": {
+      "storyId": "1c",
+      "storyAuthorId": "",
+      "language": {
+        "id": 3,
+        "name": "English"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title3",
+      "category": {
+        "id": 3,
+        "name": "Love"
+      },
+      "Description": "Description3",
+      "author": "Kim Joseph",
+      "lastModifiedDate": 1230984684,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "lastModifiedDate": 1230984684,
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1"
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 1230984684,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 1230984684,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 1230984684,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 1230984684,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }
   },
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 9234567,
-    "story" : {
-      "id" : "1d",
-      "language" : "French",
-      "coverImageUrl" : null,
-      "title" : "title4",
-      "category" : "Thriller",
-      "Description" : "Description4",
-      "author" : "Raj Kanna",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 9234567,
+    "story": {
+      "storyId": "1d",
+      "storyAuthorId": "",
+      "language": {
+        "id": 4,
+        "name": "French"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title4",
+      "category": {
+        "id": 4,
+        "name": "Thriller"
+      },
+      "Description": "Description4",
+      "author": "James caron",
+      "lastModifiedDate": 1230984092,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "lastModifiedDate": 1230984092,
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1"
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 1230984092,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 1230984092,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 1230984092,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 1230984092,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }
   },
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 8234567,
-    "story" : {
-      "id" : "1f",
-      "language" : "Japnese",
-      "coverImageUrl" : null,
-      "title" : "title6",
-      "category" : "Fiction",
-      "Description" : "Description6",
-      "author" : "Tommy Hiller",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 8234567,
+    "story": {
+      "storyId": "1f",
+      "storyAuthorId": "",
+      "language": {
+        "id": 5,
+        "name": "Japnese"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title5",
+      "category": {
+        "id": 5,
+        "name": "Fiction"
+      },
+      "Description": "Description5",
+      "author": "Tommy Hiller",
+      "lastModifiedDate": 1230984055,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "lastModifiedDate": 1230984055,
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1"
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 1230984055,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 1230984055,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 1230984055,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 1230984055,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }
   },
   {
-    "profileImageUrl" : null,
-    "timeStamp" : 7234567,
-    "story" : {
-      "id" : "1b",
-      "language" : "Kannada",
-      "coverImageUrl" : null,
-      "title" : "title7",
-      "category" : "Business",
-      "Description" : "Description7",
-      "author" : "Rajesh Kanna",
-      "chapterList" :[
+    "profileImageUrl": null,
+    "timeStamp": 7234567,
+    "story": {
+      "storyId": "1g",
+      "storyAuthorId": "",
+      "language": {
+        "id": 7,
+        "name": "Kannada"
+      },
+      "wrapperImageData": "",
+      "wrapperImageUrl": null,
+      "title": "title7",
+      "category": {
+        "id": 7,
+        "name": "Business"
+      },
+      "Description": "Description7",
+      "author": "Rajesh Kanna",
+      "lastModifiedDate": 1230984023,
+      "chapterList": [
         {
-          "chapterTitle" : "chapter1",
-          "chapterDescription" : "chapDesc1"
+          "lastModifiedDate": 1230984023,
+          "chapterTitle": "chapter1",
+          "chapterDescription": "chapDesc1"
         },
         {
-          "chapterTitle" : "chapter2",
-          "chapterDescription" : "chapDesc2"
+          "lastModifiedDate": 1230984023,
+          "chapterTitle": "chapter2",
+          "chapterDescription": "chapDesc2"
         },
         {
-          "chapterTitle" : "chapter3",
-          "chapterDescription" : "chapDesc3"
+          "lastModifiedDate": 1230984023,
+          "chapterTitle": "chapter3",
+          "chapterDescription": "chapDesc3"
         },
         {
-          "chapterTitle" : "chapter4",
-          "chapterDescription" : "chapDesc4"
+          "lastModifiedDate": 1230984023,
+          "chapterTitle": "chapter4",
+          "chapterDescription": "chapDesc4"
         },
         {
-          "chapterTitle" : "chapter5",
-          "chapterDescription" : "chapDesc5"
+          "lastModifiedDate": 1230984023,
+          "chapterTitle": "chapter5",
+          "chapterDescription": "chapDesc5"
         }
       ]
     }

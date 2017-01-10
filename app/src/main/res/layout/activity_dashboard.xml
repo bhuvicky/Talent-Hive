@@ -7,7 +7,7 @@
     android:orientation="vertical"
     >
 
-    <include layout="@layout/layout_appbar" />
+    <include layout="@layout/layout_toolbar" />
 
     <FrameLayout
         android:id="@+id/dashboard_container2"

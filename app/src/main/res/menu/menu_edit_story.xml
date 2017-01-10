@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_add_chapter"
+        android:title="@string/lbl_add_chapter"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_save"
+        android:title="@string/lbl_save"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/menu_publish"
+        android:title="@string/lbl_publish"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_delete"
+        android:title="@string/lbl_delete"
+        app:showAsAction="never"/>
+
+</menu>

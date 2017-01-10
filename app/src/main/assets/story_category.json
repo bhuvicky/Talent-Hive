@@ -1,0 +1,22 @@
+[
+  {
+    "id" : 1,
+    "name" : "Horror"
+  },
+  {
+    "id" : 2,
+    "name" : "Romance"
+  },
+  {
+    "id" : 3,
+    "name" : "Adventure"
+  },
+  {
+    "id" : 4,
+    "name" : "Humour"
+  },
+  {
+    "id" : 5,
+    "name" : "Historic"
+  }
+]

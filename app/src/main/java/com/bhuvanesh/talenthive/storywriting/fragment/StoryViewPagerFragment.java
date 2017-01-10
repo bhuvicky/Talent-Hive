@@ -20,6 +20,10 @@ public class StoryViewPagerFragment extends BaseFragment {
     private ViewPager mViewPager;
     private StoryViewPagerAdapter mStoryViewPagerAdapter;
 
+    public static StoryViewPagerFragment newInstance() {
+        return new StoryViewPagerFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,30 +31,15 @@ public class StoryViewPagerFragment extends BaseFragment {
 
         getActivity().setTitle(R.string.title_story_writing);
 
-        mTabLayout = (TabLayout) getActivity().findViewById(R.id.tablayout);
-        mTabLayout.setVisibility(View.VISIBLE);
-
+        mTabLayout = (TabLayout) rootView.findViewById(R.id.tablayout);
         mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
-        mStoryViewPagerAdapter = new StoryViewPagerAdapter(getChildFragmentManager());
+
+        if (mStoryViewPagerAdapter == null)
+            mStoryViewPagerAdapter = new StoryViewPagerAdapter(getActivity(), getChildFragmentManager());
         mViewPager.setAdapter(mStoryViewPagerAdapter);
 
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mStoryViewPagerAdapter.getItem(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         mTabLayout.setupWithViewPager(mViewPager);
+
         return rootView;
     }
 }

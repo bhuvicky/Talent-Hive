@@ -1,19 +1,39 @@
 <resources>
     <string name="app_name">Talent Hive</string>
-    <string name="lbl_alert_ok">Ok</string>
+
+    <!--General Strings-->
+    <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
+    <string name="lbl_alert_ok">OK</string>
     <string name="lbl_alert_done">DONE</string>
     <string name="lbl_alert_cancel">Cancel</string>
     <string name="lbl_alert_not_now">Not now</string>
     <string name="lbl_alert_continue">Continue</string>
-    <!--General Strings-->
-    <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
+    <string name="lbl_delete">Delete</string>
+    <string name="lbl_yes">Yes</string>
+    <string name="lbl_no">No</string>
+    <string name="msg_deleted">deleted</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
+    <string name="title_edit_story">Edit Story</string>
+    <string name="title_edit_chapter">Edit Chapter</string>
     <string name="hint_story_title">Title</string>
     <string name="hint_story_description">Story Description</string>
     <string name="hint_chapter_title">Chapter Title</string>
-    <string name="hint_start_write">Start Write Your Chapter here</string>
+    <string name="hint_start_write">Tap Here To Write Story Chapter</string>
+    <string-array name="lbl_story_tab_title">
+        <item>Story Feed</item>
+        <item>My Stories</item>
+    </string-array>
+    <string name="desc_undo">Undo</string>
+    <string name="desc_redo">Redo</string>
+    <string name="lbl_add_chapter">Add Chapter</string>
+    <string name="lbl_save">Save</string>
+    <string name="lbl_publish">Publish</string>
+    <string name="header_save_changes">Save Changes</string>
+    <string name="msg_save_chapter">You have unsaved changes. Do you want to save it?</string>
+    <string name="lbl_untitled_story_chapter">Untitled Story Chapter</string>
+    <string name="lbl_no_description">No description</string>
 
     <!--Accessibility Strings-->
     <string name="desc_cover_image">Story Cover Image</string>
@@ -61,6 +81,7 @@
     <string name="msg_error_paswword_mismatch">Password and Confirm Password Mis-matches</string>
     <string name="msg_string__title_email">Please enter your Email Address.</string>
     <string name="msg_string_title_send_otp">Send OTP</string>
+
     <!--Registration String-->
     <string name="msg_hint_mobile_number">Mobile Number</string>
     <!--Photography String-->

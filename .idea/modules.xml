@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Talent-Hive.iml" filepath="$PROJECT_DIR$/Talent-Hive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TalentHive.iml" filepath="$PROJECT_DIR$/TalentHive.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

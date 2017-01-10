@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textview_chapter_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
+        tools:text="Chapter Title"/>
+
+    <TextView
+        android:id="@+id/textview_chapter_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginTop="10dp"
+        tools:text="hi hello how are you when will you come here. hi hello how are you when will you come here. \n hi hello how are you when will you come here. hi hello how are you when will you come here."/>
+
+    <TextView
+        android:id="@+id/textview_last_modified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="10dp"
+        tools:text="07/07/2016"/>
+
+
+
+</LinearLayout>

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionModeOverlay">true</item>
     </style>
 
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button">
@@ -17,6 +18,11 @@
 
     <style name="AppTheme.TextView" parent="Base.TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="edit_story">
+        <item name="android:background">@color/color_text_black</item>
+        <item name="android:textColor">@color/color_white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:orientation="vertical">
 
-    <include layout="@layout/layout_toolbar" />
-
-    <FrameLayout
-        android:id="@+id/layout_container"
+    <ListView
+        android:id="@+id/listview_chapter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color_white"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:scrollbars="none"/>
+
 </android.support.design.widget.CoordinatorLayout>

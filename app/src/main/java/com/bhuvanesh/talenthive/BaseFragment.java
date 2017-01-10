@@ -15,11 +15,9 @@ import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
 public class BaseFragment extends DialogFragment {
 
-    protected OnFragmentChangeListener mOnFragmentChangeListener;
+    protected OnSubmitClickListener mOnSubmitClickListener;
     private BaseActivity mActivity;
     private boolean mVisibleToUser;
-
-    protected OnRefreshScreenListener mOnRefreshScreenListener;
 
     private android.support.v7.app.ActionBar mActionBar;
 
@@ -43,15 +41,9 @@ public class BaseFragment extends DialogFragment {
     }
 
 
-    public void setOnFragmentChangeListener(OnFragmentChangeListener listener) {
-        mOnFragmentChangeListener = listener;
+    public void setOnSubmitClickListener(OnSubmitClickListener listener) {
+        mOnSubmitClickListener = listener;
     }
-
-
-    public void setOnRefreshScreenListener(OnRefreshScreenListener listener) {
-        mOnRefreshScreenListener = listener;
-    }
-
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

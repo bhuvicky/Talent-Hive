@@ -110,7 +110,7 @@
             android:text="@string/msg_share"
 
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_share_white_36dp"
+
             style="?android:attr/borderlessButtonStyle"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

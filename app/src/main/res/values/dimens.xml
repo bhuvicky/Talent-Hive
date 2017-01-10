@@ -5,6 +5,10 @@
 
     <!--Appbar Dimens-->
     <dimen name="tabindicator_height">4dp</dimen>
+
+    <!--Elevation Dimens-->
+    <dimen name="elevation_cardview">4dp</dimen>
+
     <dimen name="dp_dimension">48dp</dimen>
     <dimen name="margin_post">10dp</dimen>
     <dimen name="padding_16dp">16dp</dimen>
