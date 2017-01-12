@@ -6,6 +6,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/recyclerview_gallery"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="vertical"
+        android:nestedScrollingEnabled="false" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,22 +40,14 @@
                 />
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="400dp"
+                android:layout_height="355dp"
                 android:id="@+id/imageview_preview"
+                android:scaleType="matrix"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 android:background="#000000"
                 android:src="@drawable/drawable_button"
                />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/recyclerview_gallery"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical"
-        android:nestedScrollingEnabled="false" />
 
 </android.support.design.widget.CoordinatorLayout>

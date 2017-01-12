@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -34,12 +35,16 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -49,6 +54,7 @@ import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -80,7 +86,6 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
-    private static final String TAG = "CameraFragment";
 
     /**
      * Camera state: Showing camera preview.
@@ -150,7 +155,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
      */
     private String mCameraId;
 
-    private TextureView mTextureView;
+    private AutoFitTextureView mTextureView;
 
     /**
      * A {@link CameraCaptureSession } for camera preview.
@@ -387,7 +392,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         } else if (notBigEnough.size() > 0) {
             return Collections.max(notBigEnough, new CompareSizesByArea());
         } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
+            Log.e("camera", "Couldn't find any suitable preview size");
             return choices[0];
         }
     }
@@ -410,7 +415,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
 
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        mTextureView = (TextureView) view.findViewById(R.id.texture_view);
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
         cameraClickButton= (Button) view.findViewById(R.id.button_camera_click);
         cameraFlashButton= (Button) view.findViewById(R.id.button_camera_flash);
         cameraOrientationButton= (Button) view.findViewById(R.id.button_camera_orientation);
@@ -449,6 +454,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
             @Override
             public void onClick(View view) {
                 takePicture();
+                replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(""));
             }
         });
     }
@@ -467,7 +473,6 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     public void onResume() {
         super.onResume();
         startBackgroundThread();
-
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
@@ -484,6 +489,13 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+        THLoggerUtil.debug("hh","jjjj1");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        THLoggerUtil.debug("hh","jjjj");
     }
 
     private void requestCameraPermission() {
@@ -566,7 +578,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                         }
                         break;
                     default:
-                        Log.e(TAG, "Display rotation is invalid: " + displayRotation);
+                        Log.e("camera", "Display rotation is invalid: " + displayRotation);
                 }
 
                 Point displaySize = new Point();
@@ -600,13 +612,12 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
 
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 int orientation = getResources().getConfiguration().orientation;
-//                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//                    mTextureView.(
-//                            mPreviewSize.getWidth(), mPreviewSize.getHeight());
-//                } else {
-//                    mTextureView.setAspectRatio(
-//                            mPreviewSize.getHeight(), mPreviewSize.getWidth());
-//                }
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    mTextureView.setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+                } else {
+                    mTextureView.setAspectRatio(
+                            mPreviewSize.getHeight(), mPreviewSize.getWidth());
+                }
 
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
@@ -653,14 +664,16 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
      * Closes the current {@link CameraDevice}.
      */
     private void closeCamera() {
+        THLoggerUtil.debug("hh","pause1");
         try {
             mCameraOpenCloseLock.acquire();
             if (null != mCaptureSession) {
+
                 mCaptureSession.close();
                 mCaptureSession = null;
             }
             if (null != mCameraDevice) {
-                mCameraDevice.close();
+               mCameraDevice.close();
                 mCameraDevice = null;
             }
             if (null != mImageReader) {
@@ -668,12 +681,14 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                 mImageReader = null;
             }
         } catch (InterruptedException e) {
+            THLoggerUtil.debug("hh","pause12");
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
-        } finally {
+
+        }  finally {
+            THLoggerUtil.debug("hh","pause13");
             mCameraOpenCloseLock.release();
         }
     }
-
     /**
      * Starts a background thread and its {@link Handler}.
      */
@@ -682,11 +697,11 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
-
     /**
      * Stops the background thread and its {@link Handler}.
      */
     private void stopBackgroundThread() {
+        THLoggerUtil.debug("hh","stop");
         mBackgroundThread.quitSafely();
         try {
             mBackgroundThread.join();
@@ -795,7 +810,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
      */
     private void takePicture() {
         lockFocus();
-    }
+      }
 
     /**
      * Lock the focus as the first step for a still image capture.
@@ -1065,6 +1080,28 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         }
 
     }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.select_photo_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        THLoggerUtil.debug("h","selected");
+        if(item.getItemId()==R.id.menu_next){
+            THLoggerUtil.debug("hh","selected");
+            return true;
+            //replace(R.id.layout_container,PhotoFilterFragment.newInstance(photoAdapter.getItemAtPosition(selectedPosition)));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
 
 

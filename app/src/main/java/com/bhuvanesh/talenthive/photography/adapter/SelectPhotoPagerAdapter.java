@@ -3,14 +3,15 @@ package com.bhuvanesh.talenthive.photography.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.bhuvanesh.talenthive.photography.fragment.CameraFragment;
 import com.bhuvanesh.talenthive.photography.fragment.GalleryFragment;
 
-public class SelectPhotoPagerAdapter extends FragmentPagerAdapter {
+public class SelectPhotoPagerAdapter extends FragmentStatePagerAdapter {
 
-    public SelectPhotoPagerAdapter(FragmentManager fm) {
+    public SelectPhotoPagerAdapter(FragmentManager fm)
+    {
         super(fm);
     }
 

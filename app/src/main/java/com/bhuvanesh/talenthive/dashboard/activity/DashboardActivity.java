@@ -11,7 +11,8 @@ import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 
 public class DashboardActivity extends BaseActivity {
     private FloatingActionButton floatingActionButton;
-
+    public static String imageId="0";
+    public SelectPhotoFragment selectPhotoFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,14 +20,23 @@ public class DashboardActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-        replace(R.id.dashboard_container2, SelectPhotoFragment.newInstance());
+        selectPhotoFragment=SelectPhotoFragment.newInstance();
+        replace(R.id.dashboard_container2, selectPhotoFragment);
+
 
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        if(menuItem.getItemId()==android.R.id.home)
-        pop();
+       switch(menuItem.getItemId()){
+           case android.R.id.home:
+               pop();
+               break;
+           case R.id.menu_next:
+               selectPhotoFragment.replaces(imageId);
+               break;
+       }
+
         return true;
 
     }
