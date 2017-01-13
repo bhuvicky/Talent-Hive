@@ -34,6 +34,8 @@
     <string name="msg_save_chapter">You have unsaved changes. Do you want to save it?</string>
     <string name="lbl_untitled_story_chapter">Untitled Story Chapter</string>
     <string name="lbl_no_description">No description</string>
+    <string name="msg_title_empty">Title should not be empty</string>
+    <string name="msg_desc_empty">Description should not be empty</string>
 
     <!--Accessibility Strings-->
     <string name="desc_cover_image">Story Cover Image</string>

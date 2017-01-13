@@ -157,6 +157,7 @@ public class BaseFragment extends DialogFragment {
     }
 
     protected void onBackPress() {
+        System.out.println("base frag on back press");
         pop();
     }
 

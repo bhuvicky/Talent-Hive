@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity {
         if (addToBackStack) ft.addToBackStack(null);
         ft.commit();
         fm.executePendingTransactions();
-        new THLoggerUtil().debug(BaseActivity.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
+        THLoggerUtil.debug(BaseActivity.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
     }
 
     public void replace(int containerId, DialogFragment fragment, boolean addToBackStack) {
@@ -89,7 +89,7 @@ public class BaseActivity extends AppCompatActivity {
         if (addToBackStack) ft.addToBackStack(null);
         ft.commit();
         fm.executePendingTransactions();
-        new THLoggerUtil().debug(BaseActivity.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
+        THLoggerUtil.debug(BaseActivity.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
     }
 
     public void pop() {
@@ -111,6 +111,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        System.out.println("activity on back press");
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
             THLoggerUtil.debug("ee","ee");
