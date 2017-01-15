@@ -12,6 +12,9 @@
     <string name="lbl_yes">Yes</string>
     <string name="lbl_no">No</string>
     <string name="msg_deleted">deleted</string>
+    <string name="lbl_saving">Saving...</string>
+    <string name="lbl_save">Save</string>
+    <string name="msg_saved">Saved</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
@@ -28,7 +31,6 @@
     <string name="desc_undo">Undo</string>
     <string name="desc_redo">Redo</string>
     <string name="lbl_add_chapter">Add Chapter</string>
-    <string name="lbl_save">Save</string>
     <string name="lbl_publish">Publish</string>
     <string name="header_save_changes">Save Changes</string>
     <string name="msg_save_chapter">You have unsaved changes. Do you want to save it?</string>
@@ -36,6 +38,8 @@
     <string name="lbl_no_description">No description</string>
     <string name="msg_title_empty">Title should not be empty</string>
     <string name="msg_desc_empty">Description should not be empty</string>
+    <string name="msg_select_category">Selsct Category</string>
+    <string name="msg_select_lang">Selsct language</string>
 
     <!--Accessibility Strings-->
     <string name="desc_cover_image">Story Cover Image</string>

@@ -5,6 +5,7 @@ import android.app.Application;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.bhuvanesh.talenthive.database.DBManager;
 
 public class THApplication extends Application{
 
@@ -17,6 +18,7 @@ public class THApplication extends Application{
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        new DBManager(this).connect();
     }
 
     public static synchronized THApplication getInstance() {

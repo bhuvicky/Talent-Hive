@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBManager implements DBQuery {
 
-    private static final String DATABASE_NAME = "Talent Hive DB";
+    private static final String DATABASE_NAME = "Talent Hive";
     private static final int DATABASE_VERSION = 1;
     private SLDBHelper dbHelper;
     private SQLiteDatabase mSqldb;
@@ -30,18 +30,20 @@ public class DBManager implements DBQuery {
         return mSqldb;
     }
 
-    public int replace(String tableName, ContentValues values) {
+    //inserts a new seperate record if not exists, otherwise it will update an existing record
+    public long replace(String tableName, ContentValues values) {
         SQLiteDatabase sqLiteDatabase = getDBInstance();
         sqLiteDatabase.beginTransaction();
-        int rowCount = -1;
+        long rowId = -1;
         try {
-            sqLiteDatabase.replace(tableName, null, values);
+            //if successful, returns id of the row what we sent
+            //if unsuccessful, return -1
+            rowId = sqLiteDatabase.replace(tableName, null, values);
         } finally {
             sqLiteDatabase.setTransactionSuccessful();
             sqLiteDatabase.endTransaction();
-            rowCount = values.size();
         }
-        return rowCount;
+        return rowId;
     }
 
     public Cursor select(String query) {
@@ -72,7 +74,7 @@ public class DBManager implements DBQuery {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL(CREATE_TABLE_PROFILE_DETAILS);
+            db.execSQL(CREATE_TABLE_STORY);
         }
 
         @Override

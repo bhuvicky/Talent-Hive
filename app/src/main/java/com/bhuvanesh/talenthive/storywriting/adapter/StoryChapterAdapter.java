@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.storywriting.model.Chapter;
+import com.bhuvanesh.talenthive.util.DateUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -52,7 +53,8 @@ public class StoryChapterAdapter extends BaseAdapter {
                 parent.getContext().getString(R.string.lbl_untitled_story_chapter) : item.chapterTitle);
         holder.textViewChapterDescription.setText(TextUtils.isEmpty(item.chapterDescription) ?
                 parent.getContext().getString(R.string.lbl_no_description) : item.chapterDescription);
-        holder.textViewLastModifiedDate.setText(String.valueOf(item.lastModifiedDate));
+        holder.textViewLastModifiedDate.setText(DateUtil.getFormattedString(item.lastModifiedDate,
+                DateUtil.DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM));
         return convertView;
     }
 

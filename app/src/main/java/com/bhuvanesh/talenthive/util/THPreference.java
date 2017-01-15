@@ -15,10 +15,12 @@ import java.util.List;
 
 public final class THPreference {
 
-    public static final String PREFERENCE_FILE_NAME = "TALENT_HIVE";
+    private static final String PREFERENCE_FILE_NAME = "TALENT_HIVE";
 
-    public static final String PREFERENCE_KEY_LANGUAGE = "PREFERENCE_KEY_LANGUAGE";
-    public static final String PREFERENCE_KEY_STORY_CATEGORY = "PREFERENCE_KEY_STORY_CATEGORY";
+    private static final String PREFERENCE_KEY_LANGUAGE = "PREFERENCE_KEY_LANGUAGE";
+    private static final String PREFERENCE_KEY_STORY_CATEGORY = "PREFERENCE_KEY_STORY_CATEGORY";
+    private static final String PREFERENCE_KEY_TEMP_STORY_ID = "PREFERENCE_KEY_TEMP_STORY_ID";
+
 
     private static THPreference mInstance;
     private static SharedPreferences mSharedPreferences;
@@ -55,5 +57,15 @@ public final class THPreference {
         List<StoryCategory> categoryList = new Gson().fromJson(mSharedPreferences.getString(PREFERENCE_KEY_STORY_CATEGORY, ""),
                 new TypeToken<List<StoryCategory>>() {}.getType());
         return categoryList != null ? categoryList : new ArrayList<StoryCategory>();
+    }
+
+    public void setTempStoryId(long id) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putLong(PREFERENCE_KEY_TEMP_STORY_ID, id);
+        editor.apply();
+    }
+
+    public long getTempStoryId() {
+        return mSharedPreferences.getLong(PREFERENCE_KEY_TEMP_STORY_ID, 0);
     }
 }

@@ -2,6 +2,7 @@ package com.bhuvanesh.talenthive.storywriting.model;
 
 
 import com.bhuvanesh.talenthive.model.Language;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -20,4 +21,5 @@ public class Story {
     public String author;
     public List<Chapter> chapterList;
     public long lastModifiedDate;
+
 }

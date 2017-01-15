@@ -16,8 +16,6 @@ import com.bhuvanesh.talenthive.storywriting.adapter.StoryViewPagerAdapter;
 
 public class StoryViewPagerFragment extends BaseFragment {
 
-    private TabLayout mTabLayout;
-    private ViewPager mViewPager;
     private StoryViewPagerAdapter mStoryViewPagerAdapter;
 
     public static StoryViewPagerFragment newInstance() {
@@ -31,14 +29,14 @@ public class StoryViewPagerFragment extends BaseFragment {
 
         getActivity().setTitle(R.string.title_story_writing);
 
-        mTabLayout = (TabLayout) rootView.findViewById(R.id.tablayout);
-        mViewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
+        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager);
 
         if (mStoryViewPagerAdapter == null)
             mStoryViewPagerAdapter = new StoryViewPagerAdapter(getActivity(), getChildFragmentManager());
-        mViewPager.setAdapter(mStoryViewPagerAdapter);
+        viewPager.setAdapter(mStoryViewPagerAdapter);
 
-        mTabLayout.setupWithViewPager(mViewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
         return rootView;
     }

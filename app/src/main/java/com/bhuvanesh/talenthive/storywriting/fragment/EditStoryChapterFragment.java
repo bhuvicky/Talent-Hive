@@ -147,7 +147,6 @@ public class EditStoryChapterFragment extends BaseFragment {
 
     @Override
     protected void onBackPress() {
-        System.out.println("fragment overridden on backpress");
         if (isValid()) {
             updateChapterContent();
             if (mPrevHashCode != mChapter.hashCode()) {

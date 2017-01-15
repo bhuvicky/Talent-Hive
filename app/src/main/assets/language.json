@@ -1,5 +1,9 @@
 [
   {
+    "id" : -1,
+    "name" : "Select Language"
+  },
+  {
     "id" : 1,
     "name" : "Chinese"
   },

@@ -4,12 +4,16 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
+import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,6 +31,9 @@ import android.widget.Spinner;
 
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.RunTimePermissionFragment;
+import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.activity.THActivity;
+import com.bhuvanesh.talenthive.database.THDBManager;
 import com.bhuvanesh.talenthive.model.Language;
 import com.bhuvanesh.talenthive.storywriting.adapter.StoryChapterAdapter;
 import com.bhuvanesh.talenthive.storywriting.model.Chapter;
@@ -34,6 +41,7 @@ import com.bhuvanesh.talenthive.storywriting.model.Story;
 import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
 import com.bhuvanesh.talenthive.util.FileUtil;
 import com.bhuvanesh.talenthive.util.ImageUtil;
+import com.bhuvanesh.talenthive.util.THPreference;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
@@ -42,22 +50,33 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 
 public class EditStoryFragment extends RunTimePermissionFragment {
 
+    // TODO: 13-01-2017 when click undo, deleted items should come back
+    // TODO: 13-01-2017  validation check for description
+
     private static final int PICK_GALLERY_IMAGE_REQUEST_CODE = 1;
     private static final int READ_EXTERNAL_STORAGE_PERMISSION_CODE = 100;
 
-    private SoftReference<Bitmap> mStoryWrapperBitmap;
     private ImageView mImageViewStoryWrapper;
     private EditText mEditTextTitle, mEditTextDescription;
+    private TextInputLayout mTextinputTitle;
     private Spinner mSpinnerLang, mSpinnerCategory;
     private CoordinatorLayout mCoordinatorLayout;
 
     private Story mStory;
     private StoryChapterAdapter mStoryChapterAdapter;
+
+    private String mImagePath;
+    private SoftReference<Bitmap> mStoryWrapperBitmap;
+    private Uri mSelectedImageUri;
+
     private List<Chapter> mChapterList = new LinkedList<>();
+    private List<Language> mLangList;
+    private List<StoryCategory> mCategoryList;
 
     public static EditStoryFragment newInstance(Story story) {
         EditStoryFragment fragment = new EditStoryFragment();
@@ -145,14 +164,14 @@ public class EditStoryFragment extends RunTimePermissionFragment {
         });
 
         mEditTextTitle = (EditText) headerView.findViewById(R.id.edittext_story_title);
+        mTextinputTitle = (TextInputLayout) headerView.findViewById(R.id.textinput_story_title);
         mEditTextDescription = (EditText) headerView.findViewById(R.id.edittext_story_description);
 
         List<String> languageNameList = new ArrayList<>();
-        List<Language> langList = FileUtil.getFromAssetsFolder("language.json", null,
+        mLangList = FileUtil.getFromAssetsFolder("language.json", null,
                 new TypeToken<List<Language>>() {
                 }.getType());
-        languageNameList.add("Select Language");
-        for (Language lang : langList) {
+        for (Language lang : mLangList) {
             languageNameList.add(lang.name);
         }
         mSpinnerLang = (Spinner) headerView.findViewById(R.id.spinner_story_lang);
@@ -160,11 +179,10 @@ public class EditStoryFragment extends RunTimePermissionFragment {
         mSpinnerLang.setAdapter(langAdapter);
 
         List<String> categoryNameList = new ArrayList<>();
-        List<StoryCategory> categoryList = FileUtil.getFromAssetsFolder("story_category.json", null,
+        mCategoryList = FileUtil.getFromAssetsFolder("story_category.json", null,
                 new TypeToken<List<StoryCategory>>() {
                 }.getType());
-        categoryNameList.add("Select Category");
-        for (StoryCategory category : categoryList) {
+        for (StoryCategory category : mCategoryList) {
             categoryNameList.add(category.name);
         }
         mSpinnerCategory = (Spinner) headerView.findViewById(R.id.spinner_story_category);
@@ -173,6 +191,71 @@ public class EditStoryFragment extends RunTimePermissionFragment {
 
         setStoryDetails();
         return view;
+    }
+
+    private void setStoryDetails() {
+        mEditTextTitle.setText(mStory.title);
+        mEditTextDescription.setText(mStory.description);
+        if (mStory.wrapperImageUrl != null)
+            mImageViewStoryWrapper.setImageBitmap(BitmapFactory.decodeFile(mImagePath = mStory.wrapperImageUrl));
+        else
+            mImageViewStoryWrapper.setImageResource(R.drawable.ic_like_2);
+
+        int index = 0;
+        if (mStory.language != null)
+            for (int i = 0; i < mLangList.size(); i++) {
+                Language lang = mLangList.get(i);
+                if (lang.id == mStory.language.id) {
+                    index = i;
+                    break;
+                }
+            }
+        mSpinnerLang.setSelection(index);
+
+        if (mStory.category != null)
+            for (int j = 0; j < mCategoryList.size(); j++) {
+                StoryCategory category = mCategoryList.get(j);
+                if (category.id == mStory.category.id) {
+                    index = j;
+                    break;
+                }
+            }
+        mSpinnerCategory.setSelection(index);
+
+        if (mStory.chapterList != null && mStory.chapterList.size() > 0) {
+            mChapterList = mStory.chapterList;
+            mStoryChapterAdapter.addItem(mChapterList);
+        }
+
+    }
+
+    private void saveIntoDB() {
+        goToNextScreen();
+        if (mStory.storyId == null) {
+            /*long id = THPreference.getInstance().getTempStoryId();
+            mStory.storyId = String.valueOf(++id);
+            THPreference.getInstance().setTempStoryId(id);*/
+            mStory.storyId = String.valueOf(UUID.randomUUID());
+        }
+        mStory.chapterList = mChapterList.size() > 0 ? mChapterList : null;
+        mStory.lastModifiedDate = System.currentTimeMillis();
+        new THDBManager().updateStory(mStory);
+        pop();
+        showToastMsg(THApplication.getInstance(), getString(R.string.msg_saved));
+    }
+
+    private void goToNextScreen() {
+        mStory.title = mEditTextTitle.getText().toString();
+        mStory.description = mEditTextDescription.getText().toString();
+        mStory.wrapperImageUrl = mImagePath;
+
+        if (mStory.language == null)
+            mStory.language = new Language();
+        mStory.language.id = mLangList.get(mSpinnerLang.getSelectedItemPosition()).id;
+
+        if (mStory.category == null)
+            mStory.category = new StoryCategory();
+        mStory.category.id = (int) (mCategoryList.get(mSpinnerCategory.getSelectedItemPosition()).id);
     }
 
     @Override
@@ -185,16 +268,16 @@ public class EditStoryFragment extends RunTimePermissionFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_save:
+                if (isValid()) {
+                    saveIntoDB();
+                }
                 break;
             case R.id.menu_add_chapter:
+                goToNextScreen();
                 replaceStoryChapterFragment(null);
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setStoryDetails() {
-
     }
 
     private void replaceStoryChapterFragment(Chapter chapter) {
@@ -230,15 +313,20 @@ public class EditStoryFragment extends RunTimePermissionFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_GALLERY_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
+            mSelectedImageUri = data.getData();
             Bitmap bitmap = null;
-            try {
-                bitmap = ImageUtil.decodeUri(getActivity(), selectedImageUri, 100, 150);
+            /*try {
+                bitmap = ImageUtil.decodeUri(getActivity(), mSelectedImageUri, 100, 150);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }
-            mStoryWrapperBitmap = new SoftReference<>(bitmap);
-            mImageViewStoryWrapper.setImageBitmap(bitmap);
+            }*/
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(mSelectedImageUri, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            mImagePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
+            cursor.close();
+//            mStoryWrapperBitmap = new SoftReference<>(bitmap);
+            mImageViewStoryWrapper.setImageBitmap(BitmapFactory.decodeFile(mImagePath));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -262,6 +350,20 @@ public class EditStoryFragment extends RunTimePermissionFragment {
 
     private boolean isValid() {
         boolean isValid = true;
+        if (TextUtils.isEmpty(mEditTextTitle.getText().toString())) {
+            isValid = false;
+            mTextinputTitle.setErrorEnabled(true);
+        } else {
+            isValid = true;
+            mTextinputTitle.setErrorEnabled(false);
+        }
+        if (mSpinnerLang.getSelectedItemPosition() == 0) {
+            isValid = false;
+            showToastMsg(EditStoryFragment.this.getContext(), getString(R.string.msg_select_lang));
+        } else if (mSpinnerCategory.getSelectedItemPosition() == 0) {
+            isValid = false;
+            showToastMsg(EditStoryFragment.this.getContext(), getString(R.string.msg_select_category));
+        }
         return isValid;
     }
 }

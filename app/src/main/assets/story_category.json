@@ -1,5 +1,9 @@
 [
   {
+    "id" : -1,
+    "name" : "Select Category"
+  },
+  {
     "id" : 1,
     "name" : "Horror"
   },

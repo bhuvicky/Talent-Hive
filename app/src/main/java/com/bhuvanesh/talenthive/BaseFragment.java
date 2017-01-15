@@ -2,6 +2,7 @@ package com.bhuvanesh.talenthive;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.DialogFragment;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
@@ -38,6 +40,10 @@ public class BaseFragment extends DialogFragment {
 
         setHasOptionsMenu(true);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    protected void showToastMsg(Context context, String msg) {
+        Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
     }
 
 
@@ -118,9 +124,9 @@ public class BaseFragment extends DialogFragment {
     public void pop() {
         if (getActivity() != null) {
             FragmentManager fm = getActivity().getSupportFragmentManager();
-            new THLoggerUtil().debug(BaseFragment.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
+            THLoggerUtil.debug(BaseFragment.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
             fm.popBackStack();
-            new THLoggerUtil().debug(BaseFragment.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
+            THLoggerUtil.debug(BaseFragment.class.getSimpleName(), "BackStackEntryCount: " + fm.getBackStackEntryCount());
         }
     }
 
@@ -148,7 +154,7 @@ public class BaseFragment extends DialogFragment {
                 transaction.remove(fragment);
                 transaction.commit();
             } else {
-                new THLoggerUtil().debug(fragment.getTag(), "Activity is null!!!!!");
+                THLoggerUtil.debug(fragment.getTag(), "Activity is null!!!!!");
             }
         }
     }
@@ -157,7 +163,6 @@ public class BaseFragment extends DialogFragment {
     }
 
     protected void onBackPress() {
-        System.out.println("base frag on back press");
         pop();
     }
 

@@ -111,7 +111,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        System.out.println("activity on back press");
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
             THLoggerUtil.debug("ee","ee");

@@ -6,11 +6,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.database.THDBManager;
+import com.bhuvanesh.talenthive.exception.THException;
+import com.bhuvanesh.talenthive.storywriting.adapter.MyStoriesAdapter;
+import com.bhuvanesh.talenthive.storywriting.model.Story;
+import com.bhuvanesh.talenthive.util.UIUtils;
 
-public class MyStoriesFragment extends BaseFragment{
+import java.util.LinkedList;
+import java.util.List;
+
+public class MyStoriesFragment extends BaseFragment {
+
+    private MyStoriesAdapter mMyStoriesAdapter;
+    private List<Story> mStoryList = new LinkedList<>();
 
     public static MyStoriesFragment newInstance() {
         return new MyStoriesFragment();
@@ -27,6 +40,36 @@ public class MyStoriesFragment extends BaseFragment{
                 replace(R.id.flayout_container, EditStoryFragment.newInstance(null));
             }
         });
+
+        GridView gridViewMyStories = (GridView) view.findViewById(R.id.gridview_mystories);
+        gridViewMyStories.setNumColumns(UIUtils.getNumOfColumns(getActivity(), 70));
+        gridViewMyStories.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                System.out.println("on item click grid view");
+                replace(R.id.flayout_container, EditStoryFragment.newInstance(mStoryList.get(position)));
+            }
+        });
+
+        if (mMyStoriesAdapter == null)
+            mMyStoriesAdapter = new MyStoriesAdapter();
+        gridViewMyStories.setAdapter(mMyStoriesAdapter);
+
+        THDBManager manager = new THDBManager();
+        manager.setmOnTHDBMangerListener(new THDBManager.OnTHDBMangerListener<List<Story>>() {
+            @Override
+            public void onTHDBSuccessful(List<Story> response) {
+                mStoryList.addAll(response);
+                mMyStoriesAdapter.setData(mStoryList);
+            }
+
+            @Override
+            public void onTHDBError(THException error) {
+                System.out.println("db fetch error");
+            }
+        });
+        manager.getStoryList();
+
         return view;
     }
 }
