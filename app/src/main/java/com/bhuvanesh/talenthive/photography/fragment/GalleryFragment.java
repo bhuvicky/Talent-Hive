@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -27,6 +26,7 @@ import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.activity.PhotographyFilterActivtiy;
 import com.bhuvanesh.talenthive.photography.adapter.PhotoAdapter;
+import com.bhuvanesh.talenthive.photography.view.AutoFitAppBarLayout;
 import com.bhuvanesh.talenthive.photography.view.CropperView;
 import com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout;
 import com.bhuvanesh.talenthive.util.BitmapUtils;
@@ -46,7 +46,7 @@ public class GalleryFragment extends BaseFragment {
     private Cursor cursor;
     private CropperView previewImageView;
 
-    private AppBarLayout appBarLayout;
+    private AutoFitAppBarLayout appBarLayout;
     private int noOfColumns;
     private int selectedPosition=0;
     Toolbar toolbar;
@@ -74,11 +74,13 @@ public class GalleryFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
      //   ((BaseActivity)getActivity()).getSupportActionBar().hide();
-        appBarLayout= (AppBarLayout) view.findViewById(R.id.app_bar_collpse);
+        appBarLayout= (AutoFitAppBarLayout) view.findViewById(R.id.app_bar_collpse);
+        appBarLayout.setAspectRatio(9,16);
         galleryRecyclerView= (RecyclerView) view.findViewById(R.id.recyclerview_gallery);
         noOfColumns=UIUtils.getNumOfColumns(getActivity(),100);
         GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),noOfColumns );
         previewImageView= (CropperView) view.findViewById(R.id.imageview_preview);
+       // previewImageView.setAspectRatio(16,9);
         galleryRecyclerView.setLayoutManager(gridLayoutManager);
         previewImageView.setDebug(true);
         matrix=new Matrix();

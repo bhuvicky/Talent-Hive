@@ -17,11 +17,10 @@
         android:scrollbars="vertical"
         android:nestedScrollingEnabled="false" />
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+    <com.bhuvanesh.talenthive.photography.view.AutoFitAppBarLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:background="#000000"
         android:id="@+id/app_bar_collpse"
         >
         <android.support.design.widget.CollapsingToolbarLayout
@@ -40,12 +39,12 @@
                 android:background="@android:color/transparent"
 
                 />
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    <RelativeLayout
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent">
             <com.bhuvanesh.talenthive.photography.view.CropperView
                 android:layout_width="match_parent"
-                android:layout_height="355dp"
+                android:layout_height="match_parent"
                 android:id="@+id/imageview_preview"
                />
             <View
@@ -55,7 +54,7 @@
                 android:id="@+id/view_sep"
                 android:layout_below="@id/imageview_preview"
                 />
-</RelativeLayout>
-</android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+    </RelativeLayout>
+  </android.support.design.widget.CollapsingToolbarLayout>
+    </com.bhuvanesh.talenthive.photography.view.AutoFitAppBarLayout>
 </com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout>

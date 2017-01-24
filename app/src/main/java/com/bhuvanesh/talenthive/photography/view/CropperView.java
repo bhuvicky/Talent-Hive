@@ -17,8 +17,9 @@ public class CropperView extends FrameLayout {
     private static final String TAG = "CropperView";
     private CropperImageView mImageView;
     private CropperGridView mGridView;
-
     private boolean gestureEnabled = true;
+    private int mRatioWidth, mRatioHeight;
+
 
     public CropperView(Context context) {
         super(context);
@@ -40,7 +41,14 @@ public class CropperView extends FrameLayout {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
-
+    public void setAspectRatio(int width, int height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException("Size cannot be negative.");
+        }
+        mRatioWidth = width;
+        mRatioHeight = height;
+        requestLayout();
+    }
     // Make Square
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -53,6 +61,17 @@ public class CropperView extends FrameLayout {
 
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
+      //       height = MeasureSpec.getSize(heightMeasureSpec);
+//        if (0 == mRatioWidth || 0 == mRatioHeight) {
+//            setMeasuredDimension(width, height);
+//        } else {
+//            if (width < height * mRatioWidth / mRatioHeight) {
+//                setMeasuredDimension(width, width * mRatioHeight / mRatioWidth);
+//            } else {
+//                setMeasuredDimension(height * mRatioWidth / mRatioHeight, height);
+//            }
+//        }
+
             setMeasuredDimension(width, height);
 
         } else {
