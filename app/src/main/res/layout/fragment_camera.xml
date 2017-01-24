@@ -35,7 +35,7 @@
         android:id="@+id/button_camera_flash"
         android:background="@drawable/ic_icon13_copy" />
 
-    <com.bhuvanesh.talenthive.photography.fragment.AutoFitTextureView
+    <com.bhuvanesh.talenthive.photography.view.AutoFitTextureView
         android:id="@+id/texture_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

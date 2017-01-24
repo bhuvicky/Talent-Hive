@@ -1,7 +1,8 @@
 package com.bhuvanesh.talenthive.photography.fragment;
 
-
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,19 +15,20 @@ import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.adapter.PhotoFilterAdapter;
 import com.bhuvanesh.talenthive.util.GPUImageFilterTools;
-import com.bhuvanesh.talenthive.util.GalleryUtil;
 
-import jp.co.cyberagent.android.gpuimage.GPUImageSepiaFilter;
+import jp.co.cyberagent.android.gpuimage.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
 
 public class PhotoFilterFragment extends BaseFragment {
     private GPUImageView photoEditImageView;
     private String selectedImageId;
     private RecyclerView filterRecyclerView;
-    public static PhotoFilterFragment newInstance(String selectedImageId)
+    private Bitmap imageBitmap;
+    public static PhotoFilterFragment newInstance(Bitmap bitmap,String selectedImageId)
     {
         PhotoFilterFragment photoFilterFragment=new PhotoFilterFragment();
         photoFilterFragment.selectedImageId=selectedImageId;
+        photoFilterFragment.imageBitmap=bitmap;
         return photoFilterFragment;
     }
     @Override
@@ -38,13 +40,37 @@ public class PhotoFilterFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         filterRecyclerView= (RecyclerView) view.findViewById(R.id.recyclerview_filter_preview);
-        PhotoFilterAdapter photoFilterAdapter=new PhotoFilterAdapter(getActivity(),selectedImageId, GPUImageFilterTools.getFilterList());
-        filterRecyclerView.setAdapter(photoFilterAdapter);
-        filterRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayout.HORIZONTAL,false));
+        filterRecyclerView.setDrawingCacheEnabled(true);
+        filterRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
         photoEditImageView=(GPUImageView) view.findViewById(R.id.imageView_edit);
-        photoEditImageView.setImage(GalleryUtil.getBitmapOfImage(getActivity(),selectedImageId));
-        photoEditImageView.setFilter(new GPUImageSepiaFilter());
+        setToOringinal();
+        final GPUImageFilterTools.FilterList filterList=GPUImageFilterTools.getFilterList();
+
+        PhotoFilterAdapter photoFilterAdapter=new PhotoFilterAdapter(getActivity(), getThumnailBitmap(selectedImageId), filterList, new PhotoFilterAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int postion) {
+                if(postion!=0) {
+                    photoEditImageView.setFilter(GPUImageFilterTools.createFilterForType(getContext(), filterList.filters.get(postion-1)));
+                }else{
+                    setToOringinal();
+                }
+            }
+        });
+        filterRecyclerView.setAdapter(photoFilterAdapter);
+    }
+    private void setToOringinal(){
+        photoEditImageView.setFilter(new GPUImageFilter());
+        photoEditImageView.setImage(imageBitmap);
+    }
+    public  Bitmap getThumnailBitmap(String imageId)
+    {
+        if(imageId!=null) {
+            return MediaStore.Images.Thumbnails.getThumbnail(getContext().getContentResolver(), Long.parseLong(imageId), MediaStore.Images.Thumbnails.MINI_KIND, null);
+        }
+        else
+        {
+            return Bitmap.createScaledBitmap(imageBitmap,100,100,false);
+        }
 
     }
-
 }

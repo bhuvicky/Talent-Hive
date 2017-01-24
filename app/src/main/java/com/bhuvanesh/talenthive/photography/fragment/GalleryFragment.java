@@ -1,18 +1,19 @@
 package com.bhuvanesh.talenthive.photography.fragment;
 
 
-import android.annotation.TargetApi;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,24 +22,34 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
-import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
+import com.bhuvanesh.talenthive.photography.activity.PhotographyFilterActivtiy;
 import com.bhuvanesh.talenthive.photography.adapter.PhotoAdapter;
+import com.bhuvanesh.talenthive.photography.view.CropperView;
+import com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout;
+import com.bhuvanesh.talenthive.util.BitmapUtils;
 import com.bhuvanesh.talenthive.util.GalleryUtil;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.bhuvanesh.talenthive.util.UIUtils;
 
-public class GalleryFragment extends BaseFragment implements AppBarLayout.OnOffsetChangedListener ,View.OnTouchListener{
+import java.io.File;
+import java.io.IOException;
+
+import static com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity.imageId;
+
+public class GalleryFragment extends BaseFragment {
+    private static final String IMAGEID ="imageId" ;
+    private static final String IMGFILE ="imgFile" ;
     private RecyclerView galleryRecyclerView;
     private Cursor cursor;
-    private ImageView previewImageView;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+    private CropperView previewImageView;
+
     private AppBarLayout appBarLayout;
     private int noOfColumns;
     private int selectedPosition=0;
+    Toolbar toolbar;
     private PhotoAdapter photoAdapter;
     private Matrix matrix;
     private ScaleGestureDetector scaleGestureDetector;
@@ -58,36 +69,64 @@ public class GalleryFragment extends BaseFragment implements AppBarLayout.OnOffs
         return inflater.inflate(R.layout.fragment_gallery,container,false);
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
+    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
      //   ((BaseActivity)getActivity()).getSupportActionBar().hide();
-        galleryRecyclerView= (RecyclerView) view.findViewById(R.id.recyclerview_gallery);
-        collapsingToolbarLayout= (CollapsingToolbarLayout) view.findViewById(R.id.collpsing_toolbar);
         appBarLayout= (AppBarLayout) view.findViewById(R.id.app_bar_collpse);
+        galleryRecyclerView= (RecyclerView) view.findViewById(R.id.recyclerview_gallery);
+        noOfColumns=UIUtils.getNumOfColumns(getActivity(),100);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),noOfColumns );
+        previewImageView= (CropperView) view.findViewById(R.id.imageview_preview);
+        galleryRecyclerView.setLayoutManager(gridLayoutManager);
+        previewImageView.setDebug(true);
+        matrix=new Matrix();
+        final CustomCoordinatorLayout coordinatorLayout= (CustomCoordinatorLayout) view.findViewById(R.id.coordinator_layout);
+        View view1=view.findViewById(R.id.view_sep);
+        view1.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View view, MotionEvent motionEvent) {
+                 coordinatorLayout.setAllowForScrool(true);
+                return true;
+            }
+        });
+        previewImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(coordinatorLayout.isAllowForScrool())
+                {
+                    coordinatorLayout.setAllowForScrool(false);
+                    appBarLayout.setExpanded(true);
+                }
+            }
+        });
+        view1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               coordinatorLayout.setAllowForScrool(true);
+            }
+        });
+
         cursor=getActivity().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 null,
                 null,
                 null,
                 MediaStore.Images.Media.DATE_MODIFIED+" DESC"
         );
-        noOfColumns=UIUtils.getNumOfColumns(getActivity(),100);
-        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),noOfColumns );
-        previewImageView=(ImageView) view.findViewById(R.id.imageview_preview);
-        galleryRecyclerView.setLayoutManager(gridLayoutManager);
-        matrix=new Matrix();
-        scaleGestureDetector=new ScaleGestureDetector(getActivity(),new ScaleGestureDetector.SimpleOnScaleGestureListener(){
-            @Override
-            public boolean onScale(ScaleGestureDetector detector) {
-                THLoggerUtil.debug("hh","decteds");
-                float scaleFactor=detector.getScaleFactor();
-                scaleFactor=Math.max(0.1f,Math.min(scaleFactor,5f));
-                matrix.setScale(scaleFactor,scaleFactor);
-                previewImageView.setImageMatrix(matrix);
-                return true;
-            }
-        });
+       // GestureDetector gestureDetector =new GestureDetector()
+
+//        scaleGestureDetector=new ScaleGestureDetector(getActivity(),new ScaleGestureDetector.SimpleOnScaleGestureListener(){
+//            @Override
+//            public boolean onScale(ScaleGestureDetector detector) {
+//                THLoggerUtil.debug("hh","decteds");
+//                float scaleFactor=detector.getScaleFactor();
+//                scaleFactor=Math.max(0.1f,Math.min(scaleFactor,5f));
+//                matrix.setScale(scaleFactor,scaleFactor);
+//                //previewImageView.setImageMatrix(matrix);
+//                return true;
+//            }
+//        });
 
         photoAdapter=new PhotoAdapter(getContext(), cursor, new PhotoAdapter.ItemClickListener() {
             @Override
@@ -119,24 +158,27 @@ public class GalleryFragment extends BaseFragment implements AppBarLayout.OnOffs
         setGallerySelection(cursor.getString(0));
     }
 
-    public void setGallerySelection(String imageId){
-            DashboardActivity.imageId=imageId;
+    public void setGallerySelection(String imagId){
+            imageId=imagId;
             Bitmap myBitMap= GalleryUtil.getBitmapOfImage(getActivity(),imageId);
             previewImageView.setImageBitmap(myBitMap);
-            previewImageView.setAdjustViewBounds(true);
+         //   previewImageView.setAdjustViewBounds(true);
 
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        THLoggerUtil.debug("hh","GalleryPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        THLoggerUtil.debug("hh","galDes");
+        THLoggerUtil.debug("hh","GalleryDestory");
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -147,22 +189,45 @@ public class GalleryFragment extends BaseFragment implements AppBarLayout.OnOffs
     public boolean onOptionsItemSelected(MenuItem item) {
         THLoggerUtil.debug("h","selected");
         if(item.getItemId()==R.id.menu_next){
-
             THLoggerUtil.debug("hh","selected");
-            return true;
+            Bitmap bitmap=previewImageView.getCroppedBitmap();
+            if (bitmap != null) {
+                File file=null;
+                try {
+                    file = new File(Environment.getExternalStorageDirectory() + "/crop_test.jpg");
+                    BitmapUtils.writeBitmapToFile(bitmap, file, 90);
+                    Intent intent = new Intent(getActivity(), PhotographyFilterActivtiy.class);
+                    intent.putExtra(IMAGEID, imageId);
+                    intent.putExtra(IMGFILE, file.getAbsolutePath());
+                    startActivity(intent);
+                } catch (IOException e) {
+
+                }
+             }
         }
         return super.onOptionsItemSelected(item);
     }
 
     public  void carryPhotoToNext()
     {
-        replace(R.id.layout_container,PhotoFilterFragment.newInstance(this.photoAdapter.getItemAtPosition(selectedPosition)));
+       // replace(R.id.layout_container,PhotoFilterFragment.newInstance(this.photoAdapter.getItemAtPosition(selectedPosition)));
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if(view instanceof ImageView)
-        scaleGestureDetector.onTouchEvent(motionEvent);
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem menuItem) {
+//        switch(menuItem.getItemId()){
+////            case android.R.id.home:
+////                pop();
+////                break;
+//            case R.id.menu_next:
+//
+//                //pop();
+//                //replace(R.id.dashboard_container2, PhotoFilterFragment.newInstance(imageId),true);
+//                //selectPhotoFragment.replaces(imageId);
+//                break;
+//        }
+//
+//        return true;
+//
+//    }
 }

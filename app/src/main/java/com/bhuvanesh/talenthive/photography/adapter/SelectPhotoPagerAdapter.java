@@ -1,37 +1,42 @@
 package com.bhuvanesh.talenthive.photography.adapter;
 
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.bhuvanesh.talenthive.BaseFragment;
+import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.fragment.CameraFragment;
 import com.bhuvanesh.talenthive.photography.fragment.GalleryFragment;
 
 public class SelectPhotoPagerAdapter extends FragmentStatePagerAdapter {
+    private static final byte TAB_GALLERY = 0;
+    private static final byte TAB_CAMERA = TAB_GALLERY + 1;
+    private static  String[] TAB_TITLE ;
 
-    public SelectPhotoPagerAdapter(FragmentManager fm)
+    public SelectPhotoPagerAdapter(FragmentManager fm, Context context)
     {
         super(fm);
+        TAB_TITLE = context.getResources().getStringArray(R.array.lbl_photo_select_tab_title);
     }
 
     @Override
-    public Fragment getItem(int position) {
-        Fragment fragment=null;
+    public BaseFragment getItem(int position) {
         switch (position)
         {
-            case 0:
-                fragment= GalleryFragment.newInstance();
-                break;
-            case 1:
-                fragment= CameraFragment.newInstance();
-                break;
+            case TAB_GALLERY:
+                return GalleryFragment.newInstance();
+            default:
+                return CameraFragment.newInstance();
         }
-        return fragment;
     }
-
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return TAB_TITLE[position];
+    }
     @Override
     public int getCount() {
-        return 2;
+        return TAB_TITLE.length;
     }
 }

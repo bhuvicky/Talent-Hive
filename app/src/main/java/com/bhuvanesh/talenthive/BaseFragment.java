@@ -150,6 +150,7 @@ public class BaseFragment extends DialogFragment {
     public void popChildFragment(BaseFragment fragment) {
         if (fragment != null) {
             if (getActivity() != null) {
+                THLoggerUtil.debug("hh","ssdd");
                 FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
                 transaction.remove(fragment);
                 transaction.commit();

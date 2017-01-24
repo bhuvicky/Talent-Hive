@@ -41,6 +41,13 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <declare-styleable name="CropperView">
+        <attr name="grid_color" format="color"/>
+        <attr name="grid_thickness" format="dimension"/>
+        <attr name="grid_opacity" format="float"/>
+        <attr name="padding_color" format="color"/>
+        <attr name="add_padding_to_make_square" format="boolean"/>
+    </declare-styleable>
 
 
 </resources>

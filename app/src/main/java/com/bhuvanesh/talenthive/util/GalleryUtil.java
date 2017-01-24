@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.provider.MediaStore;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class GalleryUtil {
     private static Cursor cursor;
@@ -27,6 +28,21 @@ public class GalleryUtil {
         }
 return myBitMap;
     }
+    public static Bitmap getBitmapOfImage1(Context context,String imageId) throws FileNotFoundException {
+        cursor=context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,null,
+                "_id="+imageId,null,null);
+        cursor.moveToFirst();
+        Bitmap myBitMap=null;
+        String path="";
+        path=cursor.getString(cursor.getColumnIndex("_data"));
+        File imgFile=new File(path);
+        if(imgFile.exists())
+        {
+            myBitMap= BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        }
+        return myBitMap;
+    }
+
     public static Bitmap doColorFilter(Bitmap src, double red, double green, double blue) {
         // image size
         int width = src.getWidth();

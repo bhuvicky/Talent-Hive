@@ -10,6 +10,7 @@ import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -35,16 +36,12 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -54,6 +51,8 @@ import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.photography.activity.PhotographyFilterActivtiy;
+import com.bhuvanesh.talenthive.photography.view.AutoFitTextureView;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
 import java.io.File;
@@ -78,6 +77,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
+    private static final String IMGFILE ="imgFile" ;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
@@ -235,8 +235,6 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
 
         @Override
         public void onImageAvailable(ImageReader reader) {
-
-            mFile=new File(folder,PIC+System.currentTimeMillis()+FORMAT);
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -400,9 +398,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     private boolean cameraOrientation=false;
     private CameraManager manager;
     private boolean cameraFlashFlag=false;
-    private static final String PIC="pic";
-    private static final String FORMAT=".jpg";
-    private File folder;
+    private static final String PIC="/crop_test1.jpg";
     public static CameraFragment newInstance() {
         return new CameraFragment();
     }
@@ -410,7 +406,9 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        THLoggerUtil.debug("hh","cameraOnCreate");
         return inflater.inflate(R.layout.fragment_camera, container, false);
+
     }
 
     @Override
@@ -454,7 +452,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
             @Override
             public void onClick(View view) {
                 takePicture();
-                replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(""));
+             //   replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(DashboardActivity.imageId));
             }
         });
     }
@@ -462,14 +460,22 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-         folder = new File(Environment.getExternalStorageDirectory() +
-                File.separator + getResources().getString(R.string.app_name)+File.separator+"media"+File.separator+"picture");
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
+        //folder=getOutputMediaFile();
+        mFile=new File(Environment.getExternalStorageDirectory()+PIC);
     }
-
-    @Override
+    private static File getOutputMediaFile() {
+        File mediaStorageDir = new File(
+                Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "TalentHive");
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null;
+            }
+        }
+        return mediaStorageDir;
+    }
+        @Override
     public void onResume() {
         super.onResume();
         startBackgroundThread();
@@ -487,15 +493,16 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     @Override
     public void onPause() {
         closeCamera();
+        cameraOrientation=false;
         stopBackgroundThread();
         super.onPause();
-        THLoggerUtil.debug("hh","jjjj1");
+        THLoggerUtil.debug("hh","CameraOnPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        THLoggerUtil.debug("hh","jjjj");
+        THLoggerUtil.debug("hh","CameraOnDestroy");
     }
 
     private void requestCameraPermission() {
@@ -540,8 +547,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                 if(lensOrientation) {
                      facing = characteristics.get(CameraCharacteristics.LENS_FACING);
                     if (facing != null && facing == CameraCharacteristics.LENS_FACING_FRONT) {
-                        mCameraId="1";
-                        continue;
+                        mCameraId=cameraId;
                     }
                 }
                 StreamConfigurationMap map = characteristics.get(
@@ -589,6 +595,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                 int maxPreviewHeight = displaySize.y;
 
                 if (swappedDimensions) {
+                 THLoggerUtil.debug("hh","swaped");
                     rotatedPreviewWidth = height;
                     rotatedPreviewHeight = width;
                     maxPreviewWidth = displaySize.y;
@@ -622,10 +629,12 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                 // Check if the flash is supported.
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
                 mFlashSupported = available == null ? false : available;
-                if(!lensOrientation)
-                mCameraId = cameraId;
-                else mCameraId="1";
-                return;
+                if(!lensOrientation) {
+                    mCameraId = cameraId;
+                    return;
+                }else if (mCameraId.equals("1"))return;
+                else continue;
+
             }
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -668,7 +677,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         try {
             mCameraOpenCloseLock.acquire();
             if (null != mCaptureSession) {
-
+                THLoggerUtil.debug("hh","pause12");
                 mCaptureSession.close();
                 mCaptureSession = null;
             }
@@ -681,11 +690,10 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                 mImageReader = null;
             }
         } catch (InterruptedException e) {
-            THLoggerUtil.debug("hh","pause12");
+
             throw new RuntimeException("Interrupted while trying to lock camera closing.", e);
 
         }  finally {
-            THLoggerUtil.debug("hh","pause13");
             mCameraOpenCloseLock.release();
         }
     }
@@ -700,15 +708,17 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     /**
      * Stops the background thread and its {@link Handler}.
      */
-    private void stopBackgroundThread() {
+    public void stopBackgroundThread() {
         THLoggerUtil.debug("hh","stop");
-        mBackgroundThread.quitSafely();
-        try {
-            mBackgroundThread.join();
-            mBackgroundThread = null;
-            mBackgroundHandler = null;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if(mBackgroundThread!=null ){
+            mBackgroundThread.quitSafely();
+            try {
+                mBackgroundThread.join();
+                mBackgroundThread = null;
+                mBackgroundHandler = null;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -728,7 +738,9 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
 
             // We set up a CaptureRequest.Builder with the output Surface.
             mPreviewRequestBuilder
-                    = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+                    = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+//            CameraCharacteristics cameraCharacteristics=manager.getCameraCharacteristics(mCameraId);
+//            mPreviewRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION,cameraCharacteristics.get(CameraCharacteristics.SENSOR_ORIENTATION));
             mPreviewRequestBuilder.addTarget(surface);
 
             // Here, we create a CameraCaptureSession for camera preview.
@@ -750,7 +762,6 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                                         CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE);
                                 // Flash is automatically enabled when necessary.
                                // setAutoFlash(mPreviewRequestBuilder);
-
                                 // Finally, we start displaying the camera preview.
                                 mPreviewRequest = mPreviewRequestBuilder.build();
                                 mCaptureSession.setRepeatingRequest(mPreviewRequest,
@@ -791,16 +802,20 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
         float centerX = viewRect.centerX();
         float centerY = viewRect.centerY();
+        //matrix.setScale(-1,-1);
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
             bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
             matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
             float scale = Math.max(
                     (float) viewHeight / mPreviewSize.getHeight(),
                     (float) viewWidth / mPreviewSize.getWidth());
-            matrix.postScale(scale, scale, centerX, centerY);
+
+            matrix.postScale(scale,scale,centerX,centerY);
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+
         } else if (Surface.ROTATION_180 == rotation) {
             matrix.postRotate(180, centerX, centerY);
+
         }
         mTextureView.setTransform(matrix);
     }
@@ -824,6 +839,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
             mState = STATE_WAITING_LOCK;
             mCaptureSession.capture(mPreviewRequestBuilder.build(), mCaptureCallback,
                     mBackgroundHandler);
+
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -882,6 +898,10 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                     //showToast("Saved: " + mFile);
                     //Log.d(TAG, mFile.toString());
                     unlockFocus();
+                    Intent intent = new Intent(getActivity(), PhotographyFilterActivtiy.class);
+                    intent.putExtra(IMGFILE, mFile.getAbsolutePath());
+                    startActivity(intent);
+
                 }
             };
 
@@ -920,9 +940,10 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
                     mBackgroundHandler);
             // After this, the camera will go back to the normal state of preview.
             mState = STATE_PREVIEW;
+
             mCaptureSession.setRepeatingRequest(mPreviewRequest, mCaptureCallback,
                     mBackgroundHandler);
-        } catch (CameraAccessException e) {
+            } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
@@ -956,6 +977,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
             try {
                 output = new FileOutputStream(mFile);
                 output.write(bytes);
+
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -1080,27 +1102,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
         }
 
     }
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.select_photo_menu,menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        THLoggerUtil.debug("h","selected");
-        if(item.getItemId()==R.id.menu_next){
-            THLoggerUtil.debug("hh","selected");
-            return true;
-            //replace(R.id.layout_container,PhotoFilterFragment.newInstance(photoAdapter.getItemAtPosition(selectedPosition)));
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }
 

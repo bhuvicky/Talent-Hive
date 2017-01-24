@@ -51,7 +51,6 @@ public class EditPostFragment extends BaseFragment{
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
                 inflater.inflate(R.menu.edit_post_menu,menu);
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

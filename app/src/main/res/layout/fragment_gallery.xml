@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:fitsSystemWindows="true"
+    android:id="@+id/coordinator_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.RecyclerView
@@ -32,22 +33,29 @@
             style="@style/Widget.Design.CollapsingToolbar"
             android:scrollbars="vertical">
             <android.support.v7.widget.Toolbar
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            android:background="@android:color/transparent"
-                app:layout_scrollFlags="enterAlways|scroll"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:id="@+id/toolbar_gallery"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                android:background="@android:color/transparent"
+
                 />
-            <ImageView
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+            <com.bhuvanesh.talenthive.photography.view.CropperView
                 android:layout_width="match_parent"
                 android:layout_height="355dp"
                 android:id="@+id/imageview_preview"
-                android:scaleType="matrix"
-                app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                android:background="#000000"
-                android:src="@drawable/drawable_button"
                />
-        </android.support.design.widget.CollapsingToolbarLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/color_black"
+                android:id="@+id/view_sep"
+                android:layout_below="@id/imageview_preview"
+                />
+</RelativeLayout>
+</android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout>

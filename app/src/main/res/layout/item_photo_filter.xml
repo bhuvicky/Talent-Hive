@@ -4,21 +4,30 @@
     android:layout_height="wrap_content"
     android:id="@+id/thumbnails_container"
     xmlns:tools="http://schemas.android.com/tools"
+
     >
-    <jp.co.cyberagent.android.gpuimage.GPUImageView
+    <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_margin="2dp"
+        android:layout_margin="1dp"
+        android:scaleType="fitXY"
         android:id="@+id/glsurfaceView_thumbnail_image"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Hiii"
-
         android:id="@+id/textview_filter_name"
         android:textSize="12sp"
         android:textColor="@color/color_black"
         android:layout_margin="2dp"
         android:layout_gravity="center"
+        />
+    <View
+        android:layout_width="100dp"
+        android:layout_height="3dp"
+        android:layout_margin="1dp"
+        android:id="@+id/view_filter_marker"
+        android:background="@color/color_black"
+        android:visibility="gone"
         />
 </LinearLayout>

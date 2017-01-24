@@ -4,9 +4,7 @@ package com.bhuvanesh.talenthive.photography.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -15,11 +13,12 @@ import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.adapter.SelectPhotoPagerAdapter;
+import com.bhuvanesh.talenthive.photography.view.CustomPhotoViewPager;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
 public class SelectPhotoFragment extends BaseFragment {
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private CustomPhotoViewPager viewPager;
     private SelectPhotoPagerAdapter selectPhotoPagerAdapter;
     public static SelectPhotoFragment newInstance()
     {
@@ -40,13 +39,13 @@ public class SelectPhotoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        selectPhotoPagerAdapter=new SelectPhotoPagerAdapter(getFragmentManager());
+        selectPhotoPagerAdapter=new SelectPhotoPagerAdapter(getFragmentManager(),getContext());
         ((BaseActivity)getActivity()).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         tabLayout= (TabLayout) view.findViewById(R.id.tab_layout_select_photo);
-        viewPager= (ViewPager) view.findViewById(R.id.view_pager_select_photo);
+        viewPager= (CustomPhotoViewPager) view.findViewById(R.id.view_pager_select_photo);
+        tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         viewPager.setAdapter(selectPhotoPagerAdapter);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -60,28 +59,24 @@ public class SelectPhotoFragment extends BaseFragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        THLoggerUtil.debug("hh","PhotoOnPause");
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
-        THLoggerUtil.debug("hh","ssss");
-
+        THLoggerUtil.debug("hh","PhotoOnDestroy");
     }
   public void replaces(String imageId)
   {
-      replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(imageId));
+      //replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(imageId));
   }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.menu_next) {
-            THLoggerUtil.debug("hh", "selected");
-//           return true;
-        }
-        return super.onOptionsItemSelected(item);
 
-    }
 }
