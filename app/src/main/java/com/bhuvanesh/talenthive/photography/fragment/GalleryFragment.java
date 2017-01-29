@@ -1,6 +1,7 @@
 package com.bhuvanesh.talenthive.photography.fragment;
 
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.activity.PhotographyFilterActivtiy;
@@ -31,7 +33,6 @@ import com.bhuvanesh.talenthive.photography.view.CropperView;
 import com.bhuvanesh.talenthive.photography.view.CustomCoordinatorLayout;
 import com.bhuvanesh.talenthive.util.BitmapUtils;
 import com.bhuvanesh.talenthive.util.GalleryUtil;
-import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.bhuvanesh.talenthive.util.UIUtils;
 
 import java.io.File;
@@ -69,11 +70,12 @@ public class GalleryFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_gallery,container,false);
     }
 
-    @android.support.annotation.RequiresApi(api = Build.VERSION_CODES.N)
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-     //   ((BaseActivity)getActivity()).getSupportActionBar().hide();
+       ((BaseActivity)getActivity()).getSupportActionBar().setTitle(R.string.title_gallery);
+        //getActivity().setTitle();
         appBarLayout= (AutoFitAppBarLayout) view.findViewById(R.id.app_bar_collpse);
         appBarLayout.setAspectRatio(9,16);
         galleryRecyclerView= (RecyclerView) view.findViewById(R.id.recyclerview_gallery);
@@ -116,19 +118,6 @@ public class GalleryFragment extends BaseFragment {
                 null,
                 MediaStore.Images.Media.DATE_MODIFIED+" DESC"
         );
-       // GestureDetector gestureDetector =new GestureDetector()
-
-//        scaleGestureDetector=new ScaleGestureDetector(getActivity(),new ScaleGestureDetector.SimpleOnScaleGestureListener(){
-//            @Override
-//            public boolean onScale(ScaleGestureDetector detector) {
-//                THLoggerUtil.debug("hh","decteds");
-//                float scaleFactor=detector.getScaleFactor();
-//                scaleFactor=Math.max(0.1f,Math.min(scaleFactor,5f));
-//                matrix.setScale(scaleFactor,scaleFactor);
-//                //previewImageView.setImageMatrix(matrix);
-//                return true;
-//            }
-//        });
 
         photoAdapter=new PhotoAdapter(getContext(), cursor, new PhotoAdapter.ItemClickListener() {
             @Override
@@ -169,15 +158,20 @@ public class GalleryFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+
+    @Override
     public void onPause() {
         super.onPause();
-        THLoggerUtil.debug("hh","GalleryPause");
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        THLoggerUtil.debug("hh","GalleryDestory");
     }
 
 
@@ -189,9 +183,7 @@ public class GalleryFragment extends BaseFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        THLoggerUtil.debug("h","selected");
         if(item.getItemId()==R.id.menu_next){
-            THLoggerUtil.debug("hh","selected");
             Bitmap bitmap=previewImageView.getCroppedBitmap();
             if (bitmap != null) {
                 File file=null;
@@ -210,26 +202,4 @@ public class GalleryFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public  void carryPhotoToNext()
-    {
-       // replace(R.id.layout_container,PhotoFilterFragment.newInstance(this.photoAdapter.getItemAtPosition(selectedPosition)));
-    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem menuItem) {
-//        switch(menuItem.getItemId()){
-////            case android.R.id.home:
-////                pop();
-////                break;
-//            case R.id.menu_next:
-//
-//                //pop();
-//                //replace(R.id.dashboard_container2, PhotoFilterFragment.newInstance(imageId),true);
-//                //selectPhotoFragment.replaces(imageId);
-//                break;
-//        }
-//
-//        return true;
-//
-//    }
 }

@@ -52,11 +52,11 @@ public class PhotoFilterAdapter extends RecyclerView.Adapter<PhotoFilterAdapter.
         }else{
             holder.filterMarkerView.setVisibility(View.GONE);
         }
-        holder.filterNameTextView.setText(filterList.names.get(position));
+        holder.filterNameTextView.setText(filterList.names.get(holder.getAdapterPosition()));
         if(position!=0) {
             GPUImage gpuImage = new GPUImage(context);
             gpuImage.setImage(bitmap);
-            gpuImage.setFilter(GPUImageFilterTools.createFilterForType(context, filterList.filters.get(position-1)));
+            gpuImage.setFilter(GPUImageFilterTools.createFilterForType(context, filterList.filters.get(holder.getAdapterPosition()-1)));
             holder.gpuImageView.setImageBitmap(gpuImage.getBitmapWithFilterApplied());
         }else{
         holder.gpuImageView.setImageBitmap(bitmap);

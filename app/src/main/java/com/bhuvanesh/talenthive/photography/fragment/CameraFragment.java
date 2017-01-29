@@ -411,6 +411,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
 
     }
 
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
@@ -479,6 +480,7 @@ public class CameraFragment extends BaseFragment implements FragmentCompat.OnReq
     public void onResume() {
         super.onResume();
         startBackgroundThread();
+//        restoreActionBar();
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in

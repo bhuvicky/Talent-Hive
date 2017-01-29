@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-        <ScrollView
+<ScrollView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-
+            android:scrollbars="vertical"
            android:id="@+id/scrollview_edit_photo"
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
            >
-
+<FrameLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,30 +50,42 @@
                   android:layout_width="match_parent"
                   android:layout_height="1dp"
                   android:layout_below="@id/textview_name_of_profile"
-                  android:layout_margin="10dp"
-
-                  android:background="@color/color_light_gray" />
+                  android:layout_marginTop="10dp"
+                  android:background="@color/color_light_gray"
+                  android:id="@+id/view" />
 
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="wrap_content"
                 android:hint="@string/msg_write_a_caption"
-                android:layout_margin="10dp"
+                android:background="#00ffffff"
+                android:inputType="textMultiLine"
                 android:id="@+id/edittext_edit_post"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:maxLines="6"
+                android:layout_marginBottom="10dp"
+                android:layout_alignTop="@+id/view"
+                android:maxLength="260"
+                android:scrollbars="vertical"
+
                 />
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:id="@+id/view_underline_edit_post"
                 android:layout_below="@id/edittext_edit_post"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/color_light_gray" />
-            <android.support.design.widget.CoordinatorLayout
-                android:layout_width="match_parent"
+            <android.support.v4.widget.NestedScrollView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/view_underline_edit_post"
                 >
-
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
                 <android.support.design.widget.FloatingActionButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,17 +94,16 @@
                     android:layout_gravity="bottom|right"
                     android:layout_margin="10dp"
                      />
-                <ImageView
+                <com.bhuvanesh.talenthive.photography.view.AutoFitPreviewImage
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/trail"
+                android:background="@color/color_black"
                 android:id="@+id/imageview_post_preview"
-                android:contentDescription="@string/_10"
-                tools:ignore="RtlHardcoded"
-                />
+                    android:scaleType="fitXY" />
             </android.support.design.widget.CoordinatorLayout>
-
+            </android.support.v4.widget.NestedScrollView>
         </RelativeLayout>
-       </ScrollView>
+       </FrameLayout>
+</ScrollView>
 
-</RelativeLayout>

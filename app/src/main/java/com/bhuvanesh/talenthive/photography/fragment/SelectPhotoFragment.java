@@ -4,6 +4,7 @@ package com.bhuvanesh.talenthive.photography.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class SelectPhotoFragment extends BaseFragment {
     private TabLayout tabLayout;
     private CustomPhotoViewPager viewPager;
     private SelectPhotoPagerAdapter selectPhotoPagerAdapter;
+    private static  String[] TAB_TITLE ;
     public static SelectPhotoFragment newInstance()
     {
         return new SelectPhotoFragment();
@@ -39,6 +41,9 @@ public class SelectPhotoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        TAB_TITLE = getContext().getResources().getStringArray(R.array.lbl_photo_select_tab_title);
+        restoreActionBar(TAB_TITLE[0]);
         selectPhotoPagerAdapter=new SelectPhotoPagerAdapter(getFragmentManager(),getContext());
         ((BaseActivity)getActivity()).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         tabLayout= (TabLayout) view.findViewById(R.id.tab_layout_select_photo);
@@ -50,6 +55,7 @@ public class SelectPhotoFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tabLayout.getSelectedTabPosition());
+                restoreActionBar(TAB_TITLE[tabLayout.getSelectedTabPosition()]);
             }
 
             @Override
@@ -78,5 +84,9 @@ public class SelectPhotoFragment extends BaseFragment {
   {
       //replace(R.id.dashboard_container2,PhotoFilterFragment.newInstance(imageId));
   }
+    public void restoreActionBar(String title) {
+        ActionBar actionBar=((BaseActivity)getActivity()).getSupportActionBar();
+        actionBar.setTitle(title);
+    }
 
 }

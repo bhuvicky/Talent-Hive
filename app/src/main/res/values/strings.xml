@@ -95,6 +95,7 @@
     <string name="msg_comment">Comment</string>
     <string name="msg_share">Share</string>
     <string name="msg_write_a_caption">Write a caption</string>
+
     <string name="at">-at</string>
     <string name="add_location_msg">Add Location....</string>
     <string name="sivakasi">Sivakasi</string>
@@ -200,9 +201,10 @@
     <string name="lbl_string_camera">Camera</string>
     <string name="msg_next">next</string>
     <string name="msg_post">post</string>
+    <string name="title_gallery">Gallery</string>
+    <string name="title_camera">Camera</string>
     <string-array name="lbl_photo_select_tab_title">
         <item>Gallery</item>
         <item>Camera</item>
     </string-array>
-
 </resources>
