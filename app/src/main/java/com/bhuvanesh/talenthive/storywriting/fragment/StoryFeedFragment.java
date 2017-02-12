@@ -82,12 +82,12 @@ public class StoryFeedFragment extends BaseFragment implements StoryManager.OnGe
             @Override
             public void onTHDBSuccessful(Object object) {
                 mStoryFeedList = (List<StoryFeedResponse>) object;
-//                getStoryFeedList(true);
+                getStoryFeedList(true);
             }
 
             @Override
             public void onTHDBError(THException error) {
-//                getStoryFeedList(true);
+                getStoryFeedList(true);
             }
         });
         manager.getStoryFeedList();
