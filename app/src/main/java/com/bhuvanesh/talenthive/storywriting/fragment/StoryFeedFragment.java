@@ -77,13 +77,6 @@ public class StoryFeedFragment extends BaseFragment implements StoryManager.OnGe
             }
         });
 
-        mRefreshStoryFeed.post(new Runnable() {
-            @Override
-            public void run() {
-                mRefreshStoryFeed.setRefreshing(true);
-            }
-        });
-
         THDBManager manager = new THDBManager();
         manager.setmOnTHDBMangerListener(new THDBManager.OnTHDBMangerListener() {
             @Override
@@ -101,7 +94,7 @@ public class StoryFeedFragment extends BaseFragment implements StoryManager.OnGe
 
         mStoryFeedAdapter.setOnStoryFeedItemClickListener(new StoryFeedAdapter.OnStoryFeedItemClickListener() {
             @Override
-            public void onRetryClick() {
+            public void onPaginationRetryClick() {
                 getStoryFeedList(false);
             }
         });
@@ -162,8 +155,9 @@ public class StoryFeedFragment extends BaseFragment implements StoryManager.OnGe
 
     private void afterNetworkResponse(boolean paginationStarts, boolean paginationFailed ) {
         isLoading = false;
-        mRefreshStoryFeed.setRefreshing(false);
-        if (!mIsScrollUp)
+        if (mIsScrollUp)
+            mRefreshStoryFeed.setRefreshing(false);
+        else
             mStoryFeedAdapter.setFooterVisible(paginationStarts, paginationFailed);
     }
 }

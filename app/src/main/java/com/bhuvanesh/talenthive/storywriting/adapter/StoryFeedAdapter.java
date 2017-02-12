@@ -24,7 +24,7 @@ import java.util.List;
 public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.ViewHolder> {
 
     public interface OnStoryFeedItemClickListener {
-        void onRetryClick();
+        void onPaginationRetryClick();
     }
 
     private List<StoryFeedResponse> mStoryFeedList = new ArrayList<>();
@@ -49,7 +49,8 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
     public void setFooterVisible(boolean paginationStarts, boolean paginationFailed) {
         isPaginationStarts = paginationStarts;
         isPaginationFailed = paginationFailed;
-        notifyDataSetChanged();
+//        notifyDataSetChanged();
+        notifyItemChanged(getItemCount() - 1);
     }
 
     @Override
@@ -67,10 +68,14 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
                 holder.progressBar.setVisibility(View.GONE);
                 holder.buttonRetry.setVisibility(View.GONE);
             } else {
-                if (isPaginationStarts)
+                if (isPaginationStarts) {
                     holder.progressBar.setVisibility(View.VISIBLE);
-                else
+                    holder.buttonRetry.setVisibility(View.GONE);
+                }
+                else {
                     holder.buttonRetry.setVisibility(View.VISIBLE);
+                    holder.progressBar.setVisibility(View.GONE);
+                }
             }
         }
     }
@@ -107,7 +112,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
                 @Override
                 public void onClick(View v) {
                     if (mOnStoryFeedItemClickListener != null)
-                        mOnStoryFeedItemClickListener.onRetryClick();
+                        mOnStoryFeedItemClickListener.onPaginationRetryClick();
                 }
             });
         }
