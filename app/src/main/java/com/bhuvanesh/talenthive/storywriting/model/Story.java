@@ -21,5 +21,6 @@ public class Story {
     public String author;
     public List<Chapter> chapterList;
     public long lastModifiedDate;
+    public transient boolean isSelected;
 
 }

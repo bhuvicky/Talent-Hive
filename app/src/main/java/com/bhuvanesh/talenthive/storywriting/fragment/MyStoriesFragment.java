@@ -3,9 +3,13 @@ package com.bhuvanesh.talenthive.storywriting.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
@@ -51,6 +55,37 @@ public class MyStoriesFragment extends BaseFragment {
             }
         });
 
+        gridViewMyStories.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE_MODAL);
+        gridViewMyStories.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+            @Override
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                System.out.println("checked state = " + checked);
+                mMyStoriesAdapter.getItem(position).isSelected = checked;
+                mMyStoriesAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                return false;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+
+            }
+        });
+
         if (mMyStoriesAdapter == null)
             mMyStoriesAdapter = new MyStoriesAdapter();
         gridViewMyStories.setAdapter(mMyStoriesAdapter);
@@ -59,6 +94,7 @@ public class MyStoriesFragment extends BaseFragment {
         manager.setmOnTHDBMangerListener(new THDBManager.OnTHDBMangerListener<List<Story>>() {
             @Override
             public void onTHDBSuccessful(List<Story> response) {
+                mStoryList.clear();
                 mStoryList.addAll(response);
                 mMyStoriesAdapter.setData(mStoryList);
             }

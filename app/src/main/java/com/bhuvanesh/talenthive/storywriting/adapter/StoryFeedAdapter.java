@@ -6,11 +6,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.storywriting.model.StoryFeedResponse;
+import com.bhuvanesh.talenthive.util.DateUtil;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
 import java.util.ArrayList;
@@ -18,18 +23,32 @@ import java.util.List;
 
 public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.ViewHolder> {
 
+    public interface OnStoryFeedItemClickListener {
+        void onRetryClick();
+    }
+
     private List<StoryFeedResponse> mStoryFeedList = new ArrayList<>();
+    private boolean isPaginationStarts, isPaginationFailed;
+    private OnStoryFeedItemClickListener mOnStoryFeedItemClickListener;
+//    private ImageLoader mImageLoader = THApplication.getInstance();
+
+    public void setOnStoryFeedItemClickListener(OnStoryFeedItemClickListener listener) {
+        mOnStoryFeedItemClickListener = listener;
+    }
 
     @Override
     public StoryFeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = (LayoutInflater) parent.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.item_story_feed, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_story_feed, parent, false), mOnStoryFeedItemClickListener);
     }
 
     public void setData(List<StoryFeedResponse> storyList) {
-        mStoryFeedList.clear();
-        mStoryFeedList.addAll(storyList);
+        mStoryFeedList = storyList;
+        notifyDataSetChanged();
+    }
+
+    public void setFooterVisible(boolean paginationStarts, boolean paginationFailed) {
+        isPaginationStarts = paginationStarts;
+        isPaginationFailed = paginationFailed;
         notifyDataSetChanged();
     }
 
@@ -37,27 +56,43 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
     public void onBindViewHolder(StoryFeedAdapter.ViewHolder holder, int position) {
         StoryFeedResponse item = mStoryFeedList.get(position);
         holder.textViewAuthor.setText(item.story.author);
-        holder.textViewTimeStamp.setText(String.valueOf(item.timeStamp));
+        holder.textViewTimeStamp.setText(DateUtil.getTimeAgo(item.story.lastModifiedDate));
         holder.textViewStoryTitle.setText(item.story.title);
         holder.textViewStoryLang.setText(item.story.language.name);
         holder.textViewStoryCategory.setText(item.story.category.name);
         holder.textViewStoryDesc.setText(item.story.description);
+
+        if (position == getItemCount() - 1) {
+            if (!(isPaginationStarts || isPaginationFailed)) {
+                holder.progressBar.setVisibility(View.GONE);
+                holder.buttonRetry.setVisibility(View.GONE);
+            } else {
+                if (isPaginationStarts)
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                else
+                    holder.buttonRetry.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mStoryFeedList.size();
+        return mStoryFeedList != null ? mStoryFeedList.size() : 0;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView textViewAuthor, textViewTimeStamp, textViewStoryTitle, textViewStoryLang,
                 textViewStoryCategory, textViewStoryDesc;
         private CircularNetworkImageView imageViewProfileIcon;
         private NetworkImageView networkImageViewStoryCover;
+        private ProgressBar progressBar;
+        private Button buttonRetry;
+        private OnStoryFeedItemClickListener mOnStoryFeedItemClickListener;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView, OnStoryFeedItemClickListener listener) {
             super(itemView);
+            mOnStoryFeedItemClickListener = listener;
             textViewAuthor = (TextView) itemView.findViewById(R.id.textview_author);
             textViewTimeStamp = (TextView) itemView.findViewById(R.id.textview_timestamp);
             textViewStoryTitle = (TextView) itemView.findViewById(R.id.textview_story_title);
@@ -66,6 +101,15 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
             textViewStoryDesc = (TextView) itemView.findViewById(R.id.textview_story_desc);
             imageViewProfileIcon = (CircularNetworkImageView) itemView.findViewById(R.id.circular_network_imageview_profile_icon);
             networkImageViewStoryCover = (NetworkImageView) itemView.findViewById(R.id.network_imageview_story_cover_image);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
+            buttonRetry = (Button) itemView.findViewById(R.id.button_retry);
+            buttonRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnStoryFeedItemClickListener != null)
+                        mOnStoryFeedItemClickListener.onRetryClick();
+                }
+            });
         }
     }
 

@@ -9,7 +9,9 @@
         android:id="@+id/gridview_mystories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:verticalSpacing="10dp"/>
+        android:choiceMode="multipleChoiceModal"
+        android:verticalSpacing="10dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_write_story"

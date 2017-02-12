@@ -1,7 +1,13 @@
 [
   {
     "profileImageUrl": null,
-    "timeStamp": 1234567,
+    "likedPeopleList" : [
+      "likedPeopleProfileId1",
+      "likedPeopleProfileId2",
+      "likedPeopleProfileId3",
+      "likedPeopleProfileId4"
+    ],
+    "noOfComments" : 153,
     "story": {
       "storyId": "1a",
       "storyAuthorId": "",
@@ -50,7 +56,13 @@
   },
   {
     "profileImageUrl": null,
-    "timeStamp": 1234568,
+    "likedPeopleList" : [
+      "likedPeopleProfileId11",
+      "likedPeopleProfileId21",
+      "likedPeopleProfileId31",
+      "likedPeopleProfileId41"
+    ],
+    "noOfComments" : 155,
     "story": {
       "storyId": "1b",
       "storyAuthorId": "",
@@ -99,7 +111,13 @@
   },
   {
     "profileImageUrl": null,
-    "timeStamp": 1234569,
+    "likedPeopleList" : [
+      "likedPeopleProfileId12",
+      "likedPeopleProfileId22",
+      "likedPeopleProfileId32",
+      "likedPeopleProfileId42"
+    ],
+    "noOfComments" : 157,
     "story": {
       "storyId": "1c",
       "storyAuthorId": "",
@@ -148,7 +166,13 @@
   },
   {
     "profileImageUrl": null,
-    "timeStamp": 9234567,
+    "likedPeopleList" : [
+      "likedPeopleProfileId13",
+      "likedPeopleProfileId23",
+      "likedPeopleProfileId33",
+      "likedPeopleProfileId43"
+    ],
+    "noOfComments" : 159,
     "story": {
       "storyId": "1d",
       "storyAuthorId": "",
@@ -197,7 +221,13 @@
   },
   {
     "profileImageUrl": null,
-    "timeStamp": 8234567,
+    "likedPeopleList" : [
+      "likedPeopleProfileId14",
+      "likedPeopleProfileId24",
+      "likedPeopleProfileId34",
+      "likedPeopleProfileId44"
+    ],
+    "noOfComments" : 165,
     "story": {
       "storyId": "1f",
       "storyAuthorId": "",
@@ -246,7 +276,13 @@
   },
   {
     "profileImageUrl": null,
-    "timeStamp": 7234567,
+    "likedPeopleList" : [
+      "likedPeopleProfileId15",
+      "likedPeopleProfileId25",
+      "likedPeopleProfileId35",
+      "likedPeopleProfileId45"
+    ],
+    "noOfComments" : 175,
     "story": {
       "storyId": "1g",
       "storyAuthorId": "",

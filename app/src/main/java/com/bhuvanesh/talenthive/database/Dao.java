@@ -25,7 +25,7 @@ public abstract class Dao {
     protected static final int HANDLER_MESSAGE_ERROR = 0;
     private final ThreadPoolExecutor mThreadPoolExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 
-    public void setOnDaoOperation(OnDaoOperationListener listener) {
+    public void setOnDaoOperationListener(OnDaoOperationListener listener) {
         mOnDaoOperation = listener;
     }
 

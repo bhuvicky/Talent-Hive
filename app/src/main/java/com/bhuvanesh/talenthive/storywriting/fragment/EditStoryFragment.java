@@ -72,7 +72,6 @@ public class EditStoryFragment extends RunTimePermissionFragment {
 
     private String mImagePath;
     private SoftReference<Bitmap> mStoryWrapperBitmap;
-    private Uri mSelectedImageUri;
 
     private List<Chapter> mChapterList = new LinkedList<>();
     private List<Language> mLangList;
@@ -113,7 +112,9 @@ public class EditStoryFragment extends RunTimePermissionFragment {
         listViewChapter.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                System.out.println("edit story checked state = " + checked);
                 mStoryChapterAdapter.getItem(position - 1).isDeleted = checked;
+                mStoryChapterAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -313,7 +314,7 @@ public class EditStoryFragment extends RunTimePermissionFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PICK_GALLERY_IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            mSelectedImageUri = data.getData();
+            Uri selectedImageUri = data.getData();
             Bitmap bitmap = null;
             /*try {
                 bitmap = ImageUtil.decodeUri(getActivity(), mSelectedImageUri, 100, 150);
@@ -321,7 +322,7 @@ public class EditStoryFragment extends RunTimePermissionFragment {
                 e.printStackTrace();
             }*/
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getActivity().getContentResolver().query(mSelectedImageUri, filePathColumn, null, null, null);
+            Cursor cursor = getActivity().getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
             cursor.moveToFirst();
             mImagePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]));
             cursor.close();

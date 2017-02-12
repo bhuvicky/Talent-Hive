@@ -1,10 +1,12 @@
 package com.bhuvanesh.talenthive.storywriting.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bhuvanesh.talenthive.R;
@@ -55,6 +57,9 @@ public class StoryChapterAdapter extends BaseAdapter {
                 parent.getContext().getString(R.string.lbl_no_description) : item.chapterDescription);
         holder.textViewLastModifiedDate.setText(DateUtil.getFormattedString(item.lastModifiedDate,
                 DateUtil.DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM));
+        holder.linearLayoutChapterItem.setBackgroundColor(item.isDeleted ?
+                ContextCompat.getColor(parent.getContext(), R.color.color_semi_transparent_gray) : 0);
+
         return convertView;
     }
 
@@ -62,11 +67,13 @@ public class StoryChapterAdapter extends BaseAdapter {
         private TextView textViewChapterTitle;
         private TextView textViewChapterDescription;
         private TextView textViewLastModifiedDate;
+        private LinearLayout linearLayoutChapterItem;
 
         ChapterViewHolder(View itemView) {
             textViewChapterTitle = (TextView) itemView.findViewById(R.id.textview_chapter_title);
             textViewChapterDescription = (TextView) itemView.findViewById(R.id.textview_chapter_description);
             textViewLastModifiedDate = (TextView) itemView.findViewById(R.id.textview_last_modified);
+            linearLayoutChapterItem = (LinearLayout) itemView.findViewById(R.id.llayout_chapter_item);
         }
     }
 }

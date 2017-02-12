@@ -20,29 +20,28 @@ import com.google.firebase.storage.OnPausedListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
-public class PhotographyFeed extends BaseFragment{
+public class PhotographyFeed extends BaseFragment {
     private Uri photoUri;
     private int id;
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
 
-    public static PhotographyFeed newInstance(Uri uri)
-    {
-        PhotographyFeed photographyFeed=new PhotographyFeed();
-        photographyFeed.photoUri=uri;
+    public static PhotographyFeed newInstance(Uri uri) {
+        PhotographyFeed photographyFeed = new PhotographyFeed();
+        photographyFeed.photoUri = uri;
         return photographyFeed;
     }
-    @Override
+    /*@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.content_scrolling,container,false);
-    }
+    }*/
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        FirebaseStorageAcess firebaseStorageAcess=new FirebaseStorageAcess(getContext());
-        UploadTask uploadTask=firebaseStorageAcess.uploadPhoto(photoUri,System.currentTimeMillis()+"");
+        FirebaseStorageAcess firebaseStorageAcess = new FirebaseStorageAcess(getContext());
+        UploadTask uploadTask = firebaseStorageAcess.uploadPhoto(photoUri, System.currentTimeMillis() + "");
 
         mNotifyManager =
                 (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -69,7 +68,7 @@ public class PhotographyFeed extends BaseFragment{
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 mBuilder.setContentText("Download complete")
-                        .setProgress(0,0,false);
+                        .setProgress(0, 0, false);
                 mNotifyManager.notify(id, mBuilder.build());
             }
         });

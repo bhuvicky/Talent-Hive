@@ -55,10 +55,11 @@ public class MyStoriesAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Story item = mList.get(position);
-        holder.imageViewWrapper.setImageBitmap(BitmapFactory.decodeFile(mList.get(position).wrapperImageUrl));
-        holder.textViewTitle.setText(mList.get(position).title);
-        holder.textViewTimeStamp.setText(DateUtil.getFormattedString(mList.get(position).lastModifiedDate,
+        holder.imageViewWrapper.setImageBitmap(BitmapFactory.decodeFile(item.wrapperImageUrl));
+        holder.textViewTitle.setText(item.title);
+        holder.textViewTimeStamp.setText(DateUtil.getFormattedString(item.lastModifiedDate,
                 DateUtil.DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM));
+        holder.checkBoxSelection.setChecked(item.isSelected);
         return convertView;
     }
 

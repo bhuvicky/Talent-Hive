@@ -21,7 +21,7 @@ public class GetStoryFeedOperation extends WebServiceOperation {
 
     private OnGetStoryFeedOperation iOnGetStoryFeedOperation;
 
-    public GetStoryFeedOperation(Map<String, String> header, OnGetStoryFeedOperation listener) {
+    public GetStoryFeedOperation(boolean isLookingForNewData, long time, Map<String, String> header, OnGetStoryFeedOperation listener) {
         super(URLConstant.GET_STORY_FEED, Request.Method.GET, header, new TypeToken<List<StoryFeedResponse>>() {}.getType(),
                 GetStoryFeedOperation.class.getSimpleName());
         iOnGetStoryFeedOperation = listener;

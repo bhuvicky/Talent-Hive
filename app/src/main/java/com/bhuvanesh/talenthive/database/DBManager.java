@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.List;
+
 public class DBManager implements DBQuery {
 
     private static final String DATABASE_NAME = "Talent Hive";
@@ -17,11 +19,15 @@ public class DBManager implements DBQuery {
         dbHelper = SLDBHelper.getHelper(context);
     }
 
+//     Open the database
+
     public void connect() {
         if (mSqldb == null) {
             mSqldb = dbHelper.getWritableDatabase();
         }
     }
+
+//    It returns the current database object.
 
     public SQLiteDatabase getDBInstance() {
         if (mSqldb == null) {
@@ -46,12 +52,32 @@ public class DBManager implements DBQuery {
         return rowId;
     }
 
+    public long replaceBulk(String tableName, List<ContentValues> valuesList) {
+        long rowId = -1;
+        SQLiteDatabase sqLiteDatabase = getDBInstance();
+        sqLiteDatabase.beginTransaction();
+        try {
+            for (ContentValues values : valuesList) {
+                rowId = sqLiteDatabase.replace(tableName, null, values);
+                System.out.println("replacing bulk: " + rowId);
+            }
+        } finally {
+            sqLiteDatabase.setTransactionSuccessful();
+            sqLiteDatabase.endTransaction();
+        }
+        return rowId;
+    }
+
     public Cursor select(String query) {
         return select(query, null);
     }
 
     public Cursor select(String query, String[] selectionArgs) {
         return getDBInstance().rawQuery(query, selectionArgs);
+    }
+
+    public void executeSQLQuery(String query) {
+        getDBInstance().execSQL(query);
     }
 
     private static class SLDBHelper extends SQLiteOpenHelper {
@@ -75,6 +101,7 @@ public class DBManager implements DBQuery {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE_STORY);
+            db.execSQL(CREATE_TABLE_STORY_FEED);
         }
 
         @Override

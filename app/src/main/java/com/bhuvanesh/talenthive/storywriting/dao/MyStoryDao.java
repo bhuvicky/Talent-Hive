@@ -19,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StoryDao extends Dao {
+public class MyStoryDao extends Dao {
 
     private static final String STORY_ID = "_id";
     private static final String WRAPPER_IMAGE_URL = "WrapperImageUrl";
