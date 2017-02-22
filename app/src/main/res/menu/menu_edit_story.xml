@@ -22,4 +22,10 @@
         android:title="@string/lbl_delete"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/menu_logout"
+        android:title="@string/lbl_logout"
+        app:showAsAction="never"/>
+
+
 </menu>

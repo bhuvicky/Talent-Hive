@@ -32,6 +32,7 @@ import android.widget.Spinner;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.RunTimePermissionFragment;
 import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.account.activity.LoginActivity;
 import com.bhuvanesh.talenthive.activity.THActivity;
 import com.bhuvanesh.talenthive.database.THDBManager;
 import com.bhuvanesh.talenthive.model.Language;
@@ -42,6 +43,7 @@ import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
 import com.bhuvanesh.talenthive.util.FileUtil;
 import com.bhuvanesh.talenthive.util.ImageUtil;
 import com.bhuvanesh.talenthive.util.THPreference;
+import com.facebook.login.LoginManager;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
@@ -277,6 +279,10 @@ public class EditStoryFragment extends RunTimePermissionFragment {
                 goToNextScreen();
                 replaceStoryChapterFragment(null);
                 break;
+            default:
+                LoginManager.getInstance().logOut();
+                getActivity().finish();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

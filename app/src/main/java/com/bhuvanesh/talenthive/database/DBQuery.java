@@ -25,5 +25,7 @@ public interface DBQuery {
         "LikedPeopleList varchar, NoOfComments long);";
     String GET_STORY_FEED = "SELECT * FROM " + TABLE_NAME_STORY_FEED + " ORDER BY LastModifiedTime DESC";
     String DELETE_ALL_STORY_FEED_RECORD = "DELETE FROM " + TABLE_NAME_STORY_FEED;
+    String DELETE_OLD_STORY_FEED_RECORDS_WITH_LIMIT = "DELETE FROM " + TABLE_NAME_STORY_FEED + " WHERE rowid IN " +
+            "(SELECT rowid FROM " + TABLE_NAME_STORY_FEED + " ORDER BY LastModifiedTime ASC LIMIT \'%d\');";
 
 }

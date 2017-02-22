@@ -21,4 +21,10 @@ public class THLoggerUtil {
             Log.e(tag.toString(), msg);
         }
     }
+
+    public static void println(String msg) {
+        if (mLogEnabled) {
+            System.out.println(msg);
+        }
+    }
 }

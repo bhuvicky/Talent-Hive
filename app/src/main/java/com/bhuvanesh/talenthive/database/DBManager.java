@@ -3,6 +3,7 @@ package com.bhuvanesh.talenthive.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -20,7 +21,6 @@ public class DBManager implements DBQuery {
     }
 
 //     Open the database
-
     public void connect() {
         if (mSqldb == null) {
             mSqldb = dbHelper.getWritableDatabase();
@@ -28,12 +28,21 @@ public class DBManager implements DBQuery {
     }
 
 //    It returns the current database object.
-
     public SQLiteDatabase getDBInstance() {
         if (mSqldb == null) {
             mSqldb = dbHelper.getWritableDatabase();
         }
         return mSqldb;
+    }
+
+//    Query the table for the number of rows in the table.
+    public long getTableRowCount(String tableName) {
+        return DatabaseUtils.queryNumEntries(getDBInstance(), tableName);
+    }
+
+//    Prints the contents of a Cursor to System.out.
+    public void printCursorInLog(Cursor cursor) {
+        DatabaseUtils.dumpCursor(cursor);
     }
 
     //inserts a new seperate record if not exists, otherwise it will update an existing record

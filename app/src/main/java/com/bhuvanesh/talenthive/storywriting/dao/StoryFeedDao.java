@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by bhuvanesh on 11-02-2017.
@@ -36,6 +37,8 @@ public class StoryFeedDao extends Dao {
     private static final String LIKED_PEOPLE_LIST = "LikedPeopleList";
     private static final String NO_OF_COMMENTS = "NoOfComments";
 
+    private static final int MAX_RECORD_TO_UPDATE = 10;
+
     @Override
     public void insert(CUDModel model) {
 
@@ -45,7 +48,9 @@ public class StoryFeedDao extends Dao {
     public void update(CUDModel model) {
         List<StoryFeedResponse> storyFeedList = (List<StoryFeedResponse>) model.object;
         List<ContentValues> valuesList = new ArrayList<>();
-        for (StoryFeedResponse item : storyFeedList) {
+        int listSize = storyFeedList.size() >= MAX_RECORD_TO_UPDATE ? MAX_RECORD_TO_UPDATE : storyFeedList.size();
+        for (int i = 0; i < listSize; i++) {
+            StoryFeedResponse item = storyFeedList.get(i);
             ContentValues values = new ContentValues();
 
             values.put(STORY_ID, item.story.storyId);
@@ -62,11 +67,22 @@ public class StoryFeedDao extends Dao {
             valuesList.add(values);
         }
         DBManager dbManager = new DBManager(THApplication.getInstance());
+        long rowId = 0L;
 
 //        Delete all data before update
-        dbManager.executeSQLQuery(DBQuery.DELETE_ALL_STORY_FEED_RECORD);
-
-        long rowId = dbManager.replaceBulk(DBQuery.TABLE_NAME_STORY_FEED, valuesList);
+        if (storyFeedList.size() >= MAX_RECORD_TO_UPDATE) {
+            dbManager.executeSQLQuery(DBQuery.DELETE_ALL_STORY_FEED_RECORD);
+            rowId = dbManager.replaceBulk(DBQuery.TABLE_NAME_STORY_FEED, valuesList);
+        } else {
+            long tableRowCount = dbManager.getTableRowCount(DBQuery.TABLE_NAME_STORY_FEED);
+            if (tableRowCount + storyFeedList.size() <= MAX_RECORD_TO_UPDATE)
+                rowId = dbManager.replaceBulk(DBQuery.TABLE_NAME_STORY_FEED, valuesList);
+            else {
+                int limitSize = (int) (tableRowCount + storyFeedList.size() - MAX_RECORD_TO_UPDATE);
+                dbManager.executeSQLQuery(String.format(Locale.getDefault(), DBQuery.DELETE_OLD_STORY_FEED_RECORDS_WITH_LIMIT, limitSize));
+                rowId = dbManager.replaceBulk(DBQuery.TABLE_NAME_STORY_FEED, valuesList);
+            }
+        }
 
         Message msg = new Message();
         if (rowId > 0) {

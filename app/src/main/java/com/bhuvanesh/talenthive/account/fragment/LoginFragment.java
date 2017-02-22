@@ -17,10 +17,17 @@ import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.account.manager.AccountManager;
 import com.bhuvanesh.talenthive.account.model.LoginRequest;
 import com.bhuvanesh.talenthive.account.model.LoginResponse;
+import com.bhuvanesh.talenthive.activity.THActivity;
 import com.bhuvanesh.talenthive.constant.IntentConstant;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 public class LoginFragment extends BaseFragment {
 
@@ -28,6 +35,7 @@ public class LoginFragment extends BaseFragment {
 
     private TextInputLayout mTextInputUsername, mTextInputPassword, mTextInputOTP;
     private EditText mEditTextUsername, mEditTextPswd, mEditTextOTP;
+    private CallbackManager mCallbackManager;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -50,6 +58,26 @@ public class LoginFragment extends BaseFragment {
         mTextInputOTP = (TextInputLayout) view.findViewById(R.id.useraccountOTPTextInputLayout);
         Button loginButton = (Button) view.findViewById(R.id.useraccountLoginButton);
         TextView forgotTxtView = (TextView) view.findViewById(R.id.useraccountForgotTextView);
+
+        LoginButton buttonFbLogin = (LoginButton) view.findViewById(R.id.button_fb_login);
+        mCallbackManager = CallbackManager.Factory.create();
+        buttonFbLogin.setFragment(this);
+        buttonFbLogin.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                startActivity(new Intent(getActivity(), THActivity.class));
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+
+            }
+        });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +127,13 @@ public class LoginFragment extends BaseFragment {
 
         setHasOptionsMenu(true);
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
+        System.out.println("on activity result called");
     }
 
     private boolean isValid() {

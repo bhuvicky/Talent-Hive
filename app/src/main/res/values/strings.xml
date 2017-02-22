@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Talent Hive</string>
 
+    <!--ID OR Key Strings-->
+    <string name="facebook_app_id">1220448844669565</string>
+
     <!--General Strings-->
     <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
     <string name="lbl_alert_ok">OK</string>
@@ -15,6 +18,7 @@
     <string name="lbl_saving">Saving...</string>
     <string name="lbl_save">Save</string>
     <string name="msg_saved">Saved</string>
+    <string name="lbl_logout">Log Out</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>

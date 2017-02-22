@@ -126,6 +126,7 @@ public class StoryFeedFragment extends BaseFragment implements StoryManager.OnGe
     public void OnGetStoryFeedSuccess(List<StoryFeedResponse> response) {
         if (isAdded()) {
             afterNetworkResponse(false, false);
+//think whether we can use notifyItemRangeChanged(); or not
             if (mIsScrollUp)
                 mStoryFeedList.addAll(0, response);
             else

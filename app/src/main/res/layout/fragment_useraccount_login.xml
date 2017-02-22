@@ -94,8 +94,11 @@
         style="@style/AppTheme.Button"
         android:background="@drawable/drawable_button"
         android:layout_gravity="bottom"
-        android:text="@string/lbl_create_new_account"
+        android:text="@string/lbl_create_new_account" />
 
-        />
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/button_fb_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

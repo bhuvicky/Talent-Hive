@@ -28,18 +28,23 @@
             </intent-filter>
              </activity>
         <activity android:name=".account.activity.LoginActivity"/>
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAXYUJ05CU7G_4TUx9v3bYsf7BpAtYaWUA"/>
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name=".photography.activity.PhotographyFilterActivtiy"/>
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAXYUJ05CU7G_4TUx9v3bYsf7BpAtYaWUA"/>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
     </application>
 
 </manifest>
