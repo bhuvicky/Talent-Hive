@@ -15,7 +15,7 @@
         >
 
         <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
-            android:id="@+id/cniv_dp"
+            android:id="@+id/cniv_profile_icon"
             android:layout_width="@dimen/dp_dimension"
             android:layout_height="@dimen/dp_dimension"
             android:paddingLeft="@dimen/padding_16dp"
@@ -29,17 +29,35 @@
             android:layout_alignParentTop="true"
             tools:text="Karthik"
             android:textSize="@dimen/title_dimension_value"
-            android:layout_toRightOf="@+id/cniv_dp"
-            android:layout_toEndOf="@+id/cniv_dp" />
+            android:layout_toRightOf="@+id/cniv_profile_icon"
+            android:layout_toEndOf="@+id/cniv_profile_icon" />
         <TextView
             android:id="@+id/textview_post_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="jun 10 2016 10:36"
-            android:layout_toRightOf="@id/cniv_dp"
+            android:layout_toRightOf="@id/cniv_profile_icon"
             android:textSize="@dimen/subhead_dimension_value"
-            android:layout_toEndOf="@id/cniv_dp"
+            android:layout_toEndOf="@id/cniv_profile_icon"
             android:layout_below="@id/textview_dp_name"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_at"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/textview_post_time"
+            android:visibility="gone"
+            android:id="@+id/textview_att"
+            tools:visibility="visible"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sivakasi"
+            android:id="@+id/textview_places"
+            android:layout_marginLeft="1dp"
+            android:layout_toRightOf="@id/textview_att"
+            android:layout_alignParentTop="true" />
         <View
             android:id="@+id/view_sperator"
             android:layout_width="match_parent"
@@ -63,7 +81,9 @@
         <com.android.volley.toolbox.NetworkImageView
             android:layout_width="match_parent"
             android:layout_below="@id/textview_title_description"
-            android:layout_height="360dp" />
+            android:layout_height="360dp"
+            android:id="@+id/imageview_photography"
+            />
 
     </RelativeLayout>
     <View

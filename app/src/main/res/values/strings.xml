@@ -207,6 +207,7 @@
     <string name="msg_post">post</string>
     <string name="title_gallery">Gallery</string>
     <string name="title_camera">Camera</string>
+    <string name="label_at">-at</string>
     <string-array name="lbl_photo_select_tab_title">
         <item>Gallery</item>
         <item>Camera</item>
