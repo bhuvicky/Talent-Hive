@@ -20,7 +20,7 @@ import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.ViewHolder>{
+public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.ViewHolder>{
 
    public interface IOnPhotoFeedItemClickListener{
         void onPaginationRetryClick();

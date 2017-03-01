@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.exception.THException;
-import com.bhuvanesh.talenthive.photography.adapter.PhotoFeedAdapter;
+import com.bhuvanesh.talenthive.photography.adapter.PhotosFeedAdapter;
 import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 
@@ -24,7 +24,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
     private SwipeRefreshLayout mRefreshPhotoFeed;
     private boolean isLoading;
     private boolean mIsScrollUp;
-    private PhotoFeedAdapter mPhotoFeedAdapter;
+    private PhotosFeedAdapter mPhotoFeedAdapter;
     private List<PhotoFeedResponse> mPhotoFeedList;
 
     public static PhotoFeedFragment newInstance()
@@ -60,7 +60,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
             }
         });
         if (mPhotoFeedAdapter == null)
-            mPhotoFeedAdapter = new PhotoFeedAdapter();
+            mPhotoFeedAdapter = new PhotosFeedAdapter();
         mRecyclerViewPhotoFeed.setAdapter(mPhotoFeedAdapter);
         return view;
     }
