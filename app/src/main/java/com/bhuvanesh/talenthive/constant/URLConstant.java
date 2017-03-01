@@ -7,7 +7,7 @@ public final class URLConstant {
     //login URL's
     public static final String USER_LOGIN_URI = "userlogin";
     public static final String GET_STORY_FEED = "getStoryfeed";
-
+    public static final String GET_PHOTO_FEED="getPhotofeed";
     private URLConstant() {
     }
 

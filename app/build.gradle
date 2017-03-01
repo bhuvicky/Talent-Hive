@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.bhuvanesh.talenthive"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -42,7 +42,7 @@ dependencies {
     compile "com.google.android.gms:play-services:$playServicesVersion"
     compile "com.google.android.gms:play-services-auth:$playServicesVersion"
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'life.knowledge4:k4l-video-trimmer:1.0'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
 }
 apply plugin: 'com.google.gms.google-services'
