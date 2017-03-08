@@ -9,6 +9,7 @@ public interface DBQuery {
     String PROFILE_TABLE_NAME = "profileRecords";
     String TABLE_NAME_STORY = "Story";
     String TABLE_NAME_STORY_FEED = "StoryFeed";
+    String TABLE_NAME_PHOTO_FEED = "PhotoFeed";
 
     String CREATE_TABLE_PROFILE_DETAILS = "CREATE TABLE "+ PROFILE_TABLE_NAME +"(_id integer PRIMARY KEY, "+
             "Name varchar, Email varchar, Password varchar, MobileNo varchar, StateName varchar, DistrictName varchar);";
@@ -27,5 +28,12 @@ public interface DBQuery {
     String DELETE_ALL_STORY_FEED_RECORD = "DELETE FROM " + TABLE_NAME_STORY_FEED;
     String DELETE_OLD_STORY_FEED_RECORDS_WITH_LIMIT = "DELETE FROM " + TABLE_NAME_STORY_FEED + " WHERE rowid IN " +
             "(SELECT rowid FROM " + TABLE_NAME_STORY_FEED + " ORDER BY LastModifiedTime ASC LIMIT \'%d\');";
-
+//     for photoFeed
+    String CREATE_TABLE_PHOTO_FEED="CREATE TABLE "+TABLE_NAME_PHOTO_FEED+" (PhotoId varchar PRIMARY KEY, ProfileImageUrl varchar, " +
+               "LastModifiedTime long, PhotoImageUrl varchar, Description varchar, "+
+               "LikedPeopleList varchar, NoOfComments long);";
+    String GET_PHOTO_FEED = "SELECT * FROM " + TABLE_NAME_PHOTO_FEED + " ORDER BY LastModifiedTime DESC";
+    String DELETE_ALL_PHOTO_FEED_RECORD = "DELETE FROM " + TABLE_NAME_PHOTO_FEED;
+    String DELETE_OLD_PHOTO_FEED_RECORDS_WITH_LIMIT = "DELETE FROM " + TABLE_NAME_STORY_FEED + " WHERE rowid IN " +
+            "(SELECT rowid FROM " + TABLE_NAME_STORY_FEED + " ORDER BY LastModifiedTime ASC LIMIT \'%d\');";
 }

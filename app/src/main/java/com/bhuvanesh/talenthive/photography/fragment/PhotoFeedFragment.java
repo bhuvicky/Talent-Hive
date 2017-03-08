@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.database.THDBManager;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.photography.adapter.PhotoFeedAdapter;
 import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
@@ -62,6 +63,28 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
         if (mPhotoFeedAdapter == null)
             mPhotoFeedAdapter = new PhotoFeedAdapter();
         mRecyclerViewPhotoFeed.setAdapter(mPhotoFeedAdapter);
+
+
+        THDBManager manager = new THDBManager();
+        manager.setmOnTHDBMangerListener(new THDBManager.OnTHDBMangerListener() {
+            @Override
+            public void onTHDBSuccessful(Object object) {
+                mPhotoFeedList = (List< PhotoFeedResponse>) object;
+                getPhotoFeedList(true);
+            }
+
+            @Override
+            public void onTHDBError(THException error) {
+                getPhotoFeedList(true);
+            }
+        });
+        manager.getPhotoFeedList();
+        mPhotoFeedAdapter.setOnStoryFeedItemClickListener(new PhotoFeedAdapter.IOnPhotoFeedItemClickListener() {
+            @Override
+            public void onPaginationRetryClick() {
+                getPhotoFeedList(false);
+            }
+        });
         return view;
     }
 

@@ -18,7 +18,6 @@ package com.bhuvanesh.talenthive.sports.fragment;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -34,6 +33,7 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -53,9 +53,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.sports.view.AutoFitTextureView;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,7 +68,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class Camera2VideoFragment extends Fragment
+public class Camera2VideoFragment extends BaseFragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
 
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
@@ -333,6 +335,8 @@ public class Camera2VideoFragment extends Fragment
             public void onClick(View view) {
                 if (mIsRecordingVideo) {
                     stopRecordingVideo();
+                    replace(R.id.dashboard_container2, VideoTrimmerFragment.newInstance(Uri.fromFile(new File(mNextVideoAbsolutePath))));
+
                 } else {
                     startRecordingVideo();
                 }
@@ -396,9 +400,9 @@ public class Camera2VideoFragment extends Fragment
      */
     private boolean shouldShowRequestPermissionRationale(String[] permissions) {
         for (String permission : permissions) {
-            if (FragmentCompat.shouldShowRequestPermissionRationale(this, permission)) {
-                return true;
-            }
+//            if (FragmentCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
+//                return true;
+//            }
         }
         return false;
     }
@@ -410,7 +414,7 @@ public class Camera2VideoFragment extends Fragment
         if (shouldShowRequestPermissionRationale(VIDEO_PERMISSIONS)) {
 //            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
         } else {
-            FragmentCompat.requestPermissions(this, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
+//            FragmentCompat.requestPermissions(this, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
         }
     }
 

@@ -31,12 +31,12 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
     private ImageLoader imageLoader= THApplication.getInstance().getImageLoader();
     private String location;
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PhotoFeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_feed,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(PhotoFeedAdapter.ViewHolder holder, int position) {
         PhotoFeedResponse item=mPhotoFeedList.get(position);
         holder.dpCNImageView.setImageUrl(item.profileImageUrl,imageLoader);
         holder.profileNameTextView.setText(item.name);

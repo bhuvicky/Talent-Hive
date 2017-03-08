@@ -1,18 +1,22 @@
 package com.bhuvanesh.talenthive.dashboard.activity;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
+import com.bhuvanesh.talenthive.sports.fragment.Camera2VideoFragment;
 
 public class DashboardActivity extends BaseActivity {
     private FloatingActionButton floatingActionButton;
     public static String imageId="0";
     private static final String IMAGEID="imageId";
     public SelectPhotoFragment selectPhotoFragment;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,10 +24,9 @@ public class DashboardActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-        selectPhotoFragment=SelectPhotoFragment.newInstance();
-        replace(R.id.dashboard_container2, selectPhotoFragment);
-
-
+//        selectPhotoFragment=SelectPhotoFragment.newInstance();
+//        replace(R.id.dashboard_container2, selectPhotoFragment);
+        replace(R.id.dashboard_container2, Camera2VideoFragment.newInstance());
     }
 
 //    @Override
