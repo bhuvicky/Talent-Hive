@@ -15,18 +15,25 @@ import android.widget.Toast;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.account.manager.AccountManager;
+import com.bhuvanesh.talenthive.account.manager.SocialAuthManager;
 import com.bhuvanesh.talenthive.account.model.LoginRequest;
 import com.bhuvanesh.talenthive.account.model.LoginResponse;
+import com.bhuvanesh.talenthive.activity.THActivity;
 import com.bhuvanesh.talenthive.constant.IntentConstant;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
+import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
-//import com.facebook.CallbackManager;
-//import com.facebook.FacebookCallback;
-//import com.facebook.FacebookException;
-//import com.facebook.FacebookSdk;
-//import com.facebook.login.LoginResult;
-//import com.facebook.login.widget.LoginButton;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
+
+import org.json.JSONObject;
 
 public class LoginFragment extends BaseFragment {
 
@@ -34,7 +41,7 @@ public class LoginFragment extends BaseFragment {
 
     private TextInputLayout mTextInputUsername, mTextInputPassword, mTextInputOTP;
     private EditText mEditTextUsername, mEditTextPswd, mEditTextOTP;
-//    private CallbackManager mCallbackManager;
+    private CallbackManager mCallbackManager;
 
     public static LoginFragment newInstance() {
         LoginFragment fragment = new LoginFragment();
@@ -58,25 +65,24 @@ public class LoginFragment extends BaseFragment {
         Button loginButton = (Button) view.findViewById(R.id.useraccountLoginButton);
         TextView forgotTxtView = (TextView) view.findViewById(R.id.useraccountForgotTextView);
 
-//        LoginButton buttonFbLogin = (LoginButton) view.findViewById(R.id.button_fb_login);
-//        mCallbackManager = CallbackManager.Factory.create();
-//        buttonFbLogin.setFragment(this);
-//        buttonFbLogin.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-//            @Override
-//            public void onSuccess(LoginResult loginResult) {
-//                startActivity(new Intent(getActivity(), THActivity.class));
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//
-//            @Override
-//            public void onError(FacebookException error) {
-//
-//            }
-//        });
+
+        LoginButton buttonFbLogin = (LoginButton) view.findViewById(R.id.button_fb_login);
+        buttonFbLogin.setReadPermissions("email", "public_profile");
+        buttonFbLogin.setFragment(this);
+        mCallbackManager = CallbackManager.Factory.create();
+        SocialAuthManager manager = new SocialAuthManager();
+        manager.initFbLogin(buttonFbLogin, mCallbackManager, new SocialAuthManager.OnFbLoginManager() {
+            @Override
+            public void onFbLoginSuccess(Profile profile) {
+
+            }
+
+            @Override
+            public void onFbLoginError(THException exception) {
+
+            }
+        });
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,8 +137,7 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        mCallbackManager.onActivityResult(requestCode, resultCode, data);
-        System.out.println("on activity result called");
+        mCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private boolean isValid() {
@@ -148,4 +153,5 @@ public class LoginFragment extends BaseFragment {
         }
         return isValid;
     }
+
 }

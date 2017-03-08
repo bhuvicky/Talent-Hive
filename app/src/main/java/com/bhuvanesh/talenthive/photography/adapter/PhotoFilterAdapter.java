@@ -28,7 +28,7 @@ public class PhotoFilterAdapter extends RecyclerView.Adapter<PhotoFilterAdapter.
     public interface OnItemClickListener{
         void onItemClickListener(int postion);
     }
-    public PhotoFilterAdapter(Context context,Bitmap bitmap,GPUImageFilterTools.FilterList filterList,OnItemClickListener onItemClickListener)
+    public PhotoFilterAdapter(Context context, Bitmap bitmap, GPUImageFilterTools.FilterList filterList, OnItemClickListener onItemClickListener)
     {
         this.context=context;
         this.imageId=imageId;
