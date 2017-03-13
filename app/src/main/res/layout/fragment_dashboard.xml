@@ -5,14 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <FrameLayout
+        android:id="@+id/flayout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/color_white"
-        app:itemIconTint="@drawable/selector_bottom_nav_icon"
-        app:itemTextColor="@drawable/selector_bottom_nav_icon"
+        android:background="@color/color_white"
+        app:elevation="8dp"
+        app:itemIconTint="@color/selector_bottom_nav_icon"
+        app:itemTextColor="@color/selector_bottom_nav_icon"
         app:menu="@menu/menu_bottom_nav_view" />
 
 </RelativeLayout>

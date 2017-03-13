@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.dashboard.fragment.DashboardFragment;
 import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 import com.bhuvanesh.talenthive.storywriting.fragment.StoryViewPagerFragment;
 
@@ -22,7 +23,7 @@ public class DashboardActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
         selectPhotoFragment=SelectPhotoFragment.newInstance();
-        replace(R.id.flayout_container, StoryViewPagerFragment.newInstance());
+        replace(R.id.flayout_container, DashboardFragment.newInstance());
     }
 
 }

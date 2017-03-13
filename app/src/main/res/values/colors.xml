@@ -14,6 +14,7 @@
     <color name="color_light_gray">#999999</color>
     <color name="color_light_black">#333333</color>
     <color name="color_black">#000000</color>
+    <color name="color_window_background">#c8fbf5</color>
 
     <color name="color_light_blue">#41B3DA</color>
     <color name="color_light_red">#FFEBEE</color>

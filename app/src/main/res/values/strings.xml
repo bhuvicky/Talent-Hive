@@ -21,6 +21,7 @@
     <string name="lbl_logout">Log Out</string>
     <string name="lbl_settings">Settings</string>
     <string name="lbl_or">OR</string>
+    <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
@@ -52,6 +53,11 @@
 
     <!--Dashboard Strings-->
     <string name="menu_home">Home</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_profile">Profile</string>
+    <string name="lbl_photo">Photography</string>
+    <string name="lbl_dance">Dance</string>
 
     <!--Menu Advise-->
 

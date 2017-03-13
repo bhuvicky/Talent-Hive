@@ -3,22 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_favorites"
-        android:enabled="true"
+        android:id="@+id/menu_home"
         android:icon="@drawable/ic_home_white_24dp"
-        android:title="@string/menu_home"
-        app:showAsAction="ifRoom" />
+        android:title="@string/menu_home" />
     <item
-        android:id="@+id/action_schedules"
-        android:enabled="true"
-        android:icon="@drawable/ic_home_white_24dp"
-        android:title="@string/menu_home"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_magnify_white_24dp"
+        android:title="@string/menu_search" />
     <item
-        android:id="@+id/action_music"
-        android:enabled="true"
-        android:icon="@drawable/ic_home_white_24dp"
-        android:title="@string/menu_home"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_variant_white_24dp"
+        android:title="@string/menu_search" />
+    <item
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_account_white_24dp"
+        android:title="@string/menu_search" />
 
 </menu>
