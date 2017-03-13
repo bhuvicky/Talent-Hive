@@ -21,7 +21,7 @@ public class DashboardActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
         selectPhotoFragment=SelectPhotoFragment.newInstance();
-        replace(R.id.dashboard_container2, selectPhotoFragment);
+//        replace(R.id.dashboard_container2, selectPhotoFragment);
 
 
     }

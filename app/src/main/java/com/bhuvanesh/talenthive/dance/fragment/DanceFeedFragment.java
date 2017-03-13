@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
@@ -31,6 +33,7 @@ public class DanceFeedFragment extends BaseFragment {
     private static final int PICK_GALLERY_VIDEO_REQUEST_CODE = 10;
 //    private VideoView videoView;
     private int position;
+    private View currentFocusedLayout, oldFocusedLayout;
 
     public static DanceFeedFragment newInstance() {
         return new DanceFeedFragment();
@@ -65,17 +68,33 @@ public class DanceFeedFragment extends BaseFragment {
 
 
         RecyclerView recyclerViewDance = (RecyclerView) view.findViewById(R.id.recyclerview_dance_feed);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewDance.setLayoutManager(layoutManager);
 
         if (mDanceFeedAdapter == null)
             mDanceFeedAdapter = new DanceFeedAdapter();
         recyclerViewDance.setAdapter(mDanceFeedAdapter);
         mDanceFeedAdapter.setData(danceList);
+
         recyclerViewDance.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
 
+                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    int firstVisibleItmePos = layoutManager.findFirstCompletelyVisibleItemPosition();
+                    THLoggerUtil.println("log firstVisibleItmePos = " + firstVisibleItmePos);
+                    if (firstVisibleItmePos >= 0) {
+                        if (oldFocusedLayout != null) {
+                            VideoView videoViewDance = (VideoView) oldFocusedLayout.findViewById(R.id.videoview);
+                            videoViewDance.pause();
+                        }
+
+                        currentFocusedLayout = layoutManager.findViewByPosition(firstVisibleItmePos);
+                        VideoView videoViewDance = (VideoView) currentFocusedLayout.findViewById(R.id.videoview);
+                        oldFocusedLayout = currentFocusedLayout;
+                    }
+                }
             }
         });
 

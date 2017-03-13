@@ -19,6 +19,8 @@
     <string name="lbl_save">Save</string>
     <string name="msg_saved">Saved</string>
     <string name="lbl_logout">Log Out</string>
+    <string name="lbl_settings">Settings</string>
+    <string name="lbl_or">OR</string>
 
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
@@ -75,14 +77,21 @@
     <string name="msg_send_opt">Send OTP</string>
     <string name="lbl_string_login">Login</string>
     <string name="progress_dialog_login">Logging In</string>
+    <string name="lbl_google_sign_in">Sign in with Google</string>
     <string name="lbl_create_new_account">create new Account</string>
+    <string name="com_facebook_loginview_log_in_button_continue">Facebook</string>
+    <string name="lbl_signup">Don\'t have an account yet? Sign Up</string>
+    <string name="oauth2.0_web_client_google_people_api" translatable="false">877402304105-kcm1cpivf4btjkqr790oor34g7s0sbkd.apps.googleusercontent.com</string>
+    <string name="google_web_client_secret" translatable="false">de7l2rSXrP2y18knzBsrt-dl</string>
+    <string name="redirect_url" translatable="false">urn:ietf:wg:oauth:2.0:oob</string>
+    <string name="lbl_sign_in_terms_conditions">By clicking on Sign In you accept the Terms &amp; Conditions and you have read our Privacy Policy</string>
 
     <!-- Forgot Password String -->
     <string name="title_forgot_password">Forgot Password</string>
     <string name="msg_hint_otp">One Time Password<b>*</b></string>
-    <string name="msg_hint_password">Password<b>*</b></string>
-    <string name="msg_hint_confirm_password">Confirm Password<b>*</b></string>
-    <string name="msg_hint_forgotpassword">forget password?</string>
+    <string name="msg_hint_password">Password</string>
+    <string name="msg_hint_confirm_password">Confirm Password</string>
+    <string name="msg_hint_forgotpassword">Forgot Password?</string>
     <string name="msg_change_password">Save Password</string>
     <string name="msg_error_otp">Invalid OTP Entry</string>
     <string name="msg_error_password_empty">Enter Password</string>
@@ -212,4 +221,19 @@
         <item>Gallery</item>
         <item>Camera</item>
     </string-array>
+
+    <!--Profile Strings-->
+    <string name="hint_name">Name*</string>
+    <string name="hint_user_name">UserName*</string>
+    <string name="hint_bio">Bio</string>
+    <string name="hint_email">Email*</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_mobile_no">Mobile No</string>
+    <string-array name="array_gender">
+        <item>Select Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="title_edit_profile">Edit Profile</string>
+
 </resources>
