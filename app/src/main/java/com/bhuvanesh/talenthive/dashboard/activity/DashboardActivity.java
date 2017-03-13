@@ -21,28 +21,7 @@ public class DashboardActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
         selectPhotoFragment=SelectPhotoFragment.newInstance();
-//        replace(R.id.dashboard_container2, selectPhotoFragment);
-
-
+        replace(R.id.dashboard_container2, selectPhotoFragment);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem menuItem) {
-//       switch(menuItem.getItemId()){
-//           case android.R.id.home:
-//               pop();
-//               break;
-//           case R.id.menu_next:
-//               Intent intent=new Intent(this, PhotographyFilterActivtiy.class);
-//               intent.putExtra(IMAGEID,imageId);
-//               startActivity(intent);
-//               //pop();
-////             replace(R.id.dashboard_container2, PhotoFilterFragment.newInstance(imageId),true);
-//               //selectPhotoFragment.replaces(imageId);
-//               break;
-//       }
-//
-//        return true;
-//
-//    }
 }

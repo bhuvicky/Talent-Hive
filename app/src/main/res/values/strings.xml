@@ -50,6 +50,9 @@
     <!--Accessibility Strings-->
     <string name="desc_cover_image">Story Cover Image</string>
 
+    <!--Dashboard Strings-->
+    <string name="menu_home">Home</string>
+
     <!--Menu Advise-->
 
     <string name="msg_string_progressdialog_loading">Loading</string>
