@@ -38,9 +38,11 @@ dependencies {
     compile "com.android.support:cardview-v7:$supportLibraryVersion"
     compile "com.android.support:support-v13:$supportLibraryVersion"
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.google.code.gson:gson:2.7'
     compile "com.google.android.gms:play-services:$playServicesVersion"
     compile "com.google.android.gms:play-services-auth:$playServicesVersion"
+    compile 'com.google.apis:google-api-services-people:v1-rev64-1.22.0'
+    compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'life.knowledge4:k4l-video-trimmer:1.0'

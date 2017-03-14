@@ -17,6 +17,6 @@ public class THActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_talent_hive);
         setActionBar(R.id.toolbar_main);
-        replace(R.id.flayout_container, DanceFeedFragment.newInstance());
+        replace(R.id.flayout_container, StoryViewPagerFragment.newInstance());
     }
 }

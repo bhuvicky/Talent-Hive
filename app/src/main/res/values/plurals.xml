@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="adding_x_like">
+        <item quantity="other">Adding %1$s likes.</item>
+        <item quantity="one">Adding 1 like.</item>
+    </plurals>
+</resources>

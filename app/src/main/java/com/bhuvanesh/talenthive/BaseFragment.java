@@ -92,11 +92,6 @@ public class BaseFragment extends DialogFragment {
         ((BaseActivity) getActivity()).dismissProgressDialog();
     }
 
-    public void onResume() {
-        super.onResume();
-//        UIUtils.closeKeyBoard(getContext(), getView());
-    }
-
     public void replace(int containerId, BaseFragment fragment) {
         if (getActivity() != null) {
             ((BaseActivity) getActivity()).replace(containerId, fragment);
