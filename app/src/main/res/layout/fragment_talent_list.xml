@@ -8,6 +8,7 @@
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <TextView
+        android:id="@+id/textview_photo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -16,6 +17,7 @@
         android:drawableTop="@drawable/quantum_ic_art_track_grey600_48"/>
 
     <TextView
+        android:id="@+id/textview_story"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -24,6 +26,7 @@
         android:drawableTop="@drawable/quantum_ic_art_track_grey600_48"/>
 
     <TextView
+        android:id="@+id/textview_dance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
