@@ -23,6 +23,10 @@
     <string name="lbl_or">OR</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
 
+    <!--Menu Strings-->
+    <string name="menu_options">Options</string>
+
+
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
     <string name="title_edit_story">Edit Story</string>

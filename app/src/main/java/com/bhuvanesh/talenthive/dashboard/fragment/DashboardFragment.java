@@ -20,7 +20,7 @@ public class DashboardFragment extends BaseFragment {
 
     public static final int TALENT_TYPE_PHOTO = 0;
     public static final int TALENT_TYPE_STORY = TALENT_TYPE_PHOTO + 1;
-    public static final int TALENT_TYPE_DANCE = TALENT_TYPE_STORY;
+    public static final int TALENT_TYPE_DANCE = TALENT_TYPE_STORY + 1;
 
     public static DashboardFragment newInstance() {
         return new DashboardFragment();

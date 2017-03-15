@@ -1,6 +1,8 @@
 package com.bhuvanesh.talenthive.model;
 
 
+import java.util.List;
+
 public class Profile {
 
     public static final int LOGIN_TYPE_FB = 0;
@@ -15,13 +17,12 @@ public class Profile {
     public String fbTokenId;
     public String googleTokenId;
 
-    public String firstName;
-    public String lastName;
-    public String name;
-    public String email;
-    public String mobileNo;
-    public String profilePicUrl;
-    public String encodedProfilePic;
+    public String profilePicUrl, encodedProfilePic, coverImageUrl, encodedCoverImage;
+    public List<Profile> followersList, followingList;
+    public boolean isFollowedByMe;
+
+    public String name, userName, bio, email, mobileNo;
+    public int gender;
 
 
 
