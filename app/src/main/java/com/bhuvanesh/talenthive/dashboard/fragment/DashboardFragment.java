@@ -48,7 +48,7 @@ public class DashboardFragment extends BaseFragment {
                                 break;
 
                             default:
-                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance());
+                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance(""));
                         }
                         return true;
                     }

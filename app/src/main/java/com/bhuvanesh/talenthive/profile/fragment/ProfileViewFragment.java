@@ -16,7 +16,7 @@ import com.bhuvanesh.talenthive.R;
 
 public class ProfileViewFragment extends BaseFragment {
 
-    public static ProfileViewFragment newInstance() {
+    public static ProfileViewFragment newInstance(String profileId) {
         return new ProfileViewFragment();
     }
 
