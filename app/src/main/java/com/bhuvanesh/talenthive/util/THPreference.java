@@ -24,6 +24,7 @@ public final class THPreference {
     private static final String PREFERENCE_KEY_FB_LOGIN = "PREFERENCE_KEY_FB_LOGIN";
     private static final String PREFERENCE_KEY_GOOGLE_LOGIN = "PREFERENCE_KEY_GOOGLE_LOGIN";
     private static final String PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE = "PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE";
+    private static final String PREFERENCE_KEY_PROFILE_ID = "PREFERENCE_KEY_PROFILE_ID";
 
 
     private static THPreference mInstance;
@@ -69,12 +70,6 @@ public final class THPreference {
         return mSharedPreferences.getBoolean("PREFERENCE_KEY_GOOGLE_LOGIN", false);
     }
 
-    public void setLanguageList(String languageJson) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(PREFERENCE_KEY_LANGUAGE, languageJson);
-        editor.apply();
-    }
-
     public void setGoogleServerAuthCode(String serverAuthCode) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE, serverAuthCode);
@@ -83,6 +78,22 @@ public final class THPreference {
 
     public String getGoogleServerAuthCode() {
         return mSharedPreferences.getString(PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE, "");
+    }
+
+    public void setProfileId(String profileId) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFERENCE_KEY_PROFILE_ID, profileId);
+        editor.apply();
+    }
+
+    public String getProfileId() {
+        return mSharedPreferences.getString(PREFERENCE_KEY_PROFILE_ID, "");
+    }
+
+    public void setLanguageList(String languageJson) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFERENCE_KEY_LANGUAGE, languageJson);
+        editor.apply();
     }
 
     public List<Language> getLanguageList() {

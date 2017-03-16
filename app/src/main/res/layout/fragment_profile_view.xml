@@ -6,30 +6,40 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="230dp"
+        android:fitsSystemWindows="true"
+        android:background="@color/color_gray"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
                 android:id="@+id/imageview_cover"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/gallery_item_shadow_bottom"
-                app:layout_collapseMode="parallax"
+                android:scaleType="fitXY"
                 tools:ignore="ContentDescription"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_collapseMode="pin" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="?attr/actionBarSize">
 
                 <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
                     android:id="@+id/imageview_profile_icon"
@@ -52,7 +62,6 @@
                     android:id="@+id/textview_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_collapseMode="pin"
                     android:layout_below="@id/imageview_follow"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
@@ -97,7 +106,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/color_white"
                             android:textAllCaps="true"
-                            tools:text="follower"/>
+                            android:text="follower"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -122,17 +131,11 @@
                             android:gravity="center"
                             android:textColor="@color/color_white"
                             android:textAllCaps="true"
-                            tools:text="following"/>
+                            android:text="following"/>
                     </LinearLayout>
 
                 </LinearLayout>
             </RelativeLayout>
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>

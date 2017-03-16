@@ -15,6 +15,7 @@ import com.bhuvanesh.talenthive.dance.fragment.DanceFeedFragment;
 import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 import com.bhuvanesh.talenthive.profile.fragment.ProfileViewFragment;
 import com.bhuvanesh.talenthive.storywriting.fragment.StoryViewPagerFragment;
+import com.bhuvanesh.talenthive.util.THPreference;
 
 public class DashboardFragment extends BaseFragment {
 
@@ -48,7 +49,7 @@ public class DashboardFragment extends BaseFragment {
                                 break;
 
                             default:
-                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance(""));
+                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance(THPreference.getInstance().getProfileId()));
                         }
                         return true;
                     }
