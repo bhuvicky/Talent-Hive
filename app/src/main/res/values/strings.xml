@@ -23,6 +23,10 @@
     <string name="lbl_or">OR</string>
     <string name="bottom_sheet_behavior" translatable="false">android.support.design.widget.BottomSheetBehavior</string>
 
+    <!--Menu Strings-->
+    <string name="menu_discover_people">Discover People</string>
+
+
     <!--Story Writing Strings-->
     <string name="title_story_writing">Story Writing</string>
     <string name="title_edit_story">Edit Story</string>
@@ -244,5 +248,10 @@
         <item>Female</item>
     </string-array>
     <string name="title_edit_profile">Edit Profile</string>
+
+    <!--Search Strings-->
+    <string name="lbl_find_people">Find People</string>
+    <string name="lbl_invite_people">Invite People</string>
+    <string name="lbl_google">Google</string>
 
 </resources>

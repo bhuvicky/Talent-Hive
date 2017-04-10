@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_discover_people"
+        android:title="@string/menu_discover_people"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_edit_profile"
+        android:title="@string/title_edit_profile"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_options"
+        android:title="@string/lbl_settings"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:title="@string/lbl_logout"
+        app:showAsAction="never"/>
+
+</menu>

@@ -14,7 +14,7 @@ public class DashboardActivity extends BaseActivity {
     private FloatingActionButton floatingActionButton;
     public static String imageId="0";
     private static final String IMAGEID="imageId";
-    public SelectPhotoFragment selectPhotoFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +22,6 @@ public class DashboardActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
-        selectPhotoFragment=SelectPhotoFragment.newInstance();
         replace(R.id.flayout_container, DashboardFragment.newInstance());
     }
 

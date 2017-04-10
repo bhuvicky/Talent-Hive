@@ -128,8 +128,8 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     }
 
     private void setProfileDetails() {
-        mEditTextName.setText(mProfile.firstName != null ? mProfile.firstName : "");
-        mEditTextUserName.setText(mProfile.lastName != null ? mProfile.lastName : "");
+        /*mEditTextName.setText(mProfile.firstName != null ? mProfile.firstName : "");
+        mEditTextUserName.setText(mProfile.lastName != null ? mProfile.lastName : "");*/
         mEditTextMobileNo.setText(mProfile.mobileNo != null ? mProfile.mobileNo : "");
         mImageViewProfile.setDefaultImageResId(R.drawable.ic_default_avatar);
         mImageViewProfile.setErrorImageResId(R.drawable.ic_default_avatar);

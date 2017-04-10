@@ -48,8 +48,9 @@ public class SocialAuthOperation {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Profile profile = new Profile();
                         profile.accountId = object.optString("id");
-                        profile.firstName = object.optString("first_name");
-                        profile.lastName = object.optString("last_name");
+                        String name = object.optString("first_name") + " " + object.optString("last_name");
+                        /*profile.firstName = object.optString("first_name");
+                        profile.lastName = object.optString("last_name");*/
                         profile.name = object.optString("name");
                         listener.onFbLoginSuccess(profile);
 

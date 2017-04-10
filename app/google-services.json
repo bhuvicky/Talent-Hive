@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "877402304105",
+    "project_id": "talent-hive"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:877402304105:android:23e0c6b013ffd237",
+        "android_client_info": {
+          "package_name": "com.bhuvanesh.talenthive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "877402304105-rtkm1ttuip48cmajqrlf0neddmcm34sb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bhuvanesh.talenthive",
+            "certificate_hash": "A7FBDF7FC55D8F92246F5257AA6F87842D3D896D"
+          }
+        },
+        {
+          "client_id": "877402304105-4ngc7955cvhm7evcilo4vqh3o5tev97a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi0j_W9URuLqM6Q0KJ7WYh91B-V2A3Gl8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

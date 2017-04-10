@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.bhuvanesh.talenthive.R;
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -11,11 +13,14 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.people.v1.People;
+import com.google.api.services.people.v1.PeopleScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Name;
 import com.google.api.services.people.v1.model.Person;
+import com.google.api.services.people.v1.model.Photo;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
@@ -57,7 +62,17 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("log google token response = " + tokenResponse);
         // End of Step 2 <--
+
+        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+                httpTransport, jsonFactory, clientId, clientSecret, Arrays.asList(PeopleScopes.CONTACTS_READONLY))
+                .build();
+
+        AuthorizationCodeRequestUrl authorizationUrl =
+                flow.newAuthorizationUrl().setRedirectUri(redirectUrl)
+                        .setApprovalPrompt("force")
+                        .setAccessType("offline");
 
         GoogleCredential credential = new GoogleCredential.Builder()
                 .setTransport(httpTransport)
@@ -74,14 +89,16 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
         try {
             response = peopleService.people().connections()
                     .list("people/me")
-                    .setPageSize(200)
+                    .setPageSize(50)
                     .execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-//        List<Person> connections = response.getConnections();
-        return response.getConnections();
+        System.out.println("log response = " + response);
+
+        List<Person> connections = response.getConnections();
+        return connections;
     }
 
     @Override
@@ -89,6 +106,9 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
         super.onPostExecute(persons);
         if (persons != null && persons.size() > 0) {
             for (Person person : persons) {
+                Photo photo = person.getPhotos().get(0);
+                System.out.println("person photo url = " + photo.getUrl());
+
                 List<Name> names = person.getNames();
                 if (names != null && names.size() > 0) {
                     System.out.println("Name: " + person.getNames().get(0)
