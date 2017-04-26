@@ -18,10 +18,28 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
-repositories {
-    mavenCentral()
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+apply plugin: 'io.fabric'
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
 }
 
 ext {
@@ -43,9 +61,14 @@ dependencies {
     compile "com.google.android.gms:play-services-auth:$playServicesVersion"
     compile 'com.google.apis:google-api-services-people:v1-rev64-1.22.0'
     compile 'com.google.api-client:google-api-client:1.22.0'
+    compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'life.knowledge4:k4l-video-trimmer:1.0'
     compile 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    //crashlytics dependency must be at the last line in dependency block
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+        transitive = true;
+    }
 }
 apply plugin: 'com.google.gms.google-services'

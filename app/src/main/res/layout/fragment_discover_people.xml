@@ -22,11 +22,19 @@
         android:id="@+id/textview_google_friends"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="10dp"
         android:drawableStart="@drawable/common_google_signin_btn_icon_light"
         android:drawableLeft="@drawable/common_google_signin_btn_icon_light"
         android:text="@string/lbl_google"
         android:gravity="center_vertical"
         android:drawablePadding="5dp"/>
+
+    <TextView
+        android:id="@+id/textview_invite_friends"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:text="@string/lbl_invite_friends"/>
 
 </LinearLayout>

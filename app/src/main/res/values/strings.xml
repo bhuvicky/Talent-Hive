@@ -97,6 +97,7 @@
     <string name="oauth2.0_web_client_google_people_api" translatable="false">877402304105-kcm1cpivf4btjkqr790oor34g7s0sbkd.apps.googleusercontent.com</string>
     <string name="google_web_client_secret" translatable="false">de7l2rSXrP2y18knzBsrt-dl</string>
     <string name="redirect_url" translatable="false">urn:ietf:wg:oauth:2.0:oob</string>
+    <string name="redirect_url_new" translatable="false">https://www.talenthive.com/oauth2callback</string>
     <string name="lbl_sign_in_terms_conditions">By clicking on Sign In you accept the Terms &amp; Conditions and you have read our Privacy Policy</string>
 
     <!-- Forgot Password String -->
@@ -251,7 +252,7 @@
 
     <!--Search Strings-->
     <string name="lbl_find_people">Find People</string>
-    <string name="lbl_invite_people">Invite People</string>
+    <string name="lbl_invite_friends">Invite Friends</string>
     <string name="lbl_google">Google</string>
 
 </resources>

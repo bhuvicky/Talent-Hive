@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.util.PeopleAsyncTask;
+import com.bhuvanesh.talenthive.util.PeopleAsyncTaskNew;
 import com.bhuvanesh.talenthive.util.THPreference;
 
 
@@ -27,10 +28,11 @@ public class DiscoverPeopleFragment extends BaseFragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(THPreference.getInstance().getGoogleServerAuthCode())) {
+                /*if (!TextUtils.isEmpty(THPreference.getInstance().getGoogleServerAuthCode())) {
                     System.out.println("log server auth code = " +  THPreference.getInstance().getGoogleServerAuthCode());
                     new PeopleAsyncTask(getActivity()).execute(THPreference.getInstance().getGoogleServerAuthCode());
-                }
+                }*/
+                new PeopleAsyncTaskNew();
             }
         });
         return view;
