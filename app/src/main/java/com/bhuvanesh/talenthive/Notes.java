@@ -8,5 +8,7 @@ public class Notes {
 
     /*
     * thinking to keep login type constant in login request class
+    *
+    * why naming convention is like this ?? msg_like in strings.xml
     * */
 }

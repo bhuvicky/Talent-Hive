@@ -11,6 +11,8 @@ import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 import com.bhuvanesh.talenthive.search.model.AllTalents;
 import com.bhuvanesh.talenthive.storywriting.model.StoryFeedResponse;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class AllTalentsAdapter extends RecyclerView.Adapter {
@@ -19,9 +21,10 @@ public class AllTalentsAdapter extends RecyclerView.Adapter {
         void onGridItemClick();
     }
 
-    private List<PhotoFeedResponse> mPhotoFeedList;
-    private List<StoryFeedResponse> mStoryFeedList;
-    private List<Dance> mDanceList;
+    private List<PhotoFeedResponse> mPhotoFeedList = new ArrayList<>();
+    private List<StoryFeedResponse> mStoryFeedList = new ArrayList<>();
+    private List<Dance> mDanceList = new ArrayList<>();
+    private List<Integer> mActualPosition = new LinkedList<>();
 
     private boolean mIsLayoutTypeList;
     private OnItemClickListener mOnItemClickListener;
@@ -36,7 +39,20 @@ public class AllTalentsAdapter extends RecyclerView.Adapter {
     }
 
     public void setData(AllTalents allTalents) {
-
+        if (allTalents.photoFeedList != null && allTalents.storyFeedList != null && allTalents.danceList != null) {
+            mPhotoFeedList = allTalents.photoFeedList;
+            mStoryFeedList = allTalents.storyFeedList;
+            mDanceList = allTalents.danceList;
+        }
+        for (int i = 0; i < mPhotoFeedList.size() || i < mStoryFeedList.size() || i < mDanceList.size(); i++) {
+            if (i < mPhotoFeedList.size())
+                mActualPosition.add(i);
+            if (i < mStoryFeedList.size())
+                mActualPosition.add(i);
+            if (i < mDanceList.size())
+                mActualPosition.add(i);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -55,7 +71,12 @@ public class AllTalentsAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mActualPosition.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
     }
 
     private class GridViewHolder extends RecyclerView.ViewHolder {
