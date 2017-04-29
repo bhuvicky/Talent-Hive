@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/lbl_photo"
-        android:drawableTop="@drawable/quantum_ic_art_track_grey600_48"/>
+        android:drawableTop="@drawable/ic_account_location"/>
 
     <TextView
         android:id="@+id/textview_story"
@@ -23,7 +23,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/title_story_writing"
-        android:drawableTop="@drawable/quantum_ic_art_track_grey600_48"/>
+        android:drawableTop="@drawable/ic_account_location"/>
 
     <TextView
         android:id="@+id/textview_dance"
@@ -32,6 +32,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/lbl_dance"
-        android:drawableTop="@drawable/quantum_ic_art_track_grey600_48"/>
+        android:drawableTop="@drawable/ic_account_location"/>
 
 </LinearLayout>

@@ -38,7 +38,7 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
 
         String clientId = mContext.getString(R.string.oauth2_0_web_client_google_people_api);
         String clientSecret = mContext.getString(R.string.google_web_client_secret);
-        String redirectUrl = mContext.getString(R.string.redirect_url);
+        String redirectUrl = mContext.getString(R.string.redirect_url_new);
         String scope = "https://www.googleapis.com/auth/contacts.readonly";
 
         /*String authorizationUrl = new GoogleBrowserClientRequestUrl(clientId, redirectUrl, Arrays.asList(scope)).build();
@@ -65,15 +65,6 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
         System.out.println("log google token response = " + tokenResponse);
         // End of Step 2 <--
 
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                httpTransport, jsonFactory, clientId, clientSecret, Arrays.asList(PeopleScopes.CONTACTS_READONLY))
-                .build();
-
-        AuthorizationCodeRequestUrl authorizationUrl =
-                flow.newAuthorizationUrl().setRedirectUri(redirectUrl)
-                        .setApprovalPrompt("force")
-                        .setAccessType("offline");
-
         GoogleCredential credential = new GoogleCredential.Builder()
                 .setTransport(httpTransport)
                 .setJsonFactory(jsonFactory)
@@ -97,8 +88,7 @@ public class PeopleAsyncTask extends AsyncTask<String, Void, List<Person>> {
 
         System.out.println("log response = " + response);
 
-        List<Person> connections = response.getConnections();
-        return connections;
+        return response.getConnections();
     }
 
     @Override

@@ -9,12 +9,17 @@ import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.account.fragment.LoginFragment;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.util.THPreference;
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Fabric.with(this, new Crashlytics());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);

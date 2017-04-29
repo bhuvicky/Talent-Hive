@@ -76,7 +76,6 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-                .requestProfile()
                 .requestScopes(new Scope(PeopleScopes.CONTACTS_READONLY))
                 .requestServerAuthCode(getString(R.string.oauth2_0_web_client_google_people_api), false)
                 .build();

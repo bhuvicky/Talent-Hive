@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
+            android:id="@+id/imageview_profile_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/textview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imageview_profile_icon"
+            android:layout_toRightOf="@id/imageview_profile_icon"
+            tools:text="Karthikeyan A" />
+
+        <TextView
+            android:id="@+id/textview_timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textview_name"
+            android:layout_toEndOf="@id/imageview_profile_icon"
+            android:layout_toRightOf="@id/imageview_profile_icon"
+            android:textSize="12sp"
+            tools:text="12 April 2017 20:25" />
+
+        <ImageView
+            android:id="@+id/imageview_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <VideoView
+            android:id="@+id/videoview_feed_post"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/imageview_feed_post"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_like_3"
+            android:drawableStart="@drawable/ic_like_3"
+            android:text="@string/msg_like"/>
+
+        <view
+            android:layout_width="1dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/divider_dimlight_gray"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_comment_grey600_36dp"
+            android:drawableStart="@drawable/ic_comment_grey600_36dp"
+            android:text="@string/msg_comment"/>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textview_like_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="342 likes" />
+
+    <TextView
+        android:id="@+id/textview_comment_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="1 Comment" />
+
+    <TextView
+        android:id="@+id/textview_like_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Grand Island, Goa" />
+
+</LinearLayout>
