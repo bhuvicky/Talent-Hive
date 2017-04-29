@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "877402304105",
-    "project_id": "talent-hive"
+    "firebase_url": "https://talent-hive.firebaseio.com",
+    "project_id": "talent-hive",
+    "storage_bucket": "talent-hive.appspot.com"
   },
   "client": [
     {
@@ -13,11 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "877402304105-cs2u8kl6pq0313ebg30m7g70rqosdsbh.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "877402304105-kcm1cpivf4btjkqr790oor34g7s0sbkd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "877402304105-rtkm1ttuip48cmajqrlf0neddmcm34sb.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.bhuvanesh.talenthive",
-            "certificate_hash": "A7FBDF7FC55D8F92246F5257AA6F87842D3D896D"
+            "certificate_hash": "a7fbdf7fc55d8f92246f5257aa6f87842d3d896d"
           }
         },
         {
@@ -35,11 +45,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "877402304105-cs2u8kl6pq0313ebg30m7g70rqosdsbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

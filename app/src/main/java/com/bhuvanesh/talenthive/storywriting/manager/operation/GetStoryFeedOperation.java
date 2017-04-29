@@ -2,7 +2,6 @@ package com.bhuvanesh.talenthive.storywriting.manager.operation;
 
 
 import com.android.volley.Request;
-import com.bhuvanesh.talenthive.Config;
 import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.manager.operation.WebServiceOperation;
@@ -28,8 +27,9 @@ public class GetStoryFeedOperation extends WebServiceOperation {
     }
 
     public void addToRequestQueue() {
-        if (Config.HARDCODED_ENABLE) {
+        if (true) {
             onSuccess(getFromAssetsFolder("storyfeedresponse.json", new TypeToken<List<StoryFeedResponse>>() {}.getType()));
+
         } else {
             super.addToRequestQueue();
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.account.model.Profile;
 import com.bhuvanesh.talenthive.model.Language;
 import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
 import com.google.gson.Gson;
@@ -25,6 +26,8 @@ public final class THPreference {
     private static final String PREFERENCE_KEY_GOOGLE_LOGIN = "PREFERENCE_KEY_GOOGLE_LOGIN";
     private static final String PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE = "PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE";
     private static final String PREFERENCE_KEY_PROFILE_ID = "PREFERENCE_KEY_PROFILE_ID";
+    private static final String PREFERENCE_KEY_PROFILE = "PREFERENCE_KEY_PROFILE";
+
 
 
     private static THPreference mInstance;
@@ -122,5 +125,13 @@ public final class THPreference {
 
     public long getTempStoryId() {
         return mSharedPreferences.getLong(PREFERENCE_KEY_TEMP_STORY_ID, 0);
+    }
+    public void setProfile(Profile profile){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFERENCE_KEY_PROFILE, new Gson().toJson(profile));
+        editor.apply();
+    }
+    public Profile getProfile(){
+        return new Gson().fromJson(mSharedPreferences.getString(PREFERENCE_KEY_PROFILE,""),Profile.class);
     }
 }

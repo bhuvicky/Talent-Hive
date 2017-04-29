@@ -2,13 +2,13 @@ package com.bhuvanesh.talenthive.photography.manager.operation;
 
 
 import com.android.volley.Request;
-import com.bhuvanesh.talenthive.Config;
 import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.manager.operation.WebServiceOperation;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 import com.bhuvanesh.talenthive.storywriting.manager.operation.GetStoryFeedOperation;
 import com.bhuvanesh.talenthive.storywriting.model.StoryFeedResponse;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -24,23 +24,24 @@ public class GetPhotoFeedOperation extends WebServiceOperation {
     public GetPhotoFeedOperation(boolean isLookingForNewData, long time, Map<String, String> header, GetPhotoFeedOperation.OnGetPhotoFeedOperation listener) {
         super( URLConstant.GET_PHOTO_FEED, Request.Method.GET, header, new TypeToken<List<StoryFeedResponse>>() {}.getType(),
                 GetStoryFeedOperation.class.getSimpleName());
-         onGetPhotoFeedOperation= listener;
+        onGetPhotoFeedOperation= listener;
     }
 
     @Override
     public void onError(THException exception) {
-          onGetPhotoFeedOperation.onPhotoFeedError(exception);
+        onGetPhotoFeedOperation.onPhotoFeedError(exception);
     }
     public void addToRequestQueue() {
-        if (Config.HARDCODED_ENABLE) {
-
+        if (true) {
+            THLoggerUtil.debug("hh","ss00");
+            onSuccess(getFromAssetsFolder("photofeedresponse.json", new TypeToken<List<PhotoFeedResponse>>() {}.getType()));
         } else {
             super.addToRequestQueue();
         }
     }
-
     @Override
     public void onSuccess(Object response) {
         onGetPhotoFeedOperation.onPhotoFeedSucess((List<PhotoFeedResponse>) response);
     }
+
 }

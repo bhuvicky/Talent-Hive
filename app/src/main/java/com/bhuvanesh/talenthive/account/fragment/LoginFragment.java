@@ -12,12 +12,10 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +25,6 @@ import com.bhuvanesh.talenthive.account.manager.AccountManager;
 import com.bhuvanesh.talenthive.account.manager.SocialAuthManager;
 import com.bhuvanesh.talenthive.account.model.LoginRequest;
 import com.bhuvanesh.talenthive.account.model.LoginResponse;
-import com.bhuvanesh.talenthive.activity.THActivity;
-import com.bhuvanesh.talenthive.constant.IntentConstant;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
@@ -36,12 +32,6 @@ import com.bhuvanesh.talenthive.profile.fragment.EditProfileFragment;
 import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.bhuvanesh.talenthive.util.THPreference;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -52,8 +42,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.api.services.people.v1.PeopleScopes;
-
-import org.json.JSONObject;
 
 public class LoginFragment extends BaseFragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
@@ -123,12 +111,14 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
             @Override
             public void onFbLoginSuccess(Profile profile) {
                 THPreference.getInstance().setFBLogin(true);
+                THLoggerUtil.debug("hh","ss");
+                THPreference.getInstance().setProfileId(profile.accountId);
                 startActivity(new Intent(getActivity(), DashboardActivity.class));
             }
 
             @Override
             public void onFbLoginError(THException exception) {
-
+                THLoggerUtil.debug("hh","ss");
             }
         });
 
@@ -149,9 +139,10 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
                         public void OnUserLoginSuccess(LoginResponse response) {
                             if (isAdded()) {
                                 dismissProgressDialog();
-                                THLoggerUtil.debug("resp",response.roles);
+                                THLoggerUtil.debug("hh",response.profile.name);
                                 Intent intent=new Intent(getActivity(), DashboardActivity.class);
-                                intent.putExtra(IntentConstant.USERNAME,response.roles);
+                                THPreference.getInstance().setProfile(response.profile);
+                                THPreference.getInstance().setProfileId(response.profile.profileId);
                                 startActivity(intent);
                                 getActivity().finish();
                             }

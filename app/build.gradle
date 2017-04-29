@@ -25,7 +25,7 @@ repositories {
 }
 
 ext {
-    supportLibraryVersion = '25.2.0'
+    supportLibraryVersion = '25.1.0'
     playServicesVersion = '10.2.0'
 }
 

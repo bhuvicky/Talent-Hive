@@ -7,5 +7,4 @@ public class Photo {
     public long lastModifiedTime;
     public String location;
     public String photoURL;
-
 }

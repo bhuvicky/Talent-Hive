@@ -16,12 +16,9 @@
 
         <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
             android:id="@+id/cniv_profile_icon"
-            android:layout_width="@dimen/dp_dimension"
-            android:layout_height="@dimen/dp_dimension"
-            android:paddingLeft="@dimen/padding_16dp"
-            android:paddingRight="@dimen/padding_16dp"
-            android:paddingTop="@dimen/padding_16dp"
-            android:paddingBottom="@dimen/padding_16dp"/>
+            android:layout_width="120dp"
+            android:layout_height="60dp"
+          />
         <TextView
             android:id="@+id/textview_dp_name"
             android:layout_width="wrap_content"
@@ -46,6 +43,7 @@
             android:text="@string/label_at"
             android:textStyle="bold"
             android:layout_toRightOf="@id/textview_post_time"
+            android:layout_toEndOf="@id/textview_post_time"
             android:visibility="gone"
             android:id="@+id/textview_att"
             tools:visibility="visible"
@@ -81,7 +79,8 @@
         <com.android.volley.toolbox.NetworkImageView
             android:layout_width="match_parent"
             android:layout_below="@id/textview_title_description"
-            android:layout_height="360dp"
+            android:layout_height="240dp"
+            android:scaleType="fitXY"
             android:id="@+id/imageview_photography"
             />
 
@@ -89,7 +88,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/margin_post"
 
         android:background="@color/colorPrimary"/>
 
@@ -97,9 +95,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/padding_16dp"
-        android:paddingBottom="@dimen/padding_16dp"
         android:paddingRight="@dimen/padding_16dp"
-        android:paddingTop="@dimen/padding_16dp">
+       >
         <Button
             android:id="@+id/button_like"
             android:layout_width="wrap_content"
@@ -139,7 +136,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_margin="@dimen/margin_post"
         android:background="@color/colorPrimary"/>
     </LinearLayout>
 

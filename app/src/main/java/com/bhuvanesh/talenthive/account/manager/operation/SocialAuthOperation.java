@@ -1,10 +1,8 @@
 package com.bhuvanesh.talenthive.account.manager.operation;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import com.bhuvanesh.talenthive.activity.THActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.SocialFriend;
@@ -20,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -48,22 +47,32 @@ public class SocialAuthOperation {
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Profile profile = new Profile();
                         profile.accountId = object.optString("id");
+                        profile.loginType = 2;
                         String name = object.optString("first_name") + " " + object.optString("last_name");
                         /*profile.firstName = object.optString("first_name");
                         profile.lastName = object.optString("last_name");*/
                         profile.name = object.optString("name");
-                        listener.onFbLoginSuccess(profile);
+                        if (object.has("picture")) {
+                            try {
+                                profile.profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            listener.onFbLoginSuccess(profile);
+
+                        }
 
                     }
-                });
+                }
+                );
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,link,email,first_name,middle_name,last_name,friends");
                 request.setParameters(parameters);
                 request.executeAsync();
-            }
 
-            @Override
-            public void onCancel() {
+            }
+               @Override
+           public void onCancel() {
                 listener.onFbLoginError(new THException("unknown"));
             }
 
@@ -71,7 +80,9 @@ public class SocialAuthOperation {
             public void onError(FacebookException error) {
                 listener.onFbLoginError(new THException(error.getMessage()));
             }
-        });
+
+
+    });
     }
 
     public void getAppUserFbFriendList(final OnGetAppUserFbFriendsOperation listener) {

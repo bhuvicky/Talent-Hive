@@ -23,13 +23,15 @@ public class FirebaseStorageAcess {
     public UploadTask uploadPhoto(Uri photoUrl, String dateOfPhoto){
         final String[] url = new String[1];
         // Create a storage reference from our app
-        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://talenthive-37f51.appspot.com");
+        THLoggerUtil.debug("hh","ssa");
+        StorageReference storageRef = firebaseStorage.getReferenceFromUrl("gs://talent-hive.appspot.com");
         String fileName="photo"+dateOfPhoto+".jpg";
         StorageReference photographyRef = storageRef.child("photography");
         StorageReference photoRef = photographyRef.child(fileName);
         UploadTask uploadPhoto = null;
         try {
             uploadPhoto = photoRef.putStream(context.getContentResolver().openInputStream(photoUrl));
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             THLoggerUtil.debug("hh","filenotfound"+photoUrl);

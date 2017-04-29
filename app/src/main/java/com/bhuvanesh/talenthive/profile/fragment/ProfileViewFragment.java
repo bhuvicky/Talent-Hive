@@ -11,9 +11,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
@@ -22,23 +22,21 @@ import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.profile.manager.ProfileManager;
-import com.bhuvanesh.talenthive.profile.manager.operation.GetProfileOperation;
-import com.bhuvanesh.talenthive.util.THPreference;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
 import java.util.List;
 
 public class ProfileViewFragment extends BaseFragment implements ProfileManager.OnGetProfileManager {
 
-    private String mProfileId;
+    private com.bhuvanesh.talenthive.account.model.Profile mProfile;
     private Profile mProfileForView, mProfileNotView;
-    private ImageView mImageViewCover;
+    private NetworkImageView mImageViewCover;
     private CircularNetworkImageView mImageViewProfile;
     private TextView mTextViewName, mTextViewUserName, mTextViewFollowersCount, mTextViewFollowingCount;
-
-    public static ProfileViewFragment newInstance(String profileId) {
+    private ImageLoader imageLoader;
+    public static ProfileViewFragment newInstance(com.bhuvanesh.talenthive.account.model.Profile profile) {
         ProfileViewFragment fragment = new ProfileViewFragment();
-        fragment.mProfileId = profileId;
+        fragment.mProfile = profile;
         return fragment;
     }
 
@@ -46,7 +44,8 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_view, container, false);
         setHasOptionsMenu(true);
-
+       // THLoggerUtil.debug("hh",mProfile.name);
+         imageLoader=THApplication.getInstance().getImageLoader();
         ((BaseActivity) getActivity()).hideMainToolbar();
         final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
@@ -66,46 +65,54 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
             }
         });
 
-        mImageViewCover = (ImageView) view.findViewById(R.id.imageview_cover);
+        mImageViewCover = (NetworkImageView) view.findViewById(R.id.imageview_cover);
         mImageViewProfile = (CircularNetworkImageView) view.findViewById(R.id.imageview_profile_icon);
         mTextViewName = (TextView) view.findViewById(R.id.textview_name);
         mTextViewUserName = (TextView) view.findViewById(R.id.textview_user_name);
-        /*mTextViewBio = (TextView) view.findViewById(R.id.textview_bio);
-        mTextViewEmail = (TextView) view.findViewById(R.id.textview_name);
-        mTextViewMobileNo = (TextView) view.findViewById(R.id.textview_name);
-        mTextViewGender = (TextView) view.findViewById(R.id.textview_name);
-        mTextViewCountry = (TextView) view.findViewById(R.id.textview_name); */
+//        mTextViewBio = (TextView) view.findViewById(R.id.textview_bio);
+//        mTextViewEmail = (TextView) view.findViewById(R.id.textview_name);
+//        mTextViewMobileNo = (TextView) view.findViewById(R.id.textview_name);
+//        mTextViewGender = (TextView) view.findViewById(R.id.textview_name);
+//        mTextViewCountry = (TextView) view.findViewById(R.id.textview_name);
+
 
         mTextViewFollowersCount = (TextView) view.findViewById(R.id.textview_follower_count);
         mTextViewFollowingCount = (TextView) view.findViewById(R.id.textview_following_count);
+       // getProfileList();
 
-        getProfileList();
+        mImageViewProfile.setImageUrl(mProfile.profilePicUrl,imageLoader);
+        mImageViewCover.setImageUrl(mProfile.coverImageUrl,THApplication.getInstance().getImageLoader());
+        mTextViewName.setText(mProfile.name);
+        mTextViewUserName.setText(mProfile.userName);
+        mTextViewFollowersCount.setText("0");
+        mTextViewFollowingCount.setText("0");
+
         return view;
     }
 
     private void getProfileList() {
-        ProfileManager manager = new ProfileManager();
-        if (THPreference.getInstance().getProfileId().equals(mProfileId))
-            manager.getProfileList("", null, this);
-        else
-            manager.getProfileList("selfProfileId", "other profile id", this);
+//        ProfileManager manager = new ProfileManager();
+//        if (THPreference.getInstance().getProfileId().equals(mProfileId))
+//            manager.getProfileList("", null, this);
+//        else
+//            manager.getProfileList("selfProfileId", "other profile id", this);
     }
 
     @Override
     public void onGetProfileListSuccess(List<Profile> response) {
-        if (response.size() == 2)
-            for (Profile profile : response) {
-                if (profile.profileId.equals(mProfileId)) {
-                    mProfileForView = profile;
-                    updateProfile(mProfileForView);
-                }
-                if (THPreference.getInstance().getProfileId().equals(mProfileId))
-                    mProfileNotView = profile;
-            }
-        else {
-            mProfileForView = response.get(0);
-            updateProfile(mProfileForView);
-        }
+//        if (response.size() == 2)
+//            for (Profile profile : response) {
+//                if (profile.profileId.equals(mProfileId)) {
+//                    mProfileForView = profile;
+//                    updateProfile(mProfileForView);
+//                }
+//                if (THPreference.getInstance().getProfileId().equals(mProfileId))
+//                    mProfileNotView = profile;
+//            }
+//        else {
+//            mProfileForView = response.get(0);
+//            updateProfile(mProfileForView);
+//        }
     }
 
     @Override

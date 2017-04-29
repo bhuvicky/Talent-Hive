@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.photography.model.Photo;
 import com.bhuvanesh.talenthive.photography.view.AutoFitPreviewImage;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -135,8 +136,12 @@ public class EditPostFragment extends BaseFragment{
         switch (item.getItemId())
         {
             case R.id.menu_post:
+                Photo photo=new Photo();
+                photo.titleDescription=captionEditText.getText().toString();
+                photo.lastModifiedTime=System.currentTimeMillis();
+                photo.location=locationTextView.getText().toString();
 
-                replace(R.id.filter_container,PhotographyFeed.newInstance(previewImgURI));
+                replace(R.id.filter_container,PhotoFeedFragment.newInstance(previewImgURI,photo));
                 break;
             case android.R.id.home:
                 pop();

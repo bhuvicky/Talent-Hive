@@ -20,7 +20,7 @@ import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.ViewHolder>{
+public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.ViewHolder>{
 
    public interface IOnPhotoFeedItemClickListener{
         void onPaginationRetryClick();
@@ -35,6 +35,7 @@ public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.Vi
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post_feed,parent,false));
     }
 
+
     @Override
     public void onBindViewHolder(PhotoFeedAdapter.ViewHolder holder, int position) {
         PhotoFeedResponse item=mPhotoFeedList.get(position);
@@ -44,25 +45,25 @@ public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.Vi
         location=item.photo.location;
         if(location!=null){
             holder.atTextView.setVisibility(View.VISIBLE);
-            holder.postLocationTextView.setVisibility(View.VISIBLE);
-            holder.postLocationTextView.setText(item.photo.location);
+//            holder.postLocationTextView.setVisibility(View.VISIBLE);
+//            holder.postLocationTextView.setText(item.photo.location);
         }
         holder.titleDescriptionTextView.setText(item.photo.titleDescription);
         holder.photoGraphyNImageView.setImageUrl(item.photo.photoURL,imageLoader);
         if (position == getItemCount() - 1) {
-            if (!(isPaginationStarts || isPaginationFailed)) {
-                holder.progressBar.setVisibility(View.GONE);
-                holder.buttonRetry.setVisibility(View.GONE);
-            } else {
-                if (isPaginationStarts) {
-                    holder.progressBar.setVisibility(View.VISIBLE);
-                    holder.buttonRetry.setVisibility(View.GONE);
-                }
-                else {
-                    holder.buttonRetry.setVisibility(View.VISIBLE);
-                    holder.progressBar.setVisibility(View.GONE);
-                }
-            }
+//            if (!(isPaginationStarts || isPaginationFailed)) {
+//                holder.progressBar.setVisibility(View.GONE);
+//                holder.buttonRetry.setVisibility(View.GONE);
+//            } else {
+//                if (isPaginationStarts) {
+//                    holder.progressBar.setVisibility(View.VISIBLE);
+//                    holder.buttonRetry.setVisibility(View.GONE);
+//                }
+//                else {
+//                    holder.buttonRetry.setVisibility(View.VISIBLE);
+//                    holder.progressBar.setVisibility(View.GONE);
+//                }
+//            }
         }
     }
     public void setOnStoryFeedItemClickListener(IOnPhotoFeedItemClickListener listener) {
@@ -76,6 +77,10 @@ public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.Vi
         isPaginationStarts = paginationStarts;
         isPaginationFailed = paginationFailed;
         notifyItemChanged(getItemCount() - 1);
+    }
+    public void addData(PhotoFeedResponse response){
+        mPhotoFeedList.add(response);
+        notifyDataSetChanged();
     }
     @Override
     public int getItemCount() {
@@ -99,13 +104,13 @@ public class PhotosFeedAdapter extends RecyclerView.Adapter<PhotosFeedAdapter.Vi
             atTextView= (TextView) itemView.findViewById(R.id.textview_att);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
             buttonRetry = (Button) itemView.findViewById(R.id.button_retry);
-            buttonRetry.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onPhotoFeedItemClickListener==null)
-                        onPhotoFeedItemClickListener.onPaginationRetryClick();
-                }
-            });
+//            buttonRetry.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (onPhotoFeedItemClickListener==null)
+//                        onPhotoFeedItemClickListener.onPaginationRetryClick();
+//                }
+//            });
         }
     }
 }

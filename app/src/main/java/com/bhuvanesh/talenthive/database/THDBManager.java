@@ -113,6 +113,7 @@ public class THDBManager {
 
     public void getPhotoFeedList() {
         Dao dao = new PhotoFeedDao();
+
         dao.setOnDaoOperationListener(new Dao.OnDaoOperationListener() {
             @Override
             public void onSuccessfulOperation(Object obj) {
@@ -125,6 +126,7 @@ public class THDBManager {
 
             }
         });
+
         dao.execute(Dao.CUDOperationType.QUERY, new CUDModel());
     }
 

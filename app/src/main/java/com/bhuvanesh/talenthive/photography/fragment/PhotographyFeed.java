@@ -7,13 +7,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.firebase.FirebaseStorageAcess;
+import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
+import com.bhuvanesh.talenthive.photography.model.Photo;
+import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.OnPausedListener;
@@ -25,10 +27,12 @@ public class PhotographyFeed extends BaseFragment {
     private int id;
     private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-
-    public static PhotographyFeed newInstance(Uri uri) {
+    private Photo photo;
+    private UploadTask uploadTask;
+    public static PhotographyFeed newInstance(Uri uri, Photo photo) {
         PhotographyFeed photographyFeed = new PhotographyFeed();
         photographyFeed.photoUri = uri;
+        photographyFeed.photo=photo;
         return photographyFeed;
     }
     /*@Override
@@ -41,7 +45,7 @@ public class PhotographyFeed extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         FirebaseStorageAcess firebaseStorageAcess = new FirebaseStorageAcess(getContext());
-        UploadTask uploadTask = firebaseStorageAcess.uploadPhoto(photoUri, System.currentTimeMillis() + "");
+        uploadTask = firebaseStorageAcess.uploadPhoto(photoUri, System.currentTimeMillis() + "");
 
         mNotifyManager =
                 (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -67,9 +71,25 @@ public class PhotographyFeed extends BaseFragment {
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                mBuilder.setContentText("Download complete")
-                        .setProgress(0, 0, false);
-                mNotifyManager.notify(id, mBuilder.build());
+                photo.photoURL = taskSnapshot.getDownloadUrl().toString();
+                photo.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
+                PhotoManager photoManager=new PhotoManager();
+                photoManager.uploadPostToServer(photo, new PhotoManager.OnUploadPhotoListener() {
+                    @Override
+                    public void uploadPhotoSuccess(PhotoFeedResponse response) {
+                        mBuilder.setContentText("Upload complete")
+                                .setProgress(0, 0, false);
+                        mNotifyManager.notify(id, mBuilder.build());
+                       // mPhotoFeedAdapter.addData(response);
+                    }
+
+                    @Override
+                    public void uplaodPhotoFailure(THException exception) {
+
+                    }
+                });
+
+
             }
         });
         uploadTask.addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {

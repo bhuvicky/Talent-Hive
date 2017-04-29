@@ -53,11 +53,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bhuvanesh.talenthive.BaseFragment;
+import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.RunTimePermissionFragment;
 import com.bhuvanesh.talenthive.sports.view.AutoFitTextureView;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class Camera2VideoFragment extends BaseFragment
+public class Camera2VideoFragment extends RunTimePermissionFragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
 
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
@@ -137,7 +138,7 @@ public class Camera2VideoFragment extends BaseFragment
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture,
                                               int width, int height) {
-            openCamera(width, height,cameraOrientation);
+            openCamera(width, height, cameraOrientation);
         }
 
         @Override
@@ -283,8 +284,9 @@ public class Camera2VideoFragment extends BaseFragment
             return choices[0];
         }
     }
-    private boolean cameraOrientation=false;
-    private boolean cameraFlashFlag=false;
+
+    private boolean cameraOrientation = false;
+    private boolean cameraFlashFlag = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -296,16 +298,19 @@ public class Camera2VideoFragment extends BaseFragment
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.texture_view);
         mButtonVideo = (Button) view.findViewById(R.id.button_camera_click);
-        mFlashButton= (Button) view.findViewById(R.id.button_camera_flash);
-        mSensorOrientationButton= (Button) view.findViewById(R.id.button_camera_orientation);
+        mFlashButton = (Button) view.findViewById(R.id.button_camera_flash);
+        if(((BaseActivity)getActivity()).getSupportActionBar()!=null)
+        {
+            ((BaseActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        getActivity().setTitle("Video");
+        mSensorOrientationButton = (Button) view.findViewById(R.id.button_camera_orientation);
         mFlashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!cameraFlashFlag)
-                {
+                if (!cameraFlashFlag) {
                     turnONFlash();
-                }else
-                {
+                } else {
                     turnOFFFlash();
                 }
             }
@@ -313,19 +318,16 @@ public class Camera2VideoFragment extends BaseFragment
         mSensorOrientationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cameraOrientation= !cameraOrientation;
+                cameraOrientation = !cameraOrientation;
                 closeCamera();
-                if(cameraOrientation)
-                {
+                if (cameraOrientation) {
                     mSensorOrientationButton.setBackgroundResource(R.drawable.ic_action_ic_icon8_copy);
                     mFlashButton.setEnabled(false);
-                }
-                else
-                {
+                } else {
                     mSensorOrientationButton.setBackgroundResource(R.drawable.ic_action_ic_icon10_copy);
                     mFlashButton.setEnabled(true);
                 }
-                openCamera(mTextureView.getWidth(),mTextureView.getHeight(),cameraOrientation);
+                openCamera(mTextureView.getWidth(), mTextureView.getHeight(), cameraOrientation);
 
             }
         });
@@ -334,15 +336,15 @@ public class Camera2VideoFragment extends BaseFragment
             @Override
             public void onClick(View view) {
                 if (mIsRecordingVideo) {
-                    stopRecordingVideo();
-                    replace(R.id.dashboard_container2, VideoTrimmerFragment.newInstance(Uri.fromFile(new File(mNextVideoAbsolutePath))));
+                    String path=stopRecordingVideo();
+                    replace(R.id.flayout_container, VideoTrimmerFragment.newInstance(Uri.parse(path)));
+
 
                 } else {
                     startRecordingVideo();
                 }
             }
         });
-        view.findViewById(R.id.info).setOnClickListener(this);
     }
 
     @Override
@@ -350,7 +352,7 @@ public class Camera2VideoFragment extends BaseFragment
         super.onResume();
         startBackgroundThread();
         if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight(),cameraOrientation);
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight(), cameraOrientation);
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
@@ -400,9 +402,9 @@ public class Camera2VideoFragment extends BaseFragment
      */
     private boolean shouldShowRequestPermissionRationale(String[] permissions) {
         for (String permission : permissions) {
-//            if (FragmentCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
-//                return true;
-//            }
+            if (shouldShowRequestPermissionRationale(permission)) {
+                return true;
+            }
         }
         return false;
     }
@@ -410,12 +412,20 @@ public class Camera2VideoFragment extends BaseFragment
     /**
      * Requests permissions needed for recording video.
      */
-    private void requestVideoPermissions() {
-        if (shouldShowRequestPermissionRationale(VIDEO_PERMISSIONS)) {
-//            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
-        } else {
-//            FragmentCompat.requestPermissions(this, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
-        }
+//    private void requestVideoPermissions() {
+//        if (shouldShowRequestPermissionRationale(VIDEO_PERMISSIONS)) {
+////            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
+//        } else {
+//            requestPermissions( VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
+//        }
+//    }
+    @Override
+    protected void onPermissionsGranted(int requestCode) {
+//        if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
+//
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        }
     }
 
     @Override
@@ -440,23 +450,24 @@ public class Camera2VideoFragment extends BaseFragment
         }
     }
 
-    private boolean hasPermissionsGranted(String[] permissions) {
-        for (String permission : permissions) {
-            if (ActivityCompat.checkSelfPermission(getActivity(), permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private boolean hasPermissionsGranted(String[] permissions) {
+//        for (String permission : permissions) {
+//            if (ActivityCompat.checkSelfPermission(getActivity(), permission)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 
     /**
      * Tries to open a {@link CameraDevice}. The result is listened by `mStateCallback`.
      */
-    private void openCamera(int width, int height,boolean cameraOrientation) {
+    private void openCamera(int width, int height, boolean cameraOrientation) {
         String mCameraId = null;
-        if (!hasPermissionsGranted(VIDEO_PERMISSIONS)) {
-            requestVideoPermissions();
+        if (!hasPermission(VIDEO_PERMISSIONS)) {
+            THLoggerUtil.debug("hh","ss");
+            requestAppPermissions(VIDEO_PERMISSIONS, 1);
             return;
         }
         final Activity activity = getActivity();
@@ -478,10 +489,6 @@ public class Camera2VideoFragment extends BaseFragment
                     }
                 }
 
-                Log.d(TAG, "tryAcquire");
-                if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
-                    throw new RuntimeException("Time out waiting to lock camera opening.");
-                }
                 Boolean available = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
                 mFlashSupported = available == null ? false : available;
                 // Choose the sizes for camera preview and video recording
@@ -498,31 +505,51 @@ public class Camera2VideoFragment extends BaseFragment
                 } else {
                     mTextureView.setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
                 }
+                if(!cameraOrientation){mCameraId=cameraId;break;}
             }
-        }catch (CameraAccessException e){
+        } catch (CameraAccessException e) {
 
+        }
+        configureTransform(width, height);
+        mMediaRecorder = new MediaRecorder();
+        Log.d(TAG, "tryAcquire");
+        try {
+            if (!mCameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                throw new RuntimeException("Time out waiting to lock camera opening.");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        configureTransform(width, height);
-                mMediaRecorder = new MediaRecorder();
 
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        try {
-                            manager.openCamera(mCameraId, mStateCallback, null);      // for ActivityCompat#requestPermissions for more details.
+//                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding1
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                THLoggerUtil.debug("hh","ss1");
+                return;
+            }
 
+                   manager.openCamera(mCameraId, mStateCallback, null);      // for ActivityCompat#requestPermissions for more details.
                         }catch (CameraAccessException e){
 
                         }
                         return;
-                    }
-        } private void closeCamera() {
+             //       }
+        }
+
+        private void closeCamera() {
         try {
             mCameraOpenCloseLock.acquire();
             closePreviewSession();
@@ -732,10 +759,15 @@ public class Camera2VideoFragment extends BaseFragment
         }
     }
 
-    private void stopRecordingVideo() {
+    private String stopRecordingVideo() {
         // UI
         mIsRecordingVideo = false;
-
+        try {
+            mPreviewSession.stopRepeating();
+            mPreviewSession.abortCaptures();
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
         // Stop recording
         mMediaRecorder.stop();
         mMediaRecorder.reset();
@@ -746,8 +778,13 @@ public class Camera2VideoFragment extends BaseFragment
                     Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
-        mNextVideoAbsolutePath = null;
-        startPreview();
+        //mNextVideoAbsolutePath = null;
+       // closePreviewSession();
+        //closeCamera();
+        //stopBackgroundThread();
+        THLoggerUtil.debug("hh",getVideoFilePath(getContext()));
+        return mNextVideoAbsolutePath;
+        //startPreview();
     }
 
     /**

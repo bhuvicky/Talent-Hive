@@ -12,7 +12,7 @@ import java.util.List;
 public class DBManager implements DBQuery {
 
     private static final String DATABASE_NAME = "Talent Hive";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private SLDBHelper dbHelper;
     private SQLiteDatabase mSqldb;
 
@@ -111,6 +111,7 @@ public class DBManager implements DBQuery {
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_TABLE_STORY);
             db.execSQL(CREATE_TABLE_STORY_FEED);
+            db.execSQL(CREATE_TABLE_PHOTO_FEED);
         }
 
         @Override
@@ -123,7 +124,7 @@ public class DBManager implements DBQuery {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+            db.execSQL(CREATE_TABLE_PHOTO_FEED);
         }
     }
 }

@@ -6,7 +6,6 @@ import com.bhuvanesh.talenthive.account.model.LoginResponse;
 import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.manager.operation.WebServiceOperation;
-import com.bhuvanesh.talenthive.util.THLoggerUtil;
 
 import java.util.Map;
 
