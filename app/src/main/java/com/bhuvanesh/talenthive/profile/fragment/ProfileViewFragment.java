@@ -28,15 +28,15 @@ import java.util.List;
 
 public class ProfileViewFragment extends BaseFragment implements ProfileManager.OnGetProfileManager {
 
-    private com.bhuvanesh.talenthive.account.model.Profile mProfile;
+    private Profile mProfile;
     private Profile mProfileForView, mProfileNotView;
     private NetworkImageView mImageViewCover;
     private CircularNetworkImageView mImageViewProfile;
     private TextView mTextViewName, mTextViewUserName, mTextViewFollowersCount, mTextViewFollowingCount;
     private ImageLoader imageLoader;
-    public static ProfileViewFragment newInstance(com.bhuvanesh.talenthive.account.model.Profile profile) {
+    public static ProfileViewFragment newInstance(Profile profile) {
         ProfileViewFragment fragment = new ProfileViewFragment();
-        fragment.mProfile = profile;
+        fragment.mProfile = profile == null ? new Profile() : profile;
         return fragment;
     }
 
@@ -139,6 +139,10 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
         switch (item.getItemId()) {
             case R.id.menu_discover_people:
                 replace(R.id.flayout_container, DiscoverPeopleFragment.newInstance());
+                break;
+
+            case R.id.menu_edit_profile:
+                replace(R.id.flayout_container, EditProfileFragment.newInstance());
                 break;
         }
         return true;

@@ -20,13 +20,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.bhuvanesh.talenthive.BaseActivity;
+import com.bhuvanesh.talenthive.BaseResponse;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.RunTimePermissionFragment;
 import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
+import com.bhuvanesh.talenthive.profile.manager.ProfileManager;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
 /**
@@ -44,7 +50,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
 
     private TextInputEditText mEditTextName, mEditTextUserName, mEditTextBio, mEditTextMobileNo, mEditTextEmail, mEditTextPassword, mEditTextCountry;
     private TextInputLayout mTextInputName, mTextInputUserName, mTextInputEmail, mTextInputMobileNo, mTextInputPassword;
-
+    private Spinner mSpinnerGender;
     public static EditProfileFragment newInstance() {
         return newInstance(null);
     }
@@ -60,6 +66,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         setHasOptionsMenu(true);
         setTitle(R.string.title_edit_profile);
+        ((BaseActivity) getActivity()).showMainToolbar();
 
         mEditTextName = (TextInputEditText) view.findViewById(R.id.edittext_name);
         mEditTextName.addTextChangedListener(this);
@@ -77,12 +84,23 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mEditTextPassword.addTextChangedListener(this);
         mTextInputPassword = (TextInputLayout) view.findViewById(R.id.textinput_password);
 
-        Spinner spinnerGender = (Spinner) view.findViewById(R.id.spinner_gender);
+        mEditTextBio = (TextInputEditText) view.findViewById(R.id.edittext_bio);
+
+        mSpinnerGender = (Spinner) view.findViewById(R.id.spinner_gender);
 
         mEditTextMobileNo = (TextInputEditText) view.findViewById(R.id.edittext_mobile_no);
         mEditTextMobileNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+            }
+        });
+
+        Button buttonSave = (Button) view.findViewById(R.id.button_save);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateProfile();
 
             }
         });
@@ -122,9 +140,33 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
             if (isValid()) {
                 pop();
             }
-            return true;
         }
-        return false;
+        return true;
+    }
+
+    private void updateProfile() {
+        mProfile.name = mEditTextName.getText().toString();
+        mProfile.userName = mEditTextUserName.getText().toString();
+        mProfile.bio = mEditTextBio.getText().toString();
+        mProfile.email = mEditTextEmail.getText().toString();
+        mProfile.mobileNo = mEditTextMobileNo.getText().toString();
+        mProfile.password = mEditTextPassword.getText().toString();
+        mProfile.gender = mSpinnerGender.getSelectedItemPosition();
+
+        ProfileManager manager = new ProfileManager();
+        manager.updateProfile(mProfile, new ProfileManager.OnUpdateProfileManager() {
+            @Override
+            public void onUpdateProfileSuccess(BaseResponse response) {
+                Toast.makeText(getActivity(), response.message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onUpdateProfileError(THException exception) {
+                Toast.makeText(getActivity(), exception.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     private void setProfileDetails() {

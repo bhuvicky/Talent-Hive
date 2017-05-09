@@ -133,5 +133,12 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/save"/>
+
     </LinearLayout>
 </ScrollView>

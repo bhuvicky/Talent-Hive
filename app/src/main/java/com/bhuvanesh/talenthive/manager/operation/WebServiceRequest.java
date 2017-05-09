@@ -36,10 +36,10 @@ public class WebServiceRequest extends Request {
     public WebServiceRequest(String url, int method, Map<String, String> headers,
                              String body, Response.Listener responseListener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
-        new THLoggerUtil().debug(WebServiceOperation.class.getSimpleName(), "url:=" + url);
-        System.out.println("URL:=" + url);
+        THLoggerUtil.println(WebServiceRequest.class.getSimpleName() + " URL:=" + url);
         this.mHeaders = headers;
         this.mBody = body;
+        THLoggerUtil.println(WebServiceRequest.class.getSimpleName() + " body: =" + mBody);
         this.mListener = responseListener;
 
     }
@@ -101,8 +101,7 @@ public class WebServiceRequest extends Request {
             String json = new String(
                     response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            new THLoggerUtil().debug(this, "Network Response:=" + json);
-            System.out.println("Network Response:=" + json);
+            THLoggerUtil.println("Network Response:=" + json);
             return Response.success(json,
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {

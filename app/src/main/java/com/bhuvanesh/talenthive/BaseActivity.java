@@ -53,6 +53,14 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void showMainToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+        }
+    }
+
     public void add(int containerId, BaseFragment fragment) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();

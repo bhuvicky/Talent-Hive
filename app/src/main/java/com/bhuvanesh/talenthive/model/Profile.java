@@ -25,7 +25,7 @@ public class Profile {
     public List<Profile> followersList, followingList;
     public boolean isFollowedByMe;
 
-    public String name, userName, bio, email, mobileNo;
+    public String name, userName, bio, email, password, mobileNo;
     public int gender;
 
     public List<Story> mStoryList;

@@ -247,6 +247,7 @@
     <string name="hint_email">Email*</string>
     <string name="hint_password">Password</string>
     <string name="hint_mobile_no">Mobile No</string>
+    <string name="hint_country">Country</string>
     <string-array name="array_gender">
         <item>Select Gender</item>
         <item>Male</item>

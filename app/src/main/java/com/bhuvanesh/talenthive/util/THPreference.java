@@ -5,9 +5,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.bhuvanesh.talenthive.THApplication;
-import com.bhuvanesh.talenthive.account.model.Profile;
+import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.Language;
 import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
+import com.google.android.gms.games.multiplayer.ParticipantUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,6 +29,10 @@ public final class THPreference {
     private static final String PREFERENCE_KEY_PROFILE_ID = "PREFERENCE_KEY_PROFILE_ID";
     private static final String PREFERENCE_KEY_PROFILE = "PREFERENCE_KEY_PROFILE";
 
+
+    //FCM
+    private static final String PREFERENCE_KEY_FCM_KEY = "PREFERENCE_KEY_FCM_KEY";
+    private static final String PREFERENCE_KEY_FCM_KEY_SENT = "PREFERENCE_KEY_FCM_KEY_SENT";
 
 
     private static THPreference mInstance;
@@ -83,6 +88,27 @@ public final class THPreference {
         return mSharedPreferences.getString(PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE, "");
     }
 
+    //FCM
+    public void setFcmKey(String fcmKey) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(PREFERENCE_KEY_FCM_KEY, fcmKey);
+        editor.apply();
+    }
+
+    public String getFcmKey() {
+        return mSharedPreferences.getString(PREFERENCE_KEY_FCM_KEY, "");
+    }
+
+    public void setFcmKeySent(boolean keySent) {
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putBoolean(PREFERENCE_KEY_FCM_KEY_SENT, keySent);
+        editor.apply();
+    }
+
+    public boolean isFcmKeySent() {
+        return mSharedPreferences.getBoolean(PREFERENCE_KEY_FCM_KEY_SENT, false);
+    }
+
     public void setProfileId(String profileId) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(PREFERENCE_KEY_PROFILE_ID, profileId);
@@ -93,6 +119,7 @@ public final class THPreference {
         return mSharedPreferences.getString(PREFERENCE_KEY_PROFILE_ID, "");
     }
 
+    //Story
     public void setLanguageList(String languageJson) {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(PREFERENCE_KEY_LANGUAGE, languageJson);

@@ -43,8 +43,8 @@ allprojects {
 }
 
 ext {
-    supportLibraryVersion = '25.1.0'
-    playServicesVersion = '10.2.0'
+    supportLibraryVersion = '25.2.0'
+    playServicesVersion = '10.2.4'
 }
 
 dependencies {
@@ -62,6 +62,7 @@ dependencies {
     compile 'com.google.apis:google-api-services-people:v1-rev64-1.22.0'
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
+    compile "com.google.firebase:firebase-messaging:$playServicesVersion"
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'life.knowledge4:k4l-video-trimmer:1.0'
