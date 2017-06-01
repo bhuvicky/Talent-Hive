@@ -36,11 +36,12 @@ public class AllTalentsFragment extends BaseFragment {
 
         mAllTalentsAdapter.setOnItemClickListener(new AllTalentsAdapter.OnItemClickListener() {
             @Override
-            public void onGridItemClick() {
+            public void onGridItemClick(int position) {
                 mIsLayoutTypeList = !mIsLayoutTypeList;
                 mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 mRecyclerView.setAdapter(mAllTalentsAdapter);
                 mAllTalentsAdapter.setLayoutType(mIsLayoutTypeList);
+                mRecyclerView.smoothScrollToPosition(position);
             }
         });
 

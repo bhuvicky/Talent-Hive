@@ -12,10 +12,6 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by bhuvanesh on 06-05-2017.
- */
-
 public class UpdateProfileOperation extends WebServiceOperation {
 
     public interface OnUpdateProfileOperation {

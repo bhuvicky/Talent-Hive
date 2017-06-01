@@ -140,7 +140,7 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
                                 dismissProgressDialog();
                                 THLoggerUtil.debug("hh",response.profile.name);
                                 Intent intent=new Intent(getActivity(), DashboardActivity.class);
-                                THPreference.getInstance().setProfile(response.profile);
+//                                THPreference.getInstance().setProfile(response.profile);
                                 THPreference.getInstance().setProfileId(response.profile.profileId);
                                 startActivity(intent);
                                 getActivity().finish();

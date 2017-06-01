@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.dance.model.Dance;
@@ -18,7 +19,7 @@ import java.util.List;
 public class AllTalentsAdapter extends RecyclerView.Adapter {
 
     public interface OnItemClickListener {
-        void onGridItemClick();
+        void onGridItemClick(int position);
     }
 
     private List<PhotoFeedResponse> mPhotoFeedList = new ArrayList<>();
@@ -81,14 +82,25 @@ public class AllTalentsAdapter extends RecyclerView.Adapter {
 
     private class GridViewHolder extends RecyclerView.ViewHolder {
 
-        public GridViewHolder(View itemView) {
+        private ImageView imageViewAllTalent, imageViewTalentType;
+
+        GridViewHolder(View itemView) {
             super(itemView);
+            imageViewAllTalent = (ImageView) itemView.findViewById(R.id.imageview_all_talent);
+            imageViewTalentType = (ImageView) itemView.findViewById(R.id.imageview_talent_type);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnItemClickListener != null)
+                        mOnItemClickListener.onGridItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 
     private class ListViewHolder extends RecyclerView.ViewHolder {
 
-        public ListViewHolder(View itemView) {
+        ListViewHolder(View itemView) {
             super(itemView);
         }
     }

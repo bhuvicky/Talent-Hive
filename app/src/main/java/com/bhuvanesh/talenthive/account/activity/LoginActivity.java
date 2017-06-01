@@ -25,7 +25,7 @@ public class LoginActivity extends BaseActivity {
         setTitle(R.string.app_name);
         boolean isLoggedIn = THPreference.getInstance().isInAppLoggedIn() || THPreference.getInstance().isFBLoggedIn() ||
                 THPreference.getInstance().isGoolgeLoggedIn();
-
+        isLoggedIn = true;
         if (isLoggedIn)
             startActivity(new Intent(this, DashboardActivity.class));
         else
