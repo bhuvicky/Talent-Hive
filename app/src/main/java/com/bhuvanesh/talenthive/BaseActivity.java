@@ -46,6 +46,11 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void setBackEnabled() {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
     public void hideMainToolbar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -59,6 +64,14 @@ public class BaseActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.show();
         }
+    }
+
+    public boolean isToolbarVisible() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            return actionBar.isShowing();
+        }
+        return false;
     }
 
     public void add(int containerId, BaseFragment fragment) {
@@ -165,13 +178,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public List<String> getFromStringArray(int resId) {
         return Arrays.asList(getResources().getStringArray(resId));
-    }
-
-    protected void setBackEnabled() {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     public void showProgressDialog(String message) {

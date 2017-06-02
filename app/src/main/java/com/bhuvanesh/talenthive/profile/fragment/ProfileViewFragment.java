@@ -147,4 +147,10 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
         }
         return true;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((BaseActivity) getActivity()).showMainToolbar();
+    }
 }

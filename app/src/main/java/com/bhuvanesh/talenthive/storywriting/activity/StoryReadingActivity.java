@@ -1,9 +1,11 @@
 package com.bhuvanesh.talenthive.storywriting.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -18,37 +20,37 @@ public class StoryReadingActivity extends BaseActivity {
 
     private View mDecorView;
     private Toolbar mToolBar;
-    private Animation mSlideUp;
-    private Animation mSlideDown;
+    private Animation mSlideUp, mSlideDown;
+    private BottomNavigationView mBnv;
     private GestureDetector gestureDetector;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_reading);
 
-        mToolBar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(mToolBar);
+        setActionBar(R.id.toolbar_main);
         setTitle("Title of the Story");
+        setBackEnabled();
 
         mDecorView = getWindow().getDecorView();
         mDecorView.setOnSystemUiVisibilityChangeListener(mOnSystemUiVisibilityChangeListener);
         mSlideUp = AnimationUtils.loadAnimation(this, R.anim.anim_slide_up);
         mSlideDown = AnimationUtils.loadAnimation(this, R.anim.anim_slide_down);
-//        showSystemUI();
+
+        mBnv = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
+        mBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return true;
+            }
+        });
 
         TextView textViewStoryContent = (TextView) findViewById(R.id.story_content);
         textViewStoryContent.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                THLoggerUtil.println("log on touch called");
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        hideSystemUI();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        hideSystemUI();
-                        break;
-                }
                 return gestureDetector.onTouchEvent(event);
             }
         });
@@ -56,8 +58,7 @@ public class StoryReadingActivity extends BaseActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                THLoggerUtil.println("log single tap confirmed called");
-                if (getSupportActionBar().isShowing())
+                if (isToolbarVisible())
                     hideSystemUI();
                 else
                     showSystemUI();
@@ -66,7 +67,7 @@ public class StoryReadingActivity extends BaseActivity {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                super.onLongPress(e);
+                THLoggerUtil.println("log on long press clicked");
             }
 
             @Override
@@ -75,19 +76,23 @@ public class StoryReadingActivity extends BaseActivity {
             }
 
             @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 hideSystemUI();
-                THLoggerUtil.println("log on scroll called");
-                return true;
+                return super.onFling(e1, e2, velocityX, velocityY);
             }
         });
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        super.dispatchTouchEvent(ev);
+        return gestureDetector.onTouchEvent(ev);
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        THLoggerUtil.println("log focus change called focus status = " + hasFocus);
-        if(hasFocus){
-            hideSystemUI();
+        if (hasFocus) {
+            showSystemUI();
         }
         super.onWindowFocusChanged(hasFocus);
     }
@@ -95,21 +100,19 @@ public class StoryReadingActivity extends BaseActivity {
     private View.OnSystemUiVisibilityChangeListener mOnSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
-            THLoggerUtil.println("log SystemUiVisibilityChangeListener called");
             if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == View.VISIBLE) {
+                showMainToolbar();
                 mToolBar.startAnimation(mSlideDown);
-                getSupportActionBar().show();
+                mBnv.startAnimation(mSlideDown);
             } else {
-                getSupportActionBar().hide();
+                hideMainToolbar();
                 mToolBar.startAnimation(mSlideUp);
+                mBnv.startAnimation(mSlideUp);
             }
         }
     };
 
     private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
         mDecorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

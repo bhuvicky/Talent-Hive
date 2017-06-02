@@ -18,6 +18,7 @@ import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
 import com.bhuvanesh.talenthive.profile.fragment.ProfileViewFragment;
 import com.bhuvanesh.talenthive.sports.fragment.Camera2VideoFragment;
 import com.bhuvanesh.talenthive.storywriting.fragment.EditStoryFragment;
+import com.bhuvanesh.talenthive.util.BottomNavigationViewHelper;
 import com.bhuvanesh.talenthive.util.THPreference;
 
 public class DashboardFragment extends BaseFragment {
@@ -37,6 +38,8 @@ public class DashboardFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation_view);
+        // // TODO: 02/06/2017 update proguard configuration file
+        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
