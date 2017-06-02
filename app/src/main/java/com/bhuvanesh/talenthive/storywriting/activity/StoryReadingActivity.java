@@ -34,12 +34,21 @@ public class StoryReadingActivity extends BaseActivity {
         mDecorView.setOnSystemUiVisibilityChangeListener(mOnSystemUiVisibilityChangeListener);
         mSlideUp = AnimationUtils.loadAnimation(this, R.anim.anim_slide_up);
         mSlideDown = AnimationUtils.loadAnimation(this, R.anim.anim_slide_down);
-        showSystemUI();
+//        showSystemUI();
 
         TextView textViewStoryContent = (TextView) findViewById(R.id.story_content);
         textViewStoryContent.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                THLoggerUtil.println("log on touch called");
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        hideSystemUI();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        hideSystemUI();
+                        break;
+                }
                 return gestureDetector.onTouchEvent(event);
             }
         });
@@ -47,6 +56,7 @@ public class StoryReadingActivity extends BaseActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                THLoggerUtil.println("log single tap confirmed called");
                 if (getSupportActionBar().isShowing())
                     hideSystemUI();
                 else
@@ -60,8 +70,14 @@ public class StoryReadingActivity extends BaseActivity {
             }
 
             @Override
+            public boolean onDown(MotionEvent e) {
+                return true;
+            }
+
+            @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
                 hideSystemUI();
+                THLoggerUtil.println("log on scroll called");
                 return true;
             }
         });

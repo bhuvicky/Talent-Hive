@@ -7,6 +7,7 @@ import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.manager.operation.WebServiceOperation;
 import com.bhuvanesh.talenthive.model.Profile;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class UpdateProfileOperation extends WebServiceOperation {
 
     public interface OnUpdateProfileOperation {
         void onUpdateProfileSuccess(BaseResponse response);
+
         void onUpdateProfileError(THException exception);
     }
 
@@ -28,7 +30,8 @@ public class UpdateProfileOperation extends WebServiceOperation {
     }
 
     public void addToRequestQueue() {
-        if (Config.HARDCODED_ENABLE) {}
+        if (Config.HARDCODED_ENABLE) {
+        }
 //            onSuccess(getFromAssetsFolder("profile.json", new TypeToken<List<Profile>>() {}.getType()));
         else
             super.addToRequestQueue();

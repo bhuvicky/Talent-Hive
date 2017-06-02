@@ -55,6 +55,7 @@ public class WebServiceRequest extends Request {
         mHeaders = mHeaders != null ? mHeaders : super.getHeaders();
         //mHeaders.put("Accept", "application/json");
         mHeaders.put("Content-Type", "application/json");
+        mHeaders.put("Accept", "application/json");
         return mHeaders;
     }
 
@@ -70,8 +71,6 @@ public class WebServiceRequest extends Request {
      * @throws AuthFailureError in the event of auth failure
      */
     public byte[] getBody() throws AuthFailureError {
-        new THLoggerUtil().debug(this, "body:=" + mBody);
-        System.out.println("body:=" + mBody);
 
         if (!TextUtils.isEmpty(mBody)) {
             return mBody.getBytes();
