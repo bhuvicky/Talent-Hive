@@ -1,15 +1,20 @@
 package com.bhuvanesh.talenthive.storywriting.activity;
 
+import android.animation.LayoutTransition;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bhuvanesh.talenthive.BaseActivity;
@@ -22,6 +27,7 @@ public class StoryReadingActivity extends BaseActivity {
     private Toolbar mToolBar;
     private Animation mSlideUp, mSlideDown;
     private BottomNavigationView mBnv;
+    private CoordinatorLayout mParentLayout;
     private GestureDetector gestureDetector;
 
 
@@ -30,14 +36,18 @@ public class StoryReadingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_reading);
 
-        setActionBar(R.id.toolbar_main);
+        mToolBar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(mToolBar);
         setTitle("Title of the Story");
-        setBackEnabled();
 
         mDecorView = getWindow().getDecorView();
         mDecorView.setOnSystemUiVisibilityChangeListener(mOnSystemUiVisibilityChangeListener);
         mSlideUp = AnimationUtils.loadAnimation(this, R.anim.anim_slide_up);
         mSlideDown = AnimationUtils.loadAnimation(this, R.anim.anim_slide_down);
+
+        mParentLayout = (CoordinatorLayout) findViewById(R.id.layout_parent);
+        mParentLayout.setFitsSystemWindows(true);
+//        mParentLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
         mBnv = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         mBnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -58,10 +68,16 @@ public class StoryReadingActivity extends BaseActivity {
         gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                if (isToolbarVisible())
+                if (getSupportActionBar().isShowing())
                     hideSystemUI();
                 else
                     showSystemUI();
+
+                ViewGroup.LayoutParams params = mBnv.getLayoutParams();
+
+                params.height = params.height == 0 ? ViewGroup.LayoutParams.WRAP_CONTENT : 0;
+
+                mBnv.setLayoutParams(params);
                 return true;
             }
 
@@ -78,9 +94,11 @@ public class StoryReadingActivity extends BaseActivity {
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 hideSystemUI();
-                return super.onFling(e1, e2, velocityX, velocityY);
+                return true;
             }
         });
+
+
     }
 
     @Override
@@ -101,12 +119,14 @@ public class StoryReadingActivity extends BaseActivity {
         @Override
         public void onSystemUiVisibilityChange(int visibility) {
             if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == View.VISIBLE) {
-                showMainToolbar();
+                getSupportActionBar().show();
                 mToolBar.startAnimation(mSlideDown);
+                mParentLayout.setFitsSystemWindows(true);
                 mBnv.startAnimation(mSlideDown);
             } else {
-                hideMainToolbar();
+                getSupportActionBar().hide();
                 mToolBar.startAnimation(mSlideUp);
+                mParentLayout.setFitsSystemWindows(false);
                 mBnv.startAnimation(mSlideUp);
             }
         }
