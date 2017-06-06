@@ -202,7 +202,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
 
                 UploadPhotoRequest uploadPhoto=new UploadPhotoRequest();
                 uploadPhoto.photoURL = taskSnapshot.getDownloadUrl().toString();
-                uploadPhoto.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();=
+                uploadPhoto.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
                 uploadPhoto.titleDescription=photo.titleDescription;
                 uploadPhoto.location=photo.location;
                 if(THPreference.getInstance().isFBLoggedIn())

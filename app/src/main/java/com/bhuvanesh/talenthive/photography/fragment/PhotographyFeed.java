@@ -74,7 +74,7 @@ public class PhotographyFeed extends BaseFragment {
                 photo.photoURL = taskSnapshot.getDownloadUrl().toString();
                 photo.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
                 PhotoManager photoManager=new PhotoManager();
-                photoManager.uploadPostToServer(photo, new PhotoManager.OnUploadPhotoListener() {
+                /*photoManager.uploadPostToServer(photo, new PhotoManager.OnUploadPhotoListener() {
                     @Override
                     public void uploadPhotoSuccess(PhotoFeedResponse response) {
                         mBuilder.setContentText("Upload complete")
@@ -87,7 +87,7 @@ public class PhotographyFeed extends BaseFragment {
                     public void uplaodPhotoFailure(THException exception) {
 
                     }
-                });
+                });*/
 
 
             }
