@@ -145,13 +145,13 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
     }
 
     private void updateProfile() {
-        mProfile.name = mEditTextName.getText().toString();
-        mProfile.userName = mEditTextUserName.getText().toString();
+        mProfile.user.name = mEditTextName.getText().toString();
+        mProfile.user.userName = mEditTextUserName.getText().toString();
         mProfile.bio = mEditTextBio.getText().toString();
         mProfile.email = mEditTextEmail.getText().toString();
         mProfile.mobileNo = mEditTextMobileNo.getText().toString();
-        mProfile.password = mEditTextPassword.getText().toString();
-        mProfile.gender = mSpinnerGender.getSelectedItemPosition();
+        //mProfile.password = mEditTextPassword.getText().toString();
+        mProfile.gender = (mSpinnerGender.getSelectedItemPosition())+"";
 
         ProfileManager manager = new ProfileManager();
         manager.updateProfile(mProfile, new ProfileManager.OnUpdateProfileManager() {
@@ -175,7 +175,7 @@ public class EditProfileFragment extends RunTimePermissionFragment implements Te
         mEditTextMobileNo.setText(mProfile.mobileNo != null ? mProfile.mobileNo : "");
         mImageViewProfile.setDefaultImageResId(R.drawable.ic_default_avatar);
         mImageViewProfile.setErrorImageResId(R.drawable.ic_default_avatar);
-        mImageViewProfile.setImageUrl(mProfile.profilePicUrl, THApplication.getInstance().getImageLoader());
+        mImageViewProfile.setImageUrl(mProfile.user.profilePicUrl, THApplication.getInstance().getImageLoader());
     }
 
     private void loadImageFromGallery() {

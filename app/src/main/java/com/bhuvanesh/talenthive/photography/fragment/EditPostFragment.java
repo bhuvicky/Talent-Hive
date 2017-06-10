@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.constant.IntentConstant;
+import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.photography.model.Photo;
 import com.bhuvanesh.talenthive.photography.view.AutoFitPreviewImage;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -28,6 +30,8 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+
+import org.mp4parser.aspectj.lang.reflect.InterTypeConstructorDeclaration;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -136,12 +140,18 @@ public class EditPostFragment extends BaseFragment{
         switch (item.getItemId())
         {
             case R.id.menu_post:
-                Photo photo=new Photo();
-                photo.titleDescription=captionEditText.getText().toString();
-                photo.lastModifiedTime=System.currentTimeMillis();
-                photo.location=locationTextView.getText().toString();
-
-                replace(R.id.filter_container,PhotoFeedFragment.newInstance(previewImgURI,photo));
+//                Photo photo=new Photo();
+//                photo.titleDescription=captionEditText.getText().toString();
+//                photo.lastModifiedTime=System.currentTimeMillis();
+//                photo.location=locationTextView.getText().toString();
+                Intent intent=new Intent(getActivity(), DashboardActivity.class);
+                intent.putExtra(IntentConstant.URI,previewImgURI);
+                intent.putExtra(IntentConstant.TITLE,captionEditText.getText().toString());
+                intent.putExtra(IntentConstant.TIME,System.currentTimeMillis());
+                intent.putExtra(IntentConstant.LOCATION,locationTextView.getText().toString());
+                startActivity(intent);
+                getActivity().finish();
+                 //         replace(R.id.filter_container,PhotoFeedFragment.newInstance(previewImgURI,photo));
                 break;
             case android.R.id.home:
                 pop();

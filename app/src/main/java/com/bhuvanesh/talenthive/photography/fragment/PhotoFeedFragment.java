@@ -24,6 +24,7 @@ import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
 import com.bhuvanesh.talenthive.photography.model.Photo;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 import com.bhuvanesh.talenthive.photography.model.UploadPhotoRequest;
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.bhuvanesh.talenthive.util.THPreference;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,17 +49,20 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
     private NotificationCompat.Builder mBuilder;
     private Photo photo;
     private UploadTask uploadTask;
+    private UploadPhotoRequest uploadPhotoRequest;
 
-    public static PhotoFeedFragment newInstance(Uri uri,Photo photo){
-       PhotoFeedFragment photoFeed = new PhotoFeedFragment();
-    photoFeed.photoUri = uri;
-    photoFeed.photo=photo;
+    public static PhotoFeedFragment newInstance(UploadPhotoRequest uploadPhotoRequest){
+        PhotoFeedFragment photoFeed=new PhotoFeedFragment();
+        if(uploadPhotoRequest!=null){
+             photoFeed.uploadPhotoRequest=uploadPhotoRequest;
+        }
         return photoFeed;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if(photoUri!=null)upload();
+        if(uploadPhotoRequest!=null)upload();
         View view=inflater.inflate(R.layout.fragment_photography_feed,container,false);
         mRecyclerViewPhotoFeed= (RecyclerView) view.findViewById(R.id.recyclerview_photo_feed);
         mRefreshPhotoFeed= (SwipeRefreshLayout) view.findViewById(R.id.refersh_photo_feed);
@@ -93,7 +97,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
         manager.setmOnTHDBMangerListener(new THDBManager.OnTHDBMangerListener() {
             @Override
             public void onTHDBSuccessful(Object object) {
-                mPhotoFeedList = (List< PhotoFeedResponse>) object;
+                mPhotoFeedList = (List<PhotoFeedResponse>) object;
                 getPhotoFeedList(true);
             }
 
@@ -103,7 +107,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
             }
         });
         manager.getPhotoFeedList();
-        mPhotoFeedAdapter.setOnStoryFeedItemClickListener(new PhotoFeedAdapter.IOnPhotoFeedItemClickListener() {
+        mPhotoFeedAdapter.setOnPhotoFeedItemClickListener(new PhotoFeedAdapter.IOnPhotoFeedItemClickListener() {
             @Override
             public void onPaginationRetryClick() {
                 getPhotoFeedList(false);
@@ -173,7 +177,7 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
     private void upload()
     {
         FirebaseStorageAcess firebaseStorageAcess = new FirebaseStorageAcess(getContext());
-        uploadTask = firebaseStorageAcess.uploadPhoto(photoUri, System.currentTimeMillis() + "");
+        uploadTask = firebaseStorageAcess.uploadPhoto(uploadPhotoRequest.photo.photoUri, System.currentTimeMillis() + "");
 
         mNotifyManager =
                 (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -200,34 +204,36 @@ public class PhotoFeedFragment extends BaseFragment implements PhotoManager.OnGe
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                UploadPhotoRequest uploadPhoto=new UploadPhotoRequest();
-                uploadPhoto.photoURL = taskSnapshot.getDownloadUrl().toString();
-                uploadPhoto.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
-                uploadPhoto.titleDescription=photo.titleDescription;
-                uploadPhoto.location=photo.location;
-                if(THPreference.getInstance().isFBLoggedIn())
-                {
-                uploadPhoto.profileID=THPreference.getInstance().getProfileId();
-                uploadPhoto.loginType=2;
-                }
-                else if(THPreference.getInstance().isGoolgeLoggedIn())
-                {
-                    uploadPhoto.profileID=THPreference.getInstance().getGoogleServerAuthCode();
-                    uploadPhoto.loginType=1;
-                }
-                else {
-                    uploadPhoto.profileID = THPreference.getInstance().getProfileId();
-                    uploadPhoto.loginType=0;
-                }
+//                UploadPhotoRequest uploadPhoto=new UploadPhotoRequest();
+//                uploadPhoto.photo=new Photo();
+                uploadPhotoRequest.photo.photoURL = taskSnapshot.getDownloadUrl().toString();
+                uploadPhotoRequest.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
+//                uploadPhoto.photo.titleDescription=photo.titleDescription;
+//                uploadPhoto.photo.location=photo.location;
+//                uploadPhoto.user=new UserDetails();
+//                if(THPreference.getInstance().isFBLoggedIn())
+//                {
+//                uploadPhoto.user.profileId=THPreference.getInstance().getProfileId();
+//                uploadPhoto.user.loginType=2;
+//                }
+//                else if(THPreference.getInstance().isGoolgeLoggedIn())
+//                {
+//                    uploadPhoto.user.profileId=THPreference.getInstance().getGoogleServerAuthCode();
+//                    uploadPhoto.user.loginType=1;
+//                }
+//                else {
+//                    uploadPhoto.user.profileId= THPreference.getInstance().getProfileId();
+//                    uploadPhoto.user.loginType=0;
+//                }
                 PhotoManager photoManager=new PhotoManager();
-                photoManager.uploadPostToServer(uploadPhoto, new PhotoManager.OnUploadPhotoListener() {
+                photoManager.uploadPostToServer(uploadPhotoRequest, new PhotoManager.OnUploadPhotoListener() {
                     @Override
                     public void uploadPhotoSuccess(PhotoFeedResponse response) {
                         mBuilder.setContentText("Upload complete")
                                 .setProgress(0, 0, false);
                         mNotifyManager.notify(id, mBuilder.build());
                          mPhotoFeedAdapter.addData(response);
-
+                         uploadPhotoRequest=null;
                     }
 
                     @Override

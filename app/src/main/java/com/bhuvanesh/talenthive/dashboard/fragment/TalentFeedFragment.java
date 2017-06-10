@@ -32,6 +32,7 @@ public class TalentFeedFragment extends BaseFragment {
             mViewPagerAdapter = new THFeedViewPagerAdapter(getActivity(), getChildFragmentManager());
             viewPager.setAdapter(mViewPagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
+             viewPager.setOffscreenPageLimit(1);
         return rootView;
     }
 }

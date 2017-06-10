@@ -5,10 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/flayout_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation_view"
@@ -19,6 +16,14 @@
         app:elevation="8dp"
         app:itemIconTint="@color/selector_bottom_nav_icon"
         app:itemTextColor="@color/selector_bottom_nav_icon"
-        app:menu="@menu/menu_bottom_nav_dashboard"/>
-
+        app:menu="@menu/menu_bottom_nav_view" />
+    <FrameLayout
+        android:id="@+id/flayout_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/bottom_navigation_view"
+        />
 </RelativeLayout>

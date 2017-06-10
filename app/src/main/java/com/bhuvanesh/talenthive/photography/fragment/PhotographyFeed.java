@@ -16,6 +16,7 @@ import com.bhuvanesh.talenthive.firebase.FirebaseStorageAcess;
 import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
 import com.bhuvanesh.talenthive.photography.model.Photo;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
+import com.bhuvanesh.talenthive.photography.model.UploadPhotoRequest;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.OnPausedListener;
@@ -68,30 +69,31 @@ public class PhotographyFeed extends BaseFragment {
 
             }
         });
-        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                photo.photoURL = taskSnapshot.getDownloadUrl().toString();
-                photo.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
-                PhotoManager photoManager=new PhotoManager();
-                /*photoManager.uploadPostToServer(photo, new PhotoManager.OnUploadPhotoListener() {
-                    @Override
-                    public void uploadPhotoSuccess(PhotoFeedResponse response) {
-                        mBuilder.setContentText("Upload complete")
-                                .setProgress(0, 0, false);
-                        mNotifyManager.notify(id, mBuilder.build());
-                       // mPhotoFeedAdapter.addData(response);
-                    }
-
-                    @Override
-                    public void uplaodPhotoFailure(THException exception) {
-
-                    }
-                });*/
-
-
-            }
-        });
+//        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                UploadPhotoRequest uploadPhotoRequest=new UploadPhotoRequest();
+//                photo.photoURL = taskSnapshot.getDownloadUrl().toString();
+//                photo.lastModifiedTime=taskSnapshot.getMetadata().getCreationTimeMillis();
+//                PhotoManager photoManager=new PhotoManager();
+//                photoManager.uploadPostToServer(photo, new PhotoManager.OnUploadPhotoListener() {
+//                    @Override
+//                    public void uploadPhotoSuccess(PhotoFeedResponse response) {
+//                        mBuilder.setContentText("Upload complete")
+//                                .setProgress(0, 0, false);
+//                        mNotifyManager.notify(id, mBuilder.build());
+//                       // mPhotoFeedAdapter.addData(response);
+//                    }
+//
+//                    @Override
+//                    public void uplaodPhotoFailure(THException exception) {
+//
+//                    }
+//                });
+//
+//
+//            }
+//        });
         uploadTask.addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {

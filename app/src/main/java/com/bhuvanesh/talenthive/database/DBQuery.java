@@ -31,7 +31,7 @@ public interface DBQuery {
 //     for photoFeed
     String CREATE_TABLE_PHOTO_FEED="CREATE TABLE "+TABLE_NAME_PHOTO_FEED+" (PhotoId varchar PRIMARY KEY, ProfileImageUrl varchar, " +
                "LastModifiedTime long, PhotoImageUrl varchar, Description varchar, "+
-               "LikedPeopleList varchar, NoOfComments long);";
+               "NoOfLikes long, NoOfComments long);";
     String GET_PHOTO_FEED = "SELECT * FROM " + TABLE_NAME_PHOTO_FEED + " ORDER BY LastModifiedTime DESC";
     String DELETE_ALL_PHOTO_FEED_RECORD = "DELETE FROM " + TABLE_NAME_PHOTO_FEED;
     String DELETE_OLD_PHOTO_FEED_RECORDS_WITH_LIMIT = "DELETE FROM " + TABLE_NAME_STORY_FEED + " WHERE rowid IN " +

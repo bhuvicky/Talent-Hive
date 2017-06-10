@@ -12,7 +12,7 @@ import java.util.List;
 public class DBManager implements DBQuery {
 
     private static final String DATABASE_NAME = "Talent Hive";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private SLDBHelper dbHelper;
     private SQLiteDatabase mSqldb;
 

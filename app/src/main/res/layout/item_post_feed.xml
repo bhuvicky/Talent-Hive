@@ -3,140 +3,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<LinearLayout android:layout_height="wrap_content" android:layout_width="wrap_content"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_16dp"
-        android:paddingRight="@dimen/padding_16dp"
-        android:paddingTop="@dimen/padding_16dp"
-        android:paddingBottom="@dimen/padding_16dp"
-        >
 
-        <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
-            android:id="@+id/cniv_profile_icon"
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-          />
-        <TextView
-            android:id="@+id/textview_dp_name"
+    <include layout="@layout/layout_progressbar_retry"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/padding_16dp"
+            android:paddingRight="@dimen/padding_16dp"
+            android:paddingTop="@dimen/padding_16dp">
+
+            <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
+                android:id="@+id/cniv_profile_icon"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/textview_dp_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/cniv_profile_icon"
+                android:layout_toRightOf="@+id/cniv_profile_icon"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                tools:text="Karthikeyan" />
+
+            <TextView
+                android:id="@+id/textview_places"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_dp_name"
+                android:layout_marginLeft="1dp"
+                android:layout_toEndOf="@id/cniv_profile_icon"
+                android:layout_toRightOf="@id/cniv_profile_icon"
+                android:text="@string/sivakasi"
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:id="@+id/textview_post_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textview_dp_name"
+                android:layout_marginLeft="5dp"
+                android:layout_toEndOf="@id/textview_places"
+                android:layout_toRightOf="@id/textview_places"
+                android:text="@string/sym_dot"
+                tools:text="jun 10 2016 10:36" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            tools:text="Karthik"
-            android:textSize="@dimen/title_dimension_value"
-            android:layout_toRightOf="@+id/cniv_profile_icon"
-            android:layout_toEndOf="@+id/cniv_profile_icon" />
-        <TextView
-            android:id="@+id/textview_post_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="jun 10 2016 10:36"
-            android:layout_toRightOf="@id/cniv_profile_icon"
-            android:textSize="@dimen/subhead_dimension_value"
-            android:layout_toEndOf="@id/cniv_profile_icon"
-            android:layout_below="@id/textview_dp_name"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/label_at"
-            android:textStyle="bold"
-            android:layout_toRightOf="@id/textview_post_time"
-            android:layout_toEndOf="@id/textview_post_time"
-            android:visibility="gone"
-            android:id="@+id/textview_att"
-            tools:visibility="visible"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sivakasi"
-            android:id="@+id/textview_places"
-            android:layout_marginLeft="1dp"
-            android:layout_toRightOf="@id/textview_att"
-            android:layout_alignParentTop="true" />
+
+            >
+
+            <TextView
+                android:id="@+id/textview_title_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="@dimen/padding_16dp"
+                android:paddingBottom="5dp"
+                android:textSize="@dimen/normal_text_size"
+                tools:text="Hello Buddies" />
+
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/imageview_photography"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/textview_title_description"
+                android:scaleType="fitXY" />
+
+        </RelativeLayout>
+
         <View
-            android:id="@+id/view_sperator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_margin="@dimen/margin_post"
-            android:layout_below="@id/textview_post_time"
-            android:background="@color/colorPrimary"/>
-    </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
+
+            android:background="@color/colorPrimary" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/padding_16dp"
-            android:id="@+id/textview_title_description"
-            tools:text="Hello Buddies"
-            android:textSize="@dimen/normal_text_size"
-            />
+            android:paddingRight="@dimen/padding_16dp">
 
-        <com.android.volley.toolbox.NetworkImageView
+            <Button
+                android:id="@+id/button_like"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:drawableLeft="@drawable/ic_like_3"
+                android:gravity="center"
+                android:text="@string/msg_like" />
+
+            <Button
+                android:id="@+id/button_comment"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:drawableLeft="@drawable/ic_comment_grey600_36dp"
+                android:gravity="center"
+                android:text="@string/msg_comment" />
+
+            <Button
+
+                android:id="@+id/button_share"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentEnd="true"
+
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="@string/msg_share" />
+        </RelativeLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_below="@id/textview_title_description"
-            android:layout_height="240dp"
-            android:scaleType="fitXY"
-            android:id="@+id/imageview_photography"
-            />
-
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-
-        android:background="@color/colorPrimary"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/padding_16dp"
-        android:paddingRight="@dimen/padding_16dp"
-       >
-        <Button
-            android:id="@+id/button_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/msg_like"
-
-            android:gravity="center"
-            android:drawableLeft="@drawable/ic_like_3"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-             />
-        <Button
-            android:id="@+id/button_comment"
-            android:text="@string/msg_comment"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
-            android:drawableLeft="@drawable/ic_comment_grey600_36dp"
-            android:layout_width="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
-        <Button
-
-            android:id="@+id/button_share"
-            android:layout_width="wrap_content" android:gravity="center"
-            android:text="@string/msg_share"
-
-            android:layout_height="wrap_content"
-
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"/>
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary" />
     </LinearLayout>
-
 </android.support.v7.widget.CardView>

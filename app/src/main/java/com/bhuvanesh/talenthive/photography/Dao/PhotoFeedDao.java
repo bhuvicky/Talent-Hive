@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,7 +26,7 @@ public class PhotoFeedDao extends Dao {
     private static final String PROFILE_IMAGE_URL = "ProfileImageUrl";
     private static final String PHOTO_IMAGE_URL = "PhotoImageUrl";
     private static final String DESCRIPTION = "Description";
-    private static final String LIKED_PEOPLE_LIST = "LikedPeopleList";
+    private static final String NO_OF_LIKES = "NoOfLikes";
     private static final String NO_OF_COMMENTS = "NoOfComments";
     private static final int MAX_RECORD_TO_UPDATE = 10;
 
@@ -44,11 +45,11 @@ public class PhotoFeedDao extends Dao {
             ContentValues values = new ContentValues();
 
             values.put(PHOTO_ID, item.photo.photoID);
-            values.put(PROFILE_IMAGE_URL, item.profileImageUrl);
+            values.put(PROFILE_IMAGE_URL, item.user.profilePicUrl);
             values.put(PHOTO_IMAGE_URL, item.photo.photoURL);
             values.put(DESCRIPTION, item.photo.titleDescription);
-            values.put(LIKED_PEOPLE_LIST, new Gson().toJson(item.likedPeopleList));
-            values.put(NO_OF_COMMENTS, item.noOfComments);
+            values.put(NO_OF_LIKES,item.likeCount);
+            values.put(NO_OF_COMMENTS, item.commentCount);
             valuesList.add(values);
         }
         DBManager dbManager = new DBManager(THApplication.getInstance());
@@ -98,10 +99,9 @@ public class PhotoFeedDao extends Dao {
                 PhotoFeedItem.photo.photoID = cursor.getString(cursor.getColumnIndex(PHOTO_ID));
                 PhotoFeedItem.photo.photoURL = cursor.getString(cursor.getColumnIndex(PHOTO_IMAGE_URL));
                 PhotoFeedItem.photo.titleDescription = cursor.getString(cursor.getColumnIndex(DESCRIPTION));
-                PhotoFeedItem.profileImageUrl = cursor.getString(cursor.getColumnIndex(PROFILE_IMAGE_URL));
-                PhotoFeedItem.likedPeopleList = new Gson().fromJson(cursor.getString(cursor.getColumnIndex(LIKED_PEOPLE_LIST)),
-                        new TypeToken<List<String>>() {}.getType());
-                PhotoFeedItem.noOfComments = cursor.getLong(cursor.getColumnIndex(NO_OF_COMMENTS));
+                PhotoFeedItem.user.profilePicUrl = cursor.getString(cursor.getColumnIndex(PROFILE_IMAGE_URL));
+                PhotoFeedItem.likeCount = cursor.getLong(cursor.getColumnIndex(NO_OF_LIKES));
+                PhotoFeedItem.commentCount= cursor.getLong(cursor.getColumnIndex(NO_OF_COMMENTS));
                 photoFeedList.add(PhotoFeedItem);
             }
         } finally {

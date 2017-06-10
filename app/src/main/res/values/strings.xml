@@ -63,9 +63,9 @@
     <string name="lbl_photo">Photography</string>
     <string name="lbl_dance">Dance</string>
     <string-array name="lbl_feed_tab_title">
-        <item>Story</item>
+        <!--<item>Story</item>-->
         <item>Photography</item>
-        <item>Dance</item>
+        <!--<item>Dance</item>-->
     </string-array>
     <!--Menu Advise-->
 
@@ -259,5 +259,6 @@
     <string name="lbl_find_people">Find People</string>
     <string name="lbl_invite_friends">Invite Friends</string>
     <string name="lbl_google">Google</string>
+    <string name="sym_dot">.</string>
 
 </resources>

@@ -13,8 +13,9 @@ import java.util.Locale;
 public final class DateUtil {
 
     private DateUtil () {}
-
-    public static final String DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM = "dd/MM/yyyy HH:MM";
+    public static final String[] MONTHS={"Jan","Feb","Mar","April","May","June","July","Augs","Sept","Oct","Nov","Dec"};
+    public static final String DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM = "dd/MM/yyyy";
+    public static final String DATE_TIME_FORMAT_TYPE_HH_MM = "HH:MM";
 
     private static final int ONE_SEC_IN_MILLIS = 1000;
     private static final int ONE_MIN_IN_MILLIS = 60 * ONE_SEC_IN_MILLIS;
@@ -26,7 +27,7 @@ public final class DateUtil {
     }
 
     private static String getTimeAgo(long time, long now) {
-
+  Date date=new Date(time);
         if (time > now || time < 0)
             return null;
 
@@ -42,13 +43,14 @@ public final class DateUtil {
         else if (diff < 3 * ONE_DAY_IN_MILLIS)
             return "Yesterday";
         else
-            return getFormattedString(diff, DATE_TIME_FORMAT_TYPE_dd_MM_yyyy_HH_MM);
+            return getFormattedString(time, DATE_TIME_FORMAT_TYPE_HH_MM);
     }
 
     public static String getFormattedString(long timeStamp, String type) {
         DateFormat df = new SimpleDateFormat(type, Locale.getDefault());
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timeStamp);
-        return df.format(cal.getTime());
+        String at=MONTHS[cal.get(Calendar.MONTH)]+" "+cal.get(Calendar.DAY_OF_MONTH)+"at ";
+        return at+df.format(cal.getTime());
     }
 }

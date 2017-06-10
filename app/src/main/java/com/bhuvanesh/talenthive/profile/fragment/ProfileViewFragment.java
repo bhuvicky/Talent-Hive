@@ -80,10 +80,10 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
         mTextViewFollowingCount = (TextView) view.findViewById(R.id.textview_following_count);
        // getProfileList();
 
-        mImageViewProfile.setImageUrl(mProfile.profilePicUrl,imageLoader);
+        mImageViewProfile.setImageUrl(mProfile.user.profilePicUrl,imageLoader);
         mImageViewCover.setImageUrl(mProfile.coverImageUrl,THApplication.getInstance().getImageLoader());
-        mTextViewName.setText(mProfile.name);
-        mTextViewUserName.setText(mProfile.userName);
+        mTextViewName.setText(mProfile.user.name);
+        mTextViewUserName.setText(mProfile.user.userName);
         mTextViewFollowersCount.setText("0");
         mTextViewFollowingCount.setText("0");
 
@@ -122,11 +122,11 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
 
     private void updateProfile(Profile mProfileForView) {
         mImageViewProfile.setDefaultImageResId(R.drawable.ic_default_avatar);
-        mImageViewProfile.setImageUrl(mProfileForView.profilePicUrl, THApplication.getInstance().getImageLoader());
-        mTextViewName.setText(mProfileForView.name);
-        mTextViewUserName.setText(mProfileForView.userName);
-        mTextViewFollowersCount.setText(String.valueOf(mProfileForView.followersList.size()));
-        mTextViewFollowingCount.setText(String.valueOf(mProfileForView.followingList.size()));
+        mImageViewProfile.setImageUrl(mProfileForView.user.profilePicUrl, THApplication.getInstance().getImageLoader());
+        mTextViewName.setText(mProfileForView.user.name);
+        mTextViewUserName.setText(mProfileForView.user.userName);
+        mTextViewFollowersCount.setText(String.valueOf(0));
+        mTextViewFollowingCount.setText(String.valueOf(0));
     }
 
     @Override

@@ -23,6 +23,7 @@ public class LoginActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         setTitle(R.string.app_name);
+
         boolean isLoggedIn = THPreference.getInstance().isInAppLoggedIn() || THPreference.getInstance().isFBLoggedIn() ||
                 THPreference.getInstance().isGoolgeLoggedIn();
 
@@ -33,7 +34,5 @@ public class LoginActivity extends BaseActivity {
             replace(R.id.layout_container, LoginFragment.newInstance());
 
     }
-
-
 
 }

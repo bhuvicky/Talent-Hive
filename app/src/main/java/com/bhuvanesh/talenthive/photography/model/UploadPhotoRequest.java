@@ -1,15 +1,21 @@
 package com.bhuvanesh.talenthive.photography.model;
 
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
+
 import java.util.List;
 
 /**
  * Created by Karthik on 20-Apr-17.
  */
 
-public class UploadPhotoRequest extends Photo{
+public class UploadPhotoRequest {
+    public long createdTime;
+    public long lastModifiedTime;
+    public Photo photo;
+    public UserDetails user;
+    public List<String> likedList;
+    public List<Comment> commentList;
+    public long likeCount;
+    public long commentCount;
 
-    public List<String> likedPeopleList;
-    public List<Comment> commentsList;
-    public String profileID;
-    public int loginType;
 }

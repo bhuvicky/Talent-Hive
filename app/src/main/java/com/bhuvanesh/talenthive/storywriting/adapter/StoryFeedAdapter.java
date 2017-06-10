@@ -107,7 +107,7 @@ public class StoryFeedAdapter extends RecyclerView.Adapter<StoryFeedAdapter.View
             imageViewProfileIcon = (CircularNetworkImageView) itemView.findViewById(R.id.circular_network_imageview_profile_icon);
             networkImageViewStoryCover = (NetworkImageView) itemView.findViewById(R.id.network_imageview_story_cover_image);
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            buttonRetry = (Button) itemView.findViewById(R.id.button_retry);
+            buttonRetry = (Button) itemView.findViewById(R.id.retry);
             buttonRetry.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

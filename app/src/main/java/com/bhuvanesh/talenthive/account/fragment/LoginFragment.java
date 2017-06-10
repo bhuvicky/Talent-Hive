@@ -42,6 +42,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.api.services.people.v1.PeopleScopes;
+import com.google.gson.Gson;
 
 public class LoginFragment extends BaseFragment implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
@@ -111,7 +112,7 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
             public void onFbLoginSuccess(Profile profile) {
                 THPreference.getInstance().setFBLogin(true);
                 THLoggerUtil.debug("hh","ss");
-                THPreference.getInstance().setProfileId(profile.accountId);
+                THPreference.getInstance().setProfileId(profile.user.accountId);
                 startActivity(new Intent(getActivity(), DashboardActivity.class));
             }
 
@@ -138,10 +139,11 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
                         public void OnUserLoginSuccess(LoginResponse response) {
                             if (isAdded()) {
                                 dismissProgressDialog();
-                                THLoggerUtil.debug("hh",response.profile.name);
+                                THLoggerUtil.debug("hh",response.user.name);
+                                THPreference.getInstance().setUserDetails(new Gson().toJson(response.user));
                                 Intent intent=new Intent(getActivity(), DashboardActivity.class);
-//                                THPreference.getInstance().setProfile(response.profile);
-                                THPreference.getInstance().setProfileId(response.profile.profileId);
+                              //  THPreference.getInstance().setProfile(response.profile);
+                                THPreference.getInstance().setProfileId(response.user.profileId);
                                 startActivity(intent);
                                 getActivity().finish();
                             }

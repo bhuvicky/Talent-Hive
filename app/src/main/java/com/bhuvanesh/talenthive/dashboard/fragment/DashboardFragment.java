@@ -14,8 +14,12 @@ import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.OnSubmitClickListener;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.account.model.Profile;
+import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
+import com.bhuvanesh.talenthive.photography.fragment.PhotoFeedFragment;
 import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
+import com.bhuvanesh.talenthive.photography.model.UploadPhotoRequest;
 import com.bhuvanesh.talenthive.profile.fragment.ProfileViewFragment;
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.bhuvanesh.talenthive.sports.fragment.Camera2VideoFragment;
 import com.bhuvanesh.talenthive.storywriting.fragment.EditStoryFragment;
 import com.bhuvanesh.talenthive.util.BottomNavigationViewHelper;
@@ -28,6 +32,7 @@ public class DashboardFragment extends BaseFragment {
     public static final int TALENT_TYPE_DANCE = TALENT_TYPE_STORY + 1;
     private Profile profile;
     private BottomNavigationView bottomNavigationView;
+
     public static DashboardFragment newInstance() {
         DashboardFragment dashboardFragment= new DashboardFragment();
         return dashboardFragment;
@@ -36,7 +41,7 @@ public class DashboardFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
+        replaceChildFragment(R.id.flayout_container, PhotoFeedFragment.newInstance(((DashboardActivity)getActivity()).uploadPhotoRequest));
         bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation_view);
         // // TODO: 02/06/2017 update proguard configuration file
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
@@ -47,10 +52,11 @@ public class DashboardFragment extends BaseFragment {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.menu_home:
-                                replaceChildFragment(R.id.flayout_container,TalentFeedFragment.newInstance());
+                                replaceChildFragment(R.id.flayout_container,PhotoFeedFragment.newInstance(null));
                                 break;
 
                             case R.id.menu_search:
+
                                 break;
 
                             case R.id.menu_share:

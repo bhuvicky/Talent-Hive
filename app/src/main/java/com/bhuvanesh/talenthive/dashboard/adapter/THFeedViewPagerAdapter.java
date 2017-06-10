@@ -14,7 +14,7 @@ import com.bhuvanesh.talenthive.storywriting.fragment.StoryViewPagerFragment;
 public class THFeedViewPagerAdapter extends FragmentStatePagerAdapter{
 
 private static final byte TAB_STORY_FEED = 0;
-private static final byte TAB_PHOTO_FEED = TAB_STORY_FEED + 1;
+private static final byte TAB_PHOTO_FEED = 0;
 private static final byte TAB_DANCE_FEED=TAB_PHOTO_FEED+1;
 private static String[] TAB_TITLE;
 
@@ -25,14 +25,14 @@ public THFeedViewPagerAdapter(Context context, FragmentManager fm) {
 
 @Override
 public BaseFragment getItem(int position) {
-        switch (position) {
-        case TAB_STORY_FEED:
-        return StoryViewPagerFragment.newInstance();
-        case TAB_PHOTO_FEED:
-        return PhotoFeedFragment.newInstance(null,null);
-        default:
-        return DanceFeedFragment.newInstance();
-        }
+//        switch (position) {
+//        case TAB_STORY_FEED:
+//        return StoryViewPagerFragment.newInstance();
+//        case TAB_PHOTO_FEED:
+        return PhotoFeedFragment.newInstance(null);
+//        default:
+//        return DanceFeedFragment.newInstance();
+//        }
         }
 
 @Override

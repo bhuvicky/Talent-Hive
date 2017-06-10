@@ -18,6 +18,7 @@ import com.bhuvanesh.talenthive.util.DateUtil;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.ViewHolder>{
@@ -25,7 +26,7 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
    public interface IOnPhotoFeedItemClickListener{
         void onPaginationRetryClick();
    }
-   private List<PhotoFeedResponse>  mPhotoFeedList=new ArrayList<>();
+   private List<PhotoFeedResponse>  mPhotoFeedList=new LinkedList<>();
    private boolean isPaginationStarts, isPaginationFailed;
    private IOnPhotoFeedItemClickListener onPhotoFeedItemClickListener;
     private ImageLoader imageLoader= THApplication.getInstance().getImageLoader();
@@ -39,34 +40,41 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
     @Override
     public void onBindViewHolder(PhotoFeedAdapter.ViewHolder holder, int position) {
         PhotoFeedResponse item=mPhotoFeedList.get(position);
-        holder.dpCNImageView.setImageUrl(item.profileImageUrl,imageLoader);
-        holder.profileNameTextView.setText(item.name);
-        holder.postTimeTextView.setText(DateUtil.getTimeAgo(item.photo.lastModifiedTime));
+        holder.dpCNImageView.setImageUrl(item.user.profilePicUrl,imageLoader);
+        holder.profileNameTextView.setText(item.user.name);
+        holder.postTimeTextView.setText(". "+DateUtil.getTimeAgo(item.lastModifiedTime));
         location=item.photo.location;
         if(location!=null){
-            holder.atTextView.setVisibility(View.VISIBLE);
+
 //            holder.postLocationTextView.setVisibility(View.VISIBLE);
 //            holder.postLocationTextView.setText(item.photo.location);
         }
         holder.titleDescriptionTextView.setText(item.photo.titleDescription);
         holder.photoGraphyNImageView.setImageUrl(item.photo.photoURL,imageLoader);
         if (position == getItemCount() - 1) {
-//            if (!(isPaginationStarts || isPaginationFailed)) {
-//                holder.progressBar.setVisibility(View.GONE);
-//                holder.buttonRetry.setVisibility(View.GONE);
-//            } else {
-//                if (isPaginationStarts) {
-//                    holder.progressBar.setVisibility(View.VISIBLE);
-//                    holder.buttonRetry.setVisibility(View.GONE);
-//                }
-//                else {
-//                    holder.buttonRetry.setVisibility(View.VISIBLE);
-//                    holder.progressBar.setVisibility(View.GONE);
-//                }
-//            }
+            if (!(isPaginationStarts || isPaginationFailed)) {
+                holder.progressBar.setVisibility(View.GONE);
+                holder.buttonRetry.setVisibility(View.GONE);
+            } else {
+                if (isPaginationStarts) {
+                    holder.progressBar.setVisibility(View.VISIBLE);
+                    holder.buttonRetry.setVisibility(View.GONE);
+                }
+                else {
+                    holder.buttonRetry.setVisibility(View.VISIBLE);
+                    holder.progressBar.setVisibility(View.GONE);
+                }
+            }
         }
+        holder.buttonRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onPhotoFeedItemClickListener==null)
+                    onPhotoFeedItemClickListener.onPaginationRetryClick();
+            }
+        });
     }
-    public void setOnStoryFeedItemClickListener(IOnPhotoFeedItemClickListener listener) {
+    public void setOnPhotoFeedItemClickListener(IOnPhotoFeedItemClickListener listener) {
         onPhotoFeedItemClickListener = listener;
     }
     public void setData(List<PhotoFeedResponse> photoList) {
@@ -89,7 +97,7 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircularNetworkImageView dpCNImageView;
-        public TextView profileNameTextView,postTimeTextView,postLocationTextView,titleDescriptionTextView,atTextView;
+        public TextView profileNameTextView,postTimeTextView,postLocationTextView,titleDescriptionTextView;
         public NetworkImageView photoGraphyNImageView;
         public ProgressBar progressBar;
         public Button buttonRetry;
@@ -101,16 +109,10 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
             postLocationTextView= (TextView) itemView.findViewById(R.id.textview_location);
             titleDescriptionTextView= (TextView) itemView.findViewById(R.id.textview_title_description);
             photoGraphyNImageView= (NetworkImageView) itemView.findViewById(R.id.imageview_photography);
-            atTextView= (TextView) itemView.findViewById(R.id.textview_att);
+
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
-            buttonRetry = (Button) itemView.findViewById(R.id.button_retry);
-//            buttonRetry.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (onPhotoFeedItemClickListener==null)
-//                        onPhotoFeedItemClickListener.onPaginationRetryClick();
-//                }
-//            });
+            buttonRetry = (Button) itemView.findViewById(R.id.retry);
+
         }
     }
 }

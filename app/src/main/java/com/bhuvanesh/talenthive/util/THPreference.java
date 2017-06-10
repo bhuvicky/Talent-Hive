@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.Language;
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
 import com.google.android.gms.games.multiplayer.ParticipantUtils;
 import com.google.gson.Gson;
@@ -28,6 +29,7 @@ public final class THPreference {
     private static final String PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE = "PREFERENCE_KEY_GOOGLE_SERVER_AUTH_CODE";
     private static final String PREFERENCE_KEY_PROFILE_ID = "PREFERENCE_KEY_PROFILE_ID";
     private static final String PREFERENCE_KEY_PROFILE = "PREFERENCE_KEY_PROFILE";
+    private static final String PREFERENCE_KEY_USER = "PREFERENCE_KEY_USER";
 
 
     //FCM
@@ -64,6 +66,14 @@ public final class THPreference {
         editor.apply();
     }
 
+    public void setUserDetails(String userDetails){
+        SharedPreferences.Editor editor = mSharedPreferences.edit();
+        editor.putString(THPreference.PREFERENCE_KEY_USER, userDetails);
+        editor.apply();
+    }
+    public String getUserDetails(){
+        return mSharedPreferences.getString(THPreference.PREFERENCE_KEY_USER,null);
+    }
     public boolean isFBLoggedIn() {
         return mSharedPreferences.getBoolean("PREFERENCE_KEY_FB_LOGIN", false);
     }

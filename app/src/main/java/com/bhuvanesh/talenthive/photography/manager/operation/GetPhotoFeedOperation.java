@@ -2,6 +2,7 @@ package com.bhuvanesh.talenthive.photography.manager.operation;
 
 
 import com.android.volley.Request;
+import com.bhuvanesh.talenthive.Config;
 import com.bhuvanesh.talenthive.constant.URLConstant;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.manager.operation.WebServiceOperation;
@@ -22,8 +23,9 @@ public class GetPhotoFeedOperation extends WebServiceOperation {
     private OnGetPhotoFeedOperation onGetPhotoFeedOperation;
 
     public GetPhotoFeedOperation(boolean isLookingForNewData, long time, Map<String, String> header, GetPhotoFeedOperation.OnGetPhotoFeedOperation listener) {
-        super( URLConstant.GET_PHOTO_FEED, Request.Method.GET, header, new TypeToken<List<StoryFeedResponse>>() {}.getType(),
+        super( URLConstant.GET_PHOTO_FEED+URLConstant.slash+time+URLConstant.slash+isLookingForNewData, Request.Method.GET, header, new TypeToken<List<PhotoFeedResponse>>() {}.getType(),
                 GetStoryFeedOperation.class.getSimpleName());
+        THLoggerUtil.println(time+"");
         onGetPhotoFeedOperation= listener;
     }
 
@@ -32,7 +34,7 @@ public class GetPhotoFeedOperation extends WebServiceOperation {
         onGetPhotoFeedOperation.onPhotoFeedError(exception);
     }
     public void addToRequestQueue() {
-        if (true) {
+        if (Config.HARDCODED_ENABLE) {
             THLoggerUtil.debug("hh","ss00");
             onSuccess(getFromAssetsFolder("photofeedresponse.json", new TypeToken<List<PhotoFeedResponse>>() {}.getType()));
         } else {

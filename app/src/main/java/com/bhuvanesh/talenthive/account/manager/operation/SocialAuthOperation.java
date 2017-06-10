@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.SocialFriend;
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -46,15 +47,16 @@ public class SocialAuthOperation {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         Profile profile = new Profile();
-                        profile.accountId = object.optString("id");
-                        profile.loginType = 2;
+                        profile.user=new UserDetails();
+                        profile.user.accountId = object.optString("id");
+                        profile.user.loginType = 2;
                         String name = object.optString("first_name") + " " + object.optString("last_name");
                         /*profile.firstName = object.optString("first_name");
                         profile.lastName = object.optString("last_name");*/
-                        profile.name = object.optString("name");
+                        profile.user.name = object.optString("name");
                         if (object.has("picture")) {
                             try {
-                                profile.profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                profile.user.profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

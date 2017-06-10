@@ -1,5 +1,7 @@
 package com.bhuvanesh.talenthive.account.model;
 
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
+
 import java.io.Serializable;
 
 /**
@@ -7,18 +9,11 @@ import java.io.Serializable;
  */
 
 public class Profile implements Serializable{
-    public  String  profileId;
-    public int loginType;
-    public String accountId;
-    public String fbTokenId;
-    public String googleTokenId;
-    public String profilePicUrl;
+    public UserDetails user;
     public String encodedProfilePic;
     public String coverImageUrl;
     public String encodedCoverImage;
     public boolean isFollowedByMe;
-    public String name;
-    public String userName;
     public String bio;
     public String email;
     public String mobileNo;

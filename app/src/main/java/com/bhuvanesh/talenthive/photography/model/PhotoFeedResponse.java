@@ -1,15 +1,13 @@
 package com.bhuvanesh.talenthive.photography.model;
 
-import java.util.List;
+import com.bhuvanesh.talenthive.profile.model.UserDetails;
 
 public class PhotoFeedResponse {
-    public String profileImageUrl;
-    public String name;
-    public transient int likeByMe;
-    public String likeCount;
-    public String commentCount;
+    public String photoID;
     public Photo photo;
-    public List<String> likedPeopleList;
-    public long noOfComments;
-
+    public long lastModifiedTime;
+    public long createdTime;
+    public UserDetails user;
+    public long likeCount;
+    public long commentCount;
 }
