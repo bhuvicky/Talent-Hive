@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.Language;
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.bhuvanesh.talenthive.storywriting.model.StoryCategory;
-import com.google.android.gms.games.multiplayer.ParticipantUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

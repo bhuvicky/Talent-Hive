@@ -10,20 +10,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.OnSubmitClickListener;
 import com.bhuvanesh.talenthive.R;
-import com.bhuvanesh.talenthive.account.model.Profile;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
+import com.bhuvanesh.talenthive.profile.model.Profile;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.photography.fragment.PhotoFeedFragment;
 import com.bhuvanesh.talenthive.photography.fragment.SelectPhotoFragment;
-import com.bhuvanesh.talenthive.photography.model.UploadPhotoRequest;
 import com.bhuvanesh.talenthive.profile.fragment.ProfileViewFragment;
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
 import com.bhuvanesh.talenthive.sports.fragment.Camera2VideoFragment;
 import com.bhuvanesh.talenthive.storywriting.fragment.EditStoryFragment;
 import com.bhuvanesh.talenthive.util.BottomNavigationViewHelper;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.bhuvanesh.talenthive.util.THPreference;
+import com.google.gson.Gson;
 
 public class DashboardFragment extends BaseFragment {
 
@@ -32,6 +34,7 @@ public class DashboardFragment extends BaseFragment {
     public static final int TALENT_TYPE_DANCE = TALENT_TYPE_STORY + 1;
     private Profile profile;
     private BottomNavigationView bottomNavigationView;
+    private boolean toolbarVisibility;
 
     public static DashboardFragment newInstance() {
         DashboardFragment dashboardFragment= new DashboardFragment();
@@ -44,7 +47,7 @@ public class DashboardFragment extends BaseFragment {
         replaceChildFragment(R.id.flayout_container, PhotoFeedFragment.newInstance(((DashboardActivity)getActivity()).uploadPhotoRequest));
         bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation_view);
         // // TODO: 02/06/2017 update proguard configuration file
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+      //  BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,6 +56,9 @@ public class DashboardFragment extends BaseFragment {
                         switch (item.getItemId()) {
                             case R.id.menu_home:
                                 replaceChildFragment(R.id.flayout_container,PhotoFeedFragment.newInstance(null));
+                                if(!((BaseActivity)getActivity()).isToolbarVisible())
+                                THLoggerUtil.println(((BaseActivity)getActivity()).isToolbarVisible()+"");
+                                    ((BaseActivity) getActivity()).showMainToolbar();
                                 break;
 
                             case R.id.menu_search:
@@ -61,10 +67,12 @@ public class DashboardFragment extends BaseFragment {
 
                             case R.id.menu_share:
                                 replaceTalentListFragment();
+                                toolbarVisibility=false;
                                 break;
 
                             default:
-                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance(THPreference.getInstance().getProfile()));
+                                toolbarVisibility=false;
+                                replaceChildFragment(R.id.flayout_container, ProfileViewFragment.newInstance(new Gson().fromJson(THPreference.getInstance().getUserDetails(), UserDetails.class)));
                         }
                         return true;
                     }

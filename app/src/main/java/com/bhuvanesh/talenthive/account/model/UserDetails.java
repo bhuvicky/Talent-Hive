@@ -1,4 +1,4 @@
-package com.bhuvanesh.talenthive.profile.model;
+package com.bhuvanesh.talenthive.account.model;
 
 /**
  * This a model for getting basic user details.

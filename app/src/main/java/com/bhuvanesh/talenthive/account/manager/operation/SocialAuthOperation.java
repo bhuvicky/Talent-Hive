@@ -6,7 +6,8 @@ import android.os.Bundle;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.model.SocialFriend;
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
+import com.bhuvanesh.talenthive.util.THLoggerUtil;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -57,18 +58,20 @@ public class SocialAuthOperation {
                         if (object.has("picture")) {
                             try {
                                 profile.user.profilePicUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                THLoggerUtil.println(profile.user.profilePicUrl);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            listener.onFbLoginSuccess(profile);
 
                         }
+                        listener.onFbLoginSuccess(profile);
+
 
                     }
                 }
                 );
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,link,email,first_name,middle_name,last_name,friends");
+                parameters.putString("fields", "id,name,link,email,first_name,middle_name,last_name,friends,gender,cover,picture.type(large)");
                 request.setParameters(parameters);
                 request.executeAsync();
 

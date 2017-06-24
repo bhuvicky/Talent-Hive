@@ -26,7 +26,7 @@ import com.bhuvanesh.talenthive.util.BitmapUtils;
 /**
  * Created by Jay Rambhia on 10/29/2015.
  */
-public class CropperImageView extends ImageView {
+public class CropperImageView extends android.support.v7.widget.AppCompatImageView {
 
     private static final String TAG = "CropperImageView";
 
@@ -80,11 +80,11 @@ public class CropperImageView extends ImageView {
         init(context, attrs);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public CropperImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init(context, attrs);
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+//    public CropperImageView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//        init(context, attrs);
+//    }
 
     public void setDEBUG(boolean DEBUG) {
         this.DEBUG = DEBUG;

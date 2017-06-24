@@ -14,19 +14,38 @@ import java.util.List;
 public class ProfileManager extends WebServiceManager {
 
     public interface OnGetProfileManager {
-        void onGetProfileListSuccess(List<Profile> response);
+        void onGetProfileListSuccess(com.bhuvanesh.talenthive.profile.model.Profile response);
+
         void onGetProfileListError(THException exception);
     }
 
     public interface OnUpdateProfileManager {
         void onUpdateProfileSuccess(BaseResponse response);
+
         void onUpdateProfileError(THException exception);
     }
 
-    public void getProfileList(String selfProfileId, String other, final OnGetProfileManager listener) {
-        GetProfileOperation operation = new GetProfileOperation(selfProfileId, other, getHeaders(), new GetProfileOperation.OnGetProfileOperation() {
+//    public void getProfileList(String selfProfileId, String other, final OnGetProfileManager listener) {
+//        GetProfileOperation operation = new GetProfileOperation(selfProfileId, other, getHeaders(), new GetProfileOperation.OnGetProfileOperation() {
+//            @Override
+//            public void onGetProfileListSuccess(List<Profile> response) {
+//                if (listener != null)
+//                    listener.onGetProfileListSuccess(response);
+//            }
+//
+//            @Override
+//            public void onGetProfileListError(THException exception) {
+//                if (listener != null)
+//                    listener.onGetProfileListError(exception);
+//            }
+//        });
+//        operation.addToRequestQueue();
+//    }
+
+    public void getProfile(String userName,final OnGetProfileManager listener) {
+        GetProfileOperation operation = new GetProfileOperation(userName, getHeaders(), new GetProfileOperation.OnGetProfileOperation() {
             @Override
-            public void onGetProfileListSuccess(List<Profile> response) {
+            public void onGetProfileListSuccess(com.bhuvanesh.talenthive.profile.model.Profile response) {
                 if (listener != null)
                     listener.onGetProfileListSuccess(response);
             }
@@ -38,6 +57,7 @@ public class ProfileManager extends WebServiceManager {
             }
         });
         operation.addToRequestQueue();
+
     }
 
     public void updateProfile(Profile profile, final OnUpdateProfileManager listener) {

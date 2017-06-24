@@ -19,24 +19,28 @@ import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
+import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
 import com.bhuvanesh.talenthive.profile.manager.ProfileManager;
+import com.bhuvanesh.talenthive.util.CountUtils;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
 import java.util.List;
 
-public class ProfileViewFragment extends BaseFragment implements ProfileManager.OnGetProfileManager {
+public class ProfileViewFragment extends BaseFragment  {
 
-    private Profile mProfile;
+    private com.bhuvanesh.talenthive.profile.model.Profile mProfile;
+    private UserDetails userDetails;
     private Profile mProfileForView, mProfileNotView;
     private NetworkImageView mImageViewCover;
     private CircularNetworkImageView mImageViewProfile;
-    private TextView mTextViewName, mTextViewUserName, mTextViewFollowersCount, mTextViewFollowingCount;
+    private TextView mTextViewName, mTextViewUserName, mTextViewFollowersCount, mTextViewFollowingCount,mTextViewBio;
     private ImageLoader imageLoader;
-    public static ProfileViewFragment newInstance(Profile profile) {
+    public static ProfileViewFragment newInstance(UserDetails userDetails) {
         ProfileViewFragment fragment = new ProfileViewFragment();
-        fragment.mProfile = profile == null ? new Profile() : profile;
+        fragment.userDetails=userDetails;
         return fragment;
     }
 
@@ -44,32 +48,20 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_view, container, false);
         setHasOptionsMenu(true);
+        mProfile=new com.bhuvanesh.talenthive.profile.model.Profile();
+        mProfile.user=userDetails;
+
        // THLoggerUtil.debug("hh",mProfile.name);
          imageLoader=THApplication.getInstance().getImageLoader();
-        ((BaseActivity) getActivity()).hideMainToolbar();
-        final Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((BaseActivity) getActivity()).setSupportActionBar(toolbar);
 
-        final CollapsingToolbarLayout cToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        cToolbar.setTitle(" ");
 
-        AppBarLayout appbarLayout = (AppBarLayout) view.findViewById(R.id.appbar_layout);
-        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (verticalOffset == -cToolbar.getHeight() + toolbar.getHeight()) {
-                    cToolbar.setTitle(mTextViewName.getText());
-                } else {
-                    cToolbar.setTitle(" ");
-                }
-            }
-        });
+
 
         mImageViewCover = (NetworkImageView) view.findViewById(R.id.imageview_cover);
         mImageViewProfile = (CircularNetworkImageView) view.findViewById(R.id.imageview_profile_icon);
         mTextViewName = (TextView) view.findViewById(R.id.textview_name);
         mTextViewUserName = (TextView) view.findViewById(R.id.textview_user_name);
-//        mTextViewBio = (TextView) view.findViewById(R.id.textview_bio);
+       mTextViewBio = (TextView) view.findViewById(R.id.textview_bio);
 //        mTextViewEmail = (TextView) view.findViewById(R.id.textview_name);
 //        mTextViewMobileNo = (TextView) view.findViewById(R.id.textview_name);
 //        mTextViewGender = (TextView) view.findViewById(R.id.textview_name);
@@ -80,12 +72,12 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
         mTextViewFollowingCount = (TextView) view.findViewById(R.id.textview_following_count);
        // getProfileList();
 
-        mImageViewProfile.setImageUrl(mProfile.user.profilePicUrl,imageLoader);
-        mImageViewCover.setImageUrl(mProfile.coverImageUrl,THApplication.getInstance().getImageLoader());
         mTextViewName.setText(mProfile.user.name);
-        mTextViewUserName.setText(mProfile.user.userName);
-        mTextViewFollowersCount.setText("0");
-        mTextViewFollowingCount.setText("0");
+        mTextViewUserName.setText("@"+mProfile.user.userName);
+
+                mImageViewProfile.setImageUrl(mProfile.user.profilePicUrl,imageLoader);
+
+        getProfile();
 
         return view;
     }
@@ -97,9 +89,27 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
 //        else
 //            manager.getProfileList("selfProfileId", "other profile id", this);
     }
+    private void getProfile() {
+        ProfileManager manager = new ProfileManager();
+        manager.getProfile(mProfile.user.userName, new ProfileManager.OnGetProfileManager() {
+            @Override
+            public void onGetProfileListSuccess(com.bhuvanesh.talenthive.profile.model.Profile response) {
+                mProfile=response;
+                mImageViewCover.setImageUrl(mProfile.coverImageUrl,THApplication.getInstance().getImageLoader());
+                if(mProfile.bio!=null)mTextViewBio.setText(mProfile.bio);
+                mTextViewFollowersCount.setText(CountUtils.formatCount(mProfile.followersCount));
+                mTextViewFollowingCount.setText(CountUtils.formatCount(mProfile.followingCount));
+            }
 
-    @Override
-    public void onGetProfileListSuccess(List<Profile> response) {
+            @Override
+            public void onGetProfileListError(THException exception) {
+
+            }
+        });
+    }
+
+//    @Override
+//    public void onGetProfileListSuccess(List<Profile> response) {
 //        if (response.size() == 2)
 //            for (Profile profile : response) {
 //                if (profile.profileId.equals(mProfileId)) {
@@ -113,12 +123,12 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
 //            mProfileForView = response.get(0);
 //            updateProfile(mProfileForView);
 //        }
-    }
+//    }
 
-    @Override
-    public void onGetProfileListError(THException exception) {
-
-    }
+//    @Override
+//    public void onGetProfileListError(THException exception) {
+//
+//    }
 
     private void updateProfile(Profile mProfileForView) {
         mImageViewProfile.setDefaultImageResId(R.drawable.ic_default_avatar);
@@ -151,6 +161,6 @@ public class ProfileViewFragment extends BaseFragment implements ProfileManager.
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ((BaseActivity) getActivity()).showMainToolbar();
+
     }
 }

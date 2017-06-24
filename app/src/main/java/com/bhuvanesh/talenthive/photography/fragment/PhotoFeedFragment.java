@@ -24,8 +24,6 @@ import com.bhuvanesh.talenthive.photography.manager.PhotoManager;
 import com.bhuvanesh.talenthive.photography.model.Photo;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
 import com.bhuvanesh.talenthive.photography.model.UploadPhotoRequest;
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
-import com.bhuvanesh.talenthive.util.THPreference;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.OnPausedListener;

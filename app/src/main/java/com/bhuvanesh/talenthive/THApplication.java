@@ -6,6 +6,7 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
 import com.bhuvanesh.talenthive.database.DBManager;
 import com.bhuvanesh.talenthive.util.LRUBitmapCache;
 
@@ -15,8 +16,19 @@ public class THApplication extends Application{
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private LRUBitmapCache mLruBitmapCache;
+    private UserDetails userDetails;
+
+    public UserDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
+    }
+
     //onCreate will call only one time
     @Override
+
     public void onCreate() {
         super.onCreate();
         mInstance = this;

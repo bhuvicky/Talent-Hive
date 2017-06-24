@@ -27,8 +27,8 @@ public class LoginActivity extends BaseActivity {
         boolean isLoggedIn = THPreference.getInstance().isInAppLoggedIn() || THPreference.getInstance().isFBLoggedIn() ||
                 THPreference.getInstance().isGoolgeLoggedIn();
 
-        isLoggedIn = true;
-        if (isLoggedIn)
+
+        if (false)
             startActivity(new Intent(this, DashboardActivity.class));
         else
             replace(R.id.layout_container, LoginFragment.newInstance());

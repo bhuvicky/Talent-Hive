@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-            android:scrollbars="vertical"
+<RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+
            android:id="@+id/scrollview_edit_photo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
            >
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+
+    android:scrollbars="vertical">
 <FrameLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
@@ -15,6 +23,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/relativeLayout">
+           <RelativeLayout
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/relativeLayout_name_details">
+            <com.bhuvanesh.talenthive.widget.CircularNetworkImageView
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:id="@+id/cnv_post_profile"
+                />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -22,7 +39,8 @@
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="@string/karthikeyan"
+                android:layout_toRightOf="@id/cnv_post_profile"
+                tools:text="@string/karthikeyan"
                 />
             <TextView
                 android:layout_width="wrap_content"
@@ -38,21 +56,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textview_location"
-                android:textColor="#000000"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 android:visibility="gone"
                 android:layout_toRightOf="@id/textview_at"
                 android:textSize="20sp"
-                android:text="@string/sivakasi"
+                tools:text="@string/sivakasi"
+
                 />
 
-              <View
-                  android:layout_width="match_parent"
-                  android:layout_height="1dp"
-                  android:layout_below="@id/textview_name_of_profile"
-                  android:layout_marginTop="10dp"
-                  android:background="@color/color_light_gray"
-                  android:id="@+id/view" />
+            </RelativeLayout>
+   <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+       android:layout_below="@id/relativeLayout_name_details"
+       android:layout_marginTop="5dp"
+       >
+
 
             <EditText
                 android:layout_width="match_parent"
@@ -65,45 +85,51 @@
                 android:layout_marginRight="10dp"
                 android:maxLines="6"
                 android:layout_marginBottom="10dp"
-                android:layout_alignTop="@+id/view"
+
                 android:maxLength="260"
                 android:scrollbars="vertical"
 
                 />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/view_underline_edit_post"
-                android:layout_below="@id/edittext_edit_post"
-                android:layout_marginBottom="10dp"
-                android:background="@color/color_light_gray" />
+
+
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/view_underline_edit_post"
+              android:layout_below="@id/edittext_edit_post"
                 >
             <android.support.design.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
-                <android.support.design.widget.FloatingActionButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/fab_location"
-                    android:src="@drawable/account_location"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="10dp"
-                     />
-                <com.bhuvanesh.talenthive.photography.view.AutoFitPreviewImage
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/trail"
-                android:background="@color/color_black"
-                android:id="@+id/imageview_post_preview"
-                    android:scaleType="fitXY" />
+
+
+                <com.bhuvanesh.talenthive.photography.view.AutoFitImageView
+                    android:id="@+id/imageview_post_preview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_black"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/trail" />
             </android.support.design.widget.CoordinatorLayout>
             </android.support.v4.widget.NestedScrollView>
+
+   </RelativeLayout>
+
         </RelativeLayout>
        </FrameLayout>
 </ScrollView>
+
+    <Button
+        android:id="@+id/button_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:drawablePadding="10dp"
+
+        android:drawableLeft="@drawable/ic_action_ic_location_on_white_24dp"
+        android:text="Add Location"
+       android:gravity="left|center"
+        android:background="@color/color_gray_border"
+        android:textAllCaps="false" />
+</RelativeLayout>
 

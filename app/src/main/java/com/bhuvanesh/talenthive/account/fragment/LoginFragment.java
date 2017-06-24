@@ -21,10 +21,13 @@ import android.widget.Toast;
 
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.account.manager.AccountManager;
 import com.bhuvanesh.talenthive.account.manager.SocialAuthManager;
+import com.bhuvanesh.talenthive.account.model.GoogleLoginResponse;
 import com.bhuvanesh.talenthive.account.model.LoginRequest;
 import com.bhuvanesh.talenthive.account.model.LoginResponse;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
 import com.bhuvanesh.talenthive.exception.THException;
 import com.bhuvanesh.talenthive.model.Profile;
@@ -49,6 +52,8 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
     private String TAG = LoginFragment.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     private static final int GOOGLE_SIGN_IN_REQUEST_CODE = 1;
+    private static final int RC_GET_AUTH_CODE = 9003;
+
 
     private TextInputLayout mTextInputUsername, mTextInputPassword, mTextInputOTP;
     private TextInputEditText mEditTextUsername, mEditTextPswd, mEditTextOTP;
@@ -76,9 +81,9 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
         TextView textViewForgetPswd = (TextView) view.findViewById(R.id.textview_forget_pswd);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
                 .requestScopes(new Scope(PeopleScopes.CONTACTS_READONLY))
-                .requestServerAuthCode(getString(R.string.oauth2_0_web_client_google_people_api), false)
+                .requestIdToken(getString(R.string.oauth2_0_web_client_google_people_api))
+                .requestEmail()
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
@@ -97,7 +102,7 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
             @Override
             public void onClick(View v) {
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(signInIntent, GOOGLE_SIGN_IN_REQUEST_CODE);
+                startActivityForResult(signInIntent, RC_GET_AUTH_CODE);
             }
         });
 
@@ -111,14 +116,15 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
             @Override
             public void onFbLoginSuccess(Profile profile) {
                 THPreference.getInstance().setFBLogin(true);
-                THLoggerUtil.debug("hh","ss");
-                THPreference.getInstance().setProfileId(profile.user.accountId);
+                THLoggerUtil.debug("hh","ss"+profile.user.profilePicUrl);
+                THPreference.getInstance().setUserDetails(new Gson().toJson(profile.user));
+
                 startActivity(new Intent(getActivity(), DashboardActivity.class));
             }
 
             @Override
             public void onFbLoginError(THException exception) {
-                THLoggerUtil.debug("hh","ss");
+                THLoggerUtil.debug("hh","ss error");
             }
         });
 
@@ -142,6 +148,7 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
                                 THLoggerUtil.debug("hh",response.user.name);
                                 THPreference.getInstance().setUserDetails(new Gson().toJson(response.user));
                                 Intent intent=new Intent(getActivity(), DashboardActivity.class);
+                                THApplication.getInstance().setUserDetails(response.user);
                               //  THPreference.getInstance().setProfile(response.profile);
                                 THPreference.getInstance().setProfileId(response.user.profileId);
                                 startActivity(intent);
@@ -232,23 +239,41 @@ public class LoginFragment extends BaseFragment implements GoogleApiClient.OnCon
         super.onActivityResult(requestCode, resultCode, data);
         mCallbackManager.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
+        if (requestCode ==   RC_GET_AUTH_CODE ){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleGoogleSignInResult(result);
         }
     }
 
     private void handleGoogleSignInResult(GoogleSignInResult result) {
+        THLoggerUtil.debug("hh","suc"+result.getStatus()+result.isSuccess());
         if (result.isSuccess()) {
+            THLoggerUtil.debug("hh","suc");
             // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            THPreference.getInstance().setGoogleLogin(true);
-            THPreference.getInstance().setGoogleServerAuthCode(acct.getServerAuthCode());
-            startActivity(new Intent(getActivity(), DashboardActivity.class));
 
+            final GoogleSignInAccount acct = result.getSignInAccount();
+            THPreference.getInstance().setGoogleLogin(true);
+
+            THPreference.getInstance().setGoogleServerAuthCode(acct.getServerAuthCode());
+
+            new SocialAuthManager().googleLogin(acct.getIdToken(),getUserNamefromEmailId(acct.getEmail()), new SocialAuthManager.OnGoogleLoginManager() {
+                @Override
+                public void onGoogleLoginSuccess(GoogleLoginResponse response) {
+                    response.userDetails.profilePicUrl=acct.getPhotoUrl().toString();
+                    THPreference.getInstance().setUserDetails(new Gson().toJson(response.userDetails));
+                    startActivity(new Intent(getActivity(), DashboardActivity.class));
+                }
+
+                @Override
+                public void onGoogleLoginError(THException exception) {
+                      Toast.makeText(getActivity(),exception.getMessage(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
-
+    private String getUserNamefromEmailId(String emailId){
+        return emailId.split("@")[0];
+    }
     private boolean isValid() {
         boolean isValid = true;
         if (TextUtils.isEmpty(mEditTextUsername.getText().toString())) {

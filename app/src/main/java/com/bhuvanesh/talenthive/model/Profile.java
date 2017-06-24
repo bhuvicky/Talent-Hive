@@ -1,12 +1,7 @@
 package com.bhuvanesh.talenthive.model;
 
 
-import com.bhuvanesh.talenthive.dance.model.Dance;
-import com.bhuvanesh.talenthive.photography.model.Photo;
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
-import com.bhuvanesh.talenthive.storywriting.model.Story;
-
-import java.util.List;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
 
 public class Profile {
 

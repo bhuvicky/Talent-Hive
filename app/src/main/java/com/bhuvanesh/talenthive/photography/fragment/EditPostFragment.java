@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,17 +21,18 @@ import android.widget.Toast;
 import com.bhuvanesh.talenthive.BaseActivity;
 import com.bhuvanesh.talenthive.BaseFragment;
 import com.bhuvanesh.talenthive.R;
+import com.bhuvanesh.talenthive.THApplication;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
 import com.bhuvanesh.talenthive.constant.IntentConstant;
 import com.bhuvanesh.talenthive.dashboard.activity.DashboardActivity;
-import com.bhuvanesh.talenthive.photography.model.Photo;
-import com.bhuvanesh.talenthive.photography.view.AutoFitPreviewImage;
+import com.bhuvanesh.talenthive.photography.view.AutoFitImageView;
+import com.bhuvanesh.talenthive.photography.view.AutoFitNetworkImageView;
+import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-
-import org.mp4parser.aspectj.lang.reflect.InterTypeConstructorDeclaration;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -39,10 +40,12 @@ import static android.app.Activity.RESULT_OK;
 public class EditPostFragment extends BaseFragment{
     private TextView profileNameTextView,atTextView,locationTextView;
     private EditText captionEditText;
-    private FloatingActionButton locationFAButton;
-    private AutoFitPreviewImage postPreviewImageView;
+    private Button locationButton;
+    private CircularNetworkImageView circularNetworkImageViewProfile;
+    private AutoFitImageView postPreviewImageView;
     private boolean locationFlag=false;
     private Uri previewImgURI;
+    private UserDetails userDetails;
     private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     public static EditPostFragment newInstance(Uri uri){
@@ -71,14 +74,20 @@ public class EditPostFragment extends BaseFragment{
         super.onViewCreated(view, savedInstanceState);
         getActivity().setTitle(R.string.msg_post_to);
         profileNameTextView= (TextView) view.findViewById(R.id.textview_name_of_profile);
+        circularNetworkImageViewProfile=(CircularNetworkImageView)view.findViewById(R.id.cnv_post_profile);
+
+        THApplication thApplication=THApplication.getInstance();
+        userDetails=thApplication.getUserDetails();
+        profileNameTextView.setText(userDetails.name);
+        circularNetworkImageViewProfile.setImageUrl(userDetails.profilePicUrl,thApplication.getImageLoader());
         atTextView= (TextView) view.findViewById(R.id.textview_at);
         captionEditText= (EditText) view.findViewById(R.id.edittext_edit_post);
         locationTextView= (TextView) view.findViewById(R.id.textview_location);
-        postPreviewImageView= (AutoFitPreviewImage) view.findViewById(R.id.imageview_post_preview);
+        postPreviewImageView= (AutoFitImageView) view.findViewById(R.id.imageview_post_preview);
         postPreviewImageView.setImageURI(previewImgURI);
         postPreviewImageView.setAspectRatio(9,16);
-        locationFAButton= (FloatingActionButton) view.findViewById(R.id.fab_location);
-        locationFAButton.setOnClickListener(new View.OnClickListener() {
+        locationButton= (Button) view.findViewById(R.id.button_location);
+        locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)   {
                 try {
@@ -157,7 +166,6 @@ public class EditPostFragment extends BaseFragment{
                 pop();
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

@@ -10,14 +10,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.bhuvanesh.talenthive.R;
 import com.bhuvanesh.talenthive.THApplication;
 import com.bhuvanesh.talenthive.photography.model.PhotoFeedResponse;
+import com.bhuvanesh.talenthive.photography.view.AutoFitNetworkImageView;
 import com.bhuvanesh.talenthive.util.DateUtil;
 import com.bhuvanesh.talenthive.widget.CircularNetworkImageView;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,7 +97,7 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         public CircularNetworkImageView dpCNImageView;
         public TextView profileNameTextView,postTimeTextView,postLocationTextView,titleDescriptionTextView;
-        public NetworkImageView photoGraphyNImageView;
+        public AutoFitNetworkImageView photoGraphyNImageView;
         public ProgressBar progressBar;
         public Button buttonRetry;
         public ViewHolder(View itemView) {
@@ -108,7 +107,7 @@ public class PhotoFeedAdapter extends RecyclerView.Adapter<PhotoFeedAdapter.View
             postTimeTextView = (TextView) itemView.findViewById(R.id.textview_post_time);
             postLocationTextView= (TextView) itemView.findViewById(R.id.textview_location);
             titleDescriptionTextView= (TextView) itemView.findViewById(R.id.textview_title_description);
-            photoGraphyNImageView= (NetworkImageView) itemView.findViewById(R.id.imageview_photography);
+            photoGraphyNImageView= (AutoFitNetworkImageView) itemView.findViewById(R.id.imageview_photography);
 
             progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
             buttonRetry = (Button) itemView.findViewById(R.id.retry);

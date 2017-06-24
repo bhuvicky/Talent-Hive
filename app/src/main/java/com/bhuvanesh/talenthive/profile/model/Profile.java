@@ -1,6 +1,6 @@
-package com.bhuvanesh.talenthive.account.model;
+package com.bhuvanesh.talenthive.profile.model;
 
-import com.bhuvanesh.talenthive.profile.model.UserDetails;
+import com.bhuvanesh.talenthive.account.model.UserDetails;
 
 import java.io.Serializable;
 
@@ -18,5 +18,6 @@ public class Profile implements Serializable{
     public String email;
     public String mobileNo;
     public String gender;
-
+    public long followersCount;
+    public long followingCount;
 }

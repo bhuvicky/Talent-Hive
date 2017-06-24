@@ -2,22 +2,25 @@ package com.bhuvanesh.talenthive.photography.view;
 
 
 import android.content.Context;
+import android.net.Network;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-public class AutoFitPreviewImage extends ImageView{
+import com.android.volley.toolbox.NetworkImageView;
+
+public class AutoFitNetworkImageView extends NetworkImageView {
     private int mRatioWidth;
     private int mRatioHeight;
 
-    public AutoFitPreviewImage(Context context) {
+    public AutoFitNetworkImageView(Context context) {
         super(context);
     }
 
-    public AutoFitPreviewImage(Context context, AttributeSet attrs) {
+    public AutoFitNetworkImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public AutoFitPreviewImage(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AutoFitNetworkImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

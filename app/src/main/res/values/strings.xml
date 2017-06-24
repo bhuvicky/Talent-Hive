@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Talent Hive</string>
 
-    <!--ID OR Key Strings-->
-    <string name="facebook_app_id">1220448844669565</string>
+    <string name="facebook_app_id">1227061054086278</string>
+    <string name="fb_login_protocol_scheme">fb1227061054086278</string>
 
     <!--General Strings-->
     <string name="msg_exception">Something wrong!!!.Please try after sometime.</string>
@@ -98,6 +98,7 @@
     <string name="lbl_create_new_account">create new Account</string>
     <string name="com_facebook_loginview_log_in_button_continue">Facebook</string>
     <string name="lbl_signup">Don\'t have an account yet? Sign Up</string>
+    <string name="server_client_id">AIzaSyDMyhr5kjFFPpek1ZQ9juY6xFRFC5QorTY</string>
     <string name="oauth2.0_web_client_google_people_api" translatable="false">877402304105-kcm1cpivf4btjkqr790oor34g7s0sbkd.apps.googleusercontent.com</string>
     <string name="google_web_client_secret" translatable="false">de7l2rSXrP2y18knzBsrt-dl</string>
     <string name="redirect_url" translatable="false">urn:ietf:wg:oauth:2.0:oob</string>
@@ -127,7 +128,7 @@
     <string name="msg_share">Share</string>
     <string name="msg_write_a_caption">Write a caption</string>
 
-    <string name="at">-at</string>
+    <string name="at">" -at"</string>
     <string name="add_location_msg">Add Location....</string>
     <string name="sivakasi">Sivakasi</string>
     <string name="karthikeyan">Karthikeyan</string>
@@ -260,5 +261,6 @@
     <string name="lbl_invite_friends">Invite Friends</string>
     <string name="lbl_google">Google</string>
     <string name="sym_dot">.</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
